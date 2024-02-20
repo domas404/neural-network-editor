@@ -11,7 +11,7 @@ interface NavbarProps {
 const links = [
     { name: 'Data', href: '/model/data' },
     { name: 'Model', href: '/model' },
-    // { name: 'Train', href: '/model/train' },
+    { name: 'Train', href: '/model/train' },
   ];
 
 export default function Navbar({ highlight }: NavbarProps) {

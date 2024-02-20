@@ -28,7 +28,7 @@ export default function Dataset({ datasetNames, chosenDataset }: DatasetProps) {
                                     <input type="radio" id={item} name="dataset" value={item} className="opacity-0 hidden peer" required />
                                     <label htmlFor={item} className={`flex items-center justify-between rounded-full cursor-pointer h-8 px-4
                                     text-black bg-gray-100 peer-checked:text-white peer-checked:bg-black`}>
-                                        <div className="flex justify-center items-center h-full font-bold text-sm">
+                                        <div className="flex justify-center items-center h-full font-semibold text-sm">
                                             {item}
                                         </div>
                                     </label>

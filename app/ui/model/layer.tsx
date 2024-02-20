@@ -15,7 +15,12 @@ export default function Layer({ layerId, neuronCount }: LayerProps) {
                 {
                     neurons.map((item, i) => {
                         return (
-                            <div key={`${item.layerId}_${i}`} id={`${item.layerId}_${i}`} className="w-12 h-12 rounded-full bg-white group-hover:bg-gray-100 border-4 border-black group-active:border-sky-600"></div>
+                            <div
+                                key={`${item.layerId}_${i}`}
+                                id={`${item.layerId}_${i}`}
+                                className="w-12 h-12 rounded-full bg-white group-hover:bg-gray-100 select-none
+                                border-4 border-black group-active:border-sky-600 shadow-md shadow-gray-300 group-active:shadow-sm"
+                            ></div>
                         )
                     })
                 }

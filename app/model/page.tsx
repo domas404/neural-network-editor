@@ -8,7 +8,7 @@ import Playground from "@/app/ui/model/playground";
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Multilayer Perceptron | Neural Network Editor',
+  title: 'Model | Multilayer Perceptron',
 }
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
                     <div className="basis-5/12 bg-white rounded-xl shadow-md">
                         <InfoMenu objectName="Neural Network" />
                     </div>
-                    <div className="basis-1/2 bg-white rounded-xl shadow-md">
+                    <div className="basis-1/2 bg-white rounded-xl shadow-md grow">
                         <Layers />
                     </div>
                     <button className="bg-black text-white p-2 rounded-lg uppercase font-semibold hover:bg-gray-900 active:text-sky-600">

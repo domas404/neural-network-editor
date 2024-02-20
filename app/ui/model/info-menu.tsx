@@ -12,8 +12,8 @@ export default function InfoMenu({ objectName }: InfoMenuProps) {
                     <div className="bg-white text-lg font-bold uppercase">
                         {objectName}
                     </div>
-                    <div className="text-sm leading-5 mt-4">
-                        <p>
+                    <div className="text-sm text-justify leading-5 mt-4">
+                        <p className="hyphens-auto">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>
                     </div>
