@@ -3,7 +3,7 @@ Neuroninio tinklo redaktorius – tai edukacinės paskirties įrankis, leidžian
 ## Programos vizija
 Siekiama, kad ši sistema įgyvendintų esminius DNT vizualiems redaktoriams būdingus funkcionalumus ir leistų kurti daugiasluoksnio perceptrono struktūros neuroninį tinklą.
 
-![neural network editor vision](./vision.png)
+![neural network editor vision](./public/vision.png)
 
 ## Programos maketas
 Neuroninio tinklo redaktorių sudaro trys pagrindinės grafinės sąsajos:
@@ -12,8 +12,8 @@ Neuroninio tinklo redaktorių sudaro trys pagrindinės grafinės sąsajos:
 * Mokymo apžvalga ir modelio eksportavimas (Train)
 
 ### Duomenų apžvalga
-![neural network editor vision](./Data.png)
+![neural network editor vision](./public/Data.png)
 ### Modelio konstravimas ir rengimas mokymui
-![neural network editor vision](./Model.png)
+![neural network editor vision](./public/Model.png)
 ### Mokymo apžvalga ir modelio eksportavimas
-![neural network editor vision](./Train.png)
+![neural network editor vision](./public/Train.png)
