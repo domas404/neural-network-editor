@@ -1,21 +1,26 @@
 import { Position, MarkerType } from "reactflow";
 import type { Node, Edge } from "reactflow";
+import { v4 } from "uuid";
 
-export function createNodesAndEdges() {
+interface NeuronStructure {
+    id: string;
+}
+
+interface LayerStructure {
+    id: string;
+    type: string;
+    neurons: NeuronStructure[];
+}
+
+export function createNodesAndEdges(layers: LayerStructure[]) {
     const nodes: Node[] = [];
     const edges: Edge[] = [];
-    const layers = [
-        { id: "1", type: "input", neurons: [{ id: "1_1" }, { id: "1_2" }, { id: "1_3" }] },
-        { id: "2", type: "hidden", neurons: [{ id: "2_1" }, { id: "2_2" }, { id: "2_3" }, { id: "2_4" }, { id: "2_5" }] },
-        { id: "3", type: "hidden", neurons: [{ id: "3_1" }, { id: "3_2" }, { id: "3_3" }, { id: "3_4" }] },
-        { id: "5", type: "output", neurons: [{ id: "5_1" }, { id: "5_2" }, { id: "5_3" }] }
-    ];
 
     const widestLayer = layers.reduce((prev, current) => current.neurons.length > prev.neurons.length ? current : prev);
-    const height = (widestLayer.neurons.length + 2)*60
+    const height = (widestLayer.neurons.length + 2)*60;
 
     nodes.push({
-        id: "0",
+        id: v4(),
         position: { x:0, y:0 },
         data: {},
         type: "group",
@@ -59,9 +64,7 @@ export function createNodesAndEdges() {
                 style: {
                     pointerEvents: "none",
                 }
-                // draggable: false,
             });
-            // console.log(nodes[nodes.length-1].position);
         }
     }
 

@@ -7,12 +7,18 @@ import Layers from "@/app/ui/model/layers";
 import Playground from "@/app/ui/model/playground";
 import TrainButton from "@/app/ui/model/train-button";
 import type { Metadata } from 'next'
+// import { useState } from 'react';
 
 export const metadata: Metadata = {
   title: 'Model | Multilayer Perceptron',
 }
 
+
+
 export default function Home() {
+
+    // const [model, setModel] = useState(initialModel);
+
     return (
         <main className="h-full flex w-full">
             <div className="basis-11/12 flex flex-row gap-3 justify-stretch grow">

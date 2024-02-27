@@ -12,11 +12,13 @@
 }
 
 .rotate-animation {
+    transform: rotate(-45deg);
     animation: neuronLearning 2s;
-    animation-iteration-count: 3;
+    animation-iteration-count: 1;
     animation-timing-function: linear;
 }
 
 @keyframes neuronLearning {
-    100% {transform: rotate(360deg);}
+    0% {transform: rotate(-45deg);}
+    100% {transform: rotate(315deg);}
 }

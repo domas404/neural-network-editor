@@ -5,7 +5,7 @@ import "./index.css";
 
 function CustomNode( { data }: any ) {
   let borderColor: string;
-  
+
   if (data.type === "input"){
     borderColor = "border-r-teal-400";
   } else if (data.type === "output") {
