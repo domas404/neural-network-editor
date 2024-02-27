@@ -1,32 +1,22 @@
-.floatingedges {
-    flex-direction: column;
-    display: flex;
-    flex-grow: 1;
-    height: 100%;
-  }
-  
-  .floatingedges .react-flow__handle {
-    opacity: 0;
-  }
-  
-  .neuron {
+.neuron {
     width: 24px;
     height: 24px;
     background-color: white;
     border: 3px solid black;
     border-radius: 50%;
-  }
-  
-  .react-flow__panel.react-flow__attribution.bottom.right {
+}
+
+.react-flow__panel.react-flow__attribution.bottom.right {
     opacity: 0;
     pointer-events: none !important;
-  }
+}
 
-  .rotate-animation {
-    /* animation: neuronLearning 3s infinite;
-    animation-timing-function: linear; */
-  }
+.rotate-animation {
+    animation: neuronLearning 2s;
+    animation-iteration-count: 3;
+    animation-timing-function: linear;
+}
 
-  @keyframes neuronLearning {
+@keyframes neuronLearning {
     100% {transform: rotate(360deg);}
-  }
+}

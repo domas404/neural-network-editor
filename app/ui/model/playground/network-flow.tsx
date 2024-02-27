@@ -1,23 +1,21 @@
-import React, { useCallback } from 'react';
 import ReactFlow, {
-    addEdge,
     Background,
     useNodesState,
     useEdgesState,
-    MarkerType,
+    EdgeTypes
 } from 'reactflow';
 import 'reactflow/dist/base.css';
 
-import FloatingEdge from "./floating-edge.js";
-import CustomNode from './custom-node';
-import CustomNodeGroup from './custom-node-group';
-import { createNodesAndEdges } from "./utils.js";
+import FloatingEdge from "@/app/ui/model/playground/floating-edge";
+import CustomNode from '@/app/ui/model/playground/custom-node';
+import CustomNodeGroup from '@/app/ui/model/playground/custom-node-group';
+import { createNodesAndEdges } from "@/app/lib/flow-utils";
 
 import "./index.css";
 
 const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges();
 
-const edgeTypes = {
+const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
 };
 

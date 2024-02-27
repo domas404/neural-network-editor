@@ -4,8 +4,8 @@ import { Handle, Position } from 'reactflow';
 import "./index.css";
 
 function CustomNode( { data }: any ) {
-  // console.log(data);
   let borderColor: string;
+  
   if (data.type === "input"){
     borderColor = "border-r-teal-400";
   } else if (data.type === "output") {

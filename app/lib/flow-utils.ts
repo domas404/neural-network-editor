@@ -1,8 +1,9 @@
 import { Position, MarkerType } from "reactflow";
+import type { Node, Edge } from "reactflow";
 
 export function createNodesAndEdges() {
-    const nodes = [];
-    const edges = [];
+    const nodes: Node[] = [];
+    const edges: Edge[] = [];
     const layers = [
         { id: "1", type: "input", neurons: [{ id: "1_1" }, { id: "1_2" }, { id: "1_3" }] },
         { id: "2", type: "hidden", neurons: [{ id: "2_1" }, { id: "2_2" }, { id: "2_3" }, { id: "2_4" }, { id: "2_5" }] },
@@ -16,6 +17,7 @@ export function createNodesAndEdges() {
     nodes.push({
         id: "0",
         position: { x:0, y:0 },
+        data: {},
         type: "group",
         zIndex: 0,
         style: {
@@ -29,6 +31,7 @@ export function createNodesAndEdges() {
         nodes.push({
             id: layers[i].id,
             position: { x:i*120+60, y:0 },
+            data: {},
             type: "customNodeGroup",
             parentNode: nodes[0].id,
             extent: "parent",
@@ -78,5 +81,6 @@ export function createNodesAndEdges() {
             }
         }
     }
+
     return { nodes, edges }
 }
