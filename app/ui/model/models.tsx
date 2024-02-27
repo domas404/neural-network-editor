@@ -7,9 +7,9 @@ interface ModelProps {
 export default function Models({ modelNames }: ModelProps) {
     return (
         <div className="flex shadow-lg h-full">
-            <div className="py-4 px-5 w-full">
+            <div className="py-5 px-6 w-full">
                 <div className="flex justify-between">
-                    <div className="bg-white text-lg font-bold uppercase">
+                    <div className="bg-white text-base font-bold uppercase">
                         Model
                     </div>
                     <div className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">

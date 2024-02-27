@@ -17,7 +17,7 @@ const links = [
 export default function Navbar({ highlight }: NavbarProps) {
     const pathname = usePathname();
     return (
-        <div className="basis-1/3 flex justify-center">
+        <nav className="basis-1/3 flex justify-center">
             <div className="flex items-center bg-white  shadow-lg h-12 rounded-lg select-none px-1">
                 <div className="flex flex-row justify-between h-8 gap-px bg-gray-200">
                     {
@@ -37,6 +37,6 @@ export default function Navbar({ highlight }: NavbarProps) {
                     }
                 </div>
             </div>
-        </div>
+        </nav>
     );
 }

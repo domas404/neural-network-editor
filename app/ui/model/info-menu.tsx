@@ -7,9 +7,9 @@ interface InfoMenuProps {
 export default function InfoMenu({ objectName }: InfoMenuProps) {
     return (
         <div className="flex shadow-lg h-full">
-            <div className="py-4 px-5 w-full">
+            <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
-                    <div className="bg-white text-lg font-bold uppercase">
+                    <div className="bg-white text-base font-bold uppercase">
                         {objectName}
                     </div>
                     <div className="text-sm text-justify leading-5 mt-4">

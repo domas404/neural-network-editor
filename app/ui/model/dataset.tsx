@@ -9,9 +9,9 @@ interface DatasetProps {
 export default function Dataset({ datasetNames, chosenDataset }: DatasetProps) {
     return (
         <div className="flex shadow-lg h-full">
-            <div className="py-4 px-5 w-full">
+            <div className="py-5 px-6 w-full">
                 <div className="flex justify-between">
-                    <div className="bg-white text-lg font-bold uppercase">
+                    <div className="bg-white text-base font-bold uppercase">
                         Dataset
                     </div>
                     <Link href="/model/data" className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">
