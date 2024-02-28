@@ -1,6 +1,8 @@
 import "@/app/globalicons.css";
-import Dataset from '@/app/ui/model/dataset';
+import DatasetList from '@/app/ui/dataset/dataset-list';
 import InfoMenu from "@/app/ui/model/info-menu";
+import TargetList from "@/app/ui/dataset/target-list";
+import FeatureList from "@/app/ui/dataset/feature-list";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -12,9 +14,9 @@ export default function Home() {
     return (
         <main className="h-full flex w-full">
             <div className="basis-11/12 flex flex-row gap-3 justify-stretch grow">
-                <div className="flex flex-col gap-3 max-w-56 min-w-48 h-full">
+                <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48 h-full">
                     <div className="bg-white rounded-xl shadow-md h-full">
-                        {/* <Dataset /> */}
+                        <DatasetList />
                     </div>
                 </div>
 
@@ -23,18 +25,15 @@ export default function Home() {
                 </div>
 
                 <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
-                    <div className="basis-5/12 bg-white rounded-xl shadow-md">
+                    <div className="basis-1/3 bg-white rounded-xl shadow-md">
                         <InfoMenu objectName="Dataset" />
                     </div>
-                    <div className="basis-1/4 bg-white rounded-xl shadow-md">
-                        <InfoMenu objectName="Features" />
+                    <div className="basis-1/3 bg-white rounded-xl shadow-md">
+                        <FeatureList features={["petal-length", "petal-width", "sepal-length", "sepal-width"]} />
                     </div>
-                    <div className="basis-1/4 bg-white rounded-xl shadow-md">
-                        <InfoMenu objectName="Targets" />
+                    <div className="basis-1/3 bg-white rounded-xl shadow-md">
+                        <TargetList targets={["setosa", "versicolor", "virginica"]} />
                     </div>
-                    <button className="bg-black text-white p-2 rounded-lg uppercase font-semibold">
-                        Train
-                    </button>
                 </div>
             </div>
         </main>
