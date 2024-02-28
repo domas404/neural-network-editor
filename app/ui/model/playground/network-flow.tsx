@@ -15,6 +15,9 @@ import { createInitialModel } from "@/app/lib/create-initial-model";
 
 import "./index.css";
 
+import React, { useContext, useEffect } from "react";
+import { NetworkContext } from "@/app/ui/model/main";
+
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
 };
@@ -26,15 +29,21 @@ const nodeTypes = {
 
 const Flow = () => {
 
-    const initialStructure = createInitialModel({
-        layerCount: 3,
-        neuronCount: [4, 3, 3],
-        layerTypes: ["input", "hidden", "output"]
-    });
-    const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialStructure);
+    const { network, models } = useContext(NetworkContext);
 
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+    const initialModel = models[network.modelId].layers;
+
+    const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialModel);
+
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+    useEffect(() => {
+        let chosenModel = models[network.modelId].layers;
+        let { nodes: newNodes, edges: newEdges } = createNodesAndEdges(chosenModel);
+        setNodes(newNodes);
+        setEdges(newEdges);
+    }, [network])
 
     return (
         <ReactFlow

@@ -14,14 +14,14 @@ const modelNames: modelInfo[] = [
 
 export default function Models() {
 
-    const { network, setNetwork } = useContext(NetworkContext);
+    const { network, models, updateNetworkModel } = useContext(NetworkContext);
 
-    const updateNetwork = event => {
-        setNetwork({
-            ...network,
-            modelName: event.target.value
-        });
-    }
+    // const updateNetwork = event => {
+    //     setNetwork({
+    //         ...network,
+    //         modelName: event.target.value
+    //     });
+    // }
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -41,7 +41,7 @@ export default function Models() {
                         modelNames.map((item) => {
                             return (
                                 <li key={item.id} className="flex-none list-none my-2">
-                                    <input onChange={updateNetwork} type="radio" id={item.id} name="model" value={item.id} className="opacity-0 hidden peer" required checked={item.id === network.modelName} />
+                                    <input onChange={updateNetworkModel} type="radio" id={item.id} name="model" value={item.id} className="opacity-0 hidden peer" required checked={item.id === network.modelId} />
                                     <label htmlFor={item.id} className={`flex items-center justify-between rounded-full cursor-pointer h-8 px-4
                                     text-black bg-gray-100 peer-checked:text-white peer-checked:bg-black`}>
                                         <div className="flex justify-center items-center h-full font-semibold text-sm">

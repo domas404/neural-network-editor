@@ -1,15 +1,17 @@
 import "@/app/globalicons.css";
+// import { HyperparameterSet } from "@/app/lib/data-types";
 
 interface ParamProps {
     paramType: string;
     paramName: string;
     paramOptions: string[];
     handleChange: any;
+    defaultVal: any;
     // hyperparameters: any;
     // setHyperparameters: any;
 }
 
-export default function ParamBox({ handleChange, paramType, paramName, paramOptions }: ParamProps) {
+export default function ParamBox({ handleChange, paramType, paramName, paramOptions, defaultVal }: ParamProps) {
 
     const handleSelectChange = event => {
         // console.log(`${paramName} changed to ${event.target.value}`);
@@ -32,6 +34,7 @@ export default function ParamBox({ handleChange, paramType, paramName, paramOpti
                 name={paramName}
                 className="bg-gray-100 py-2.5 px-4 text-sm rounded-lg w-full"
                 onChange={handleSelectChange}
+                value={defaultVal}
             >
                 {
                     paramOptions.map((option) => {
