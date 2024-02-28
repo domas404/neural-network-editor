@@ -1,18 +1,9 @@
 import { Position, MarkerType } from "reactflow";
 import type { Node, Edge } from "reactflow";
 import { v4 } from "uuid";
+import { Layer } from "@/app/lib/data-types";
 
-interface NeuronStructure {
-    id: string;
-}
-
-interface LayerStructure {
-    id: string;
-    type: string;
-    neurons: NeuronStructure[];
-}
-
-export function createNodesAndEdges(layers: LayerStructure[]) {
+export function createNodesAndEdges(layers: Layer[]) {
     const nodes: Node[] = [];
     const edges: Edge[] = [];
 

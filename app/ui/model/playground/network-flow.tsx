@@ -27,14 +27,14 @@ const nodeTypes = {
 const Flow = () => {
 
     const initialStructure = createInitialModel({
-        layerCount: 6,
-        neuronCount: [3, 5, 6, 4, 4, 3],
-        layerTypes: ["input", "hidden", "hidden", "hidden", "hidden", "output"]
+        layerCount: 3,
+        neuronCount: [4, 3, 3],
+        layerTypes: ["input", "hidden", "output"]
     });
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialStructure);
 
     const [nodes, , onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
     return (
         <ReactFlow

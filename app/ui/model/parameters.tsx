@@ -3,15 +3,9 @@
 import "@/app/globalicons.css";
 import Param from "@/app/ui/model/param-box";
 import React, { useState } from "react";
+import { HyperparameterSet } from "@/app/lib/data-types";
 
-interface hyperparamsType {
-    epochs: number;
-    learningRate: number;
-    batchSize: number;
-    optimizer: string;
-}
-
-const defaultHyperparams: hyperparamsType = {
+const defaultHyperparams: HyperparameterSet = {
     epochs: 1,
     learningRate: 0.1,
     batchSize: 1,
@@ -31,7 +25,7 @@ export default function Parameters() {
     }
 
     return (
-        <div className="h-full">
+        <div className="h-full rounded-xl shadow-sm">
             <div className="flex flex-col py-5 px-1 w-full h-full">
                 <div className="mx-5 shrink">
                     <div className="bg-white text-base font-bold uppercase">
