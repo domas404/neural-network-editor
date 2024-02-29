@@ -1,13 +1,15 @@
 import "@/app/globalicons.css";
 
-interface ArchitectureProps {
-    archType: string;
+interface LinkToPageButtonProps {
+    archType: string,
 }
 
-export default function NNArchitecture({ archType }: ArchitectureProps) {
+export function LinkToPageButton({ archType }: LinkToPageButtonProps) {
     return (
-        <div className="flex flex-row items-center justify-center h-24 bg-stone-100 rounded-2xl shadow-lg shadow-gray-200 w-64
-        hover:cursor-pointer active:bg-stone-200 active:shadow-md select-none border-4 border-stone-100 hover:border-sky-600">
+        <div className="flex flex-row items-center justify-center h-24 w-64 rounded-2xl select-none
+            bg-stone-100 shadow-lg shadow-gray-200 
+            hover:cursor-pointer hover:bg-blue-100
+            active:bg-blue-200 active:shadow-md">
             <div className="flex flex-row items-center justify-center w-1/4">
                 <span className="material-symbols-outlined">
                     workspaces

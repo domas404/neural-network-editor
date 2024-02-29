@@ -5,7 +5,7 @@ interface LogoProps {
     archType: string,
 }
 
-export default function NNELogo({ iconSize, archType }: LogoProps) {
+export default function Logo({ iconSize, archType }: LogoProps) {
     return (
         <div className="flex flex-row items-center justify-start select-none">
             <span className={`material-symbols-outlined ${iconSize == "large" ? "md-48" : "md-36"}`}>

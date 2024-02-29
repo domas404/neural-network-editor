@@ -1,7 +1,7 @@
 import "./globalicons.css";
 import Settings from '@/app/ui/settings';
-import Logo from '@/app/ui/nne-logo';
-import NeuralNetworkType from '@/app/ui/nn-type-button';
+import Logo from '@/app/ui/logo';
+import { LinkToPageButton } from '@/app/ui/buttons';
 import Link from 'next/link';
 import type { Metadata } from 'next'
 
@@ -23,10 +23,10 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col h-2/3 gap-6">
                     <Link href="/model">
-                        <NeuralNetworkType archType="Multilayer Perceptron" />
+                        <LinkToPageButton archType="Multilayer Perceptron" />
                     </Link>
                     <Link href="/">
-                        <NeuralNetworkType archType="Convolutional Neural Network" />
+                        <LinkToPageButton archType="Convolutional Neural Network" />
                     </Link>
                 </div>
             </div>

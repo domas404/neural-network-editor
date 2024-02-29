@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import { Layer } from "@/app/lib/data-types";
 
 export function createNodesAndEdges(layers: Layer[]) {
+
     const nodes: Node[] = [];
     const edges: Edge[] = [];
 

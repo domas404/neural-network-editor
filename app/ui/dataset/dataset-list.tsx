@@ -15,14 +15,6 @@ const datasetNames: datasetInfo[] = [
 ];
 
 export default function DatasetList() {
-    // const { network, setNetwork } = useContext(NetworkContext);
-
-    // const updateNetwork = event => {
-    //     setNetwork({
-    //         ...network,
-    //         dataset: event.target.value
-    //     });
-    // }
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">

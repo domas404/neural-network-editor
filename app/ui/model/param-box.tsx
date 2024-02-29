@@ -1,5 +1,5 @@
 import "@/app/globalicons.css";
-// import { HyperparameterSet } from "@/app/lib/data-types";
+import React, { memo } from "react";
 
 interface ParamProps {
     paramType: string;
@@ -7,15 +7,12 @@ interface ParamProps {
     paramOptions: string[];
     handleChange: any;
     defaultVal: any;
-    // hyperparameters: any;
-    // setHyperparameters: any;
 }
 
-export default function ParamBox({ handleChange, paramType, paramName, paramOptions, defaultVal }: ParamProps) {
+const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal }: ParamProps) => {
 
-    const handleSelectChange = event => {
-        // console.log(`${paramName} changed to ${event.target.value}`);
-        handleChange(paramType, event.target.value);
+    const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+        handleChange(paramType, event.currentTarget.value);
     }
 
     return (
@@ -34,7 +31,7 @@ export default function ParamBox({ handleChange, paramType, paramName, paramOpti
                 name={paramName}
                 className="bg-gray-100 py-2.5 px-4 text-sm rounded-lg w-full"
                 onChange={handleSelectChange}
-                value={defaultVal}
+                defaultValue={defaultVal}
             >
                 {
                     paramOptions.map((option) => {
@@ -47,3 +44,5 @@ export default function ParamBox({ handleChange, paramType, paramName, paramOpti
         </div>
     );
 }
+
+export default memo(ParamBox);

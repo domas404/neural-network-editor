@@ -2,6 +2,7 @@ import "@/app/globalicons.css";
 import Link from "next/link";
 import React, { useContext } from "react";
 import { NetworkContext } from "@/app/ui/model/main";
+import { RadioOption } from "@/app/ui/model/list-options";
 
 interface datasetInfo {
     id: string,
@@ -15,12 +16,12 @@ const datasetNames: datasetInfo[] = [
 ];
 
 export default function Dataset() {
-    const { network, setNetwork } = useContext(NetworkContext);
+    const networkContext = useContext(NetworkContext);
 
-    const updateNetwork = event => {
-        setNetwork({
-            ...network,
-            dataset: event.target.value
+    const updateNetwork = (event: React.FormEvent<HTMLInputElement>) => {
+        networkContext?.setNetwork({
+            ...networkContext?.network,
+            dataset: event.currentTarget.value
         });
     }
 
@@ -41,15 +42,14 @@ export default function Dataset() {
                     {
                         datasetNames.map((item) => {
                             return (
-                                <li key={item.id} className="flex-none list-none my-2">
-                                    <input onChange={updateNetwork} type="radio" id={item.id} name="dataset" value={item.id} className="opacity-0 hidden peer" required checked={item.id === network.dataset} />
-                                    <label htmlFor={item.id} className={`flex items-center justify-between rounded-full cursor-pointer h-8 px-4
-                                    text-black bg-gray-100 peer-checked:text-white peer-checked:bg-black`}>
-                                        <div className="flex justify-center items-center h-full font-semibold text-sm">
-                                            {item.name}
-                                        </div>
-                                    </label>
-                                </li>
+                                <RadioOption
+                                    key={item.id}
+                                    id={item.id}
+                                    handleChange={updateNetwork}
+                                    isChecked={item.id === networkContext?.network.dataset}
+                                    name={item.name}
+                                    groupName="dataset"
+                                />
                             );
                         })
                     }

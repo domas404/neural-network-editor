@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { NetworkContext } from "@/app/ui/model/main";
 
 export default function Playground() {
-    const { network, models } = useContext(NetworkContext);
+    const networkContext = useContext(NetworkContext);
 
     return (
         <>
@@ -18,7 +18,7 @@ export default function Playground() {
                             <Flow />
                         </div>
                         <div className="py-5 px-6 text-base z-0 font-bold uppercase">
-                            { models[network.modelId].name }
+                            { networkContext?.models[networkContext?.network.modelId].name }
                         </div>
                     </div>
                 </div>

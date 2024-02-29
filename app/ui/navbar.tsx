@@ -4,21 +4,17 @@ import "@/app/globalicons.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface NavbarProps {
-    highlight: string;
-}
-
 const links = [
     { name: 'Data', href: '/model/data' },
     { name: 'Model', href: '/model' },
     { name: 'Train', href: '/model/train' },
-  ];
+];
 
-export default function Navbar({ highlight }: NavbarProps) {
+export default function Navbar() {
     const pathname = usePathname();
     return (
         <nav className="basis-1/3 flex justify-center">
-            <div className="flex items-center bg-white  shadow-lg h-12 rounded-lg select-none px-1">
+            <div className="flex items-center bg-white shadow-lg h-12 rounded-lg select-none px-1">
                 <div className="flex flex-row justify-between h-8 gap-px bg-gray-200">
                     {
                         links.map((link) => {
