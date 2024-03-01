@@ -5,6 +5,7 @@ import TargetList from "@/app/ui/dataset/target-list";
 import FeatureList from "@/app/ui/dataset/feature-list";
 import Link from "next/link";
 import { Metadata } from "next";
+import DatasetSample from "@/app/ui/dataset/dataset-sample"
 
 export const metadata: Metadata = {
     title: 'Data | Multilayer Perceptron',
@@ -20,13 +21,13 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div className="basis-2/3 bg-white rounded-xl shadow-md grow">
-
+                <div className="basis-2/3 bg-white rounded-xl shadow-md grow flex justify-center items-center">
+                    <DatasetSample />
                 </div>
 
                 <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
                     <div className="basis-1/3 bg-white rounded-xl shadow-md">
-                        <InfoMenu objectName="Dataset" />
+                        <InfoMenu objectName="Dataset" toDisplay="concept" />
                     </div>
                     <div className="basis-1/3 bg-white rounded-xl shadow-md">
                         <FeatureList features={["petal-length", "petal-width", "sepal-length", "sepal-width"]} />
