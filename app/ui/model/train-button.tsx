@@ -12,7 +12,7 @@ export default function TrainButton() {
     const toggleAnimation = () => {
 
         let neurons = document.querySelectorAll(".neuron-animation-component");
-        console.log(neurons);
+        // console.log(neurons);
         if (animationState){
             neurons.forEach(element => {
                 element.classList.remove("rotate-animation");

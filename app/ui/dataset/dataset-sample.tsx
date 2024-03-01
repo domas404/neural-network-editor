@@ -1,29 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+interface DataSampleProps {
+    dataset: [{}],
+    columns: string[]
+}
 
-export default function DatasetSample() {
-
-    const [dataset, setDataset] = useState([{}]);
-    const [columns, setColumns] = useState<string[]>([]);
-
-    useEffect(() => {
-        fetch("http://localhost:3000/api", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            res.json().then((data) => {
-                setDataset(data);
-            })
-        });
-    }, []);
-
-    useEffect(() => {
-        let datasetColumns = Object.keys(dataset[0]);
-        setColumns(datasetColumns);
-    }, [dataset]);
+export default function DatasetSample({ dataset, columns }: DataSampleProps) {
 
     return (
         <div className="h-96 overflow-scroll">
@@ -33,7 +15,7 @@ export default function DatasetSample() {
                         {
                             columns.map((column, index) => {
                                 return (
-                                    <th key={index} className={`font-semibold border-2 border-white rounded-lg py-1 px-4 overflow-hidden bg-gray-200`}>
+                                    <th key={index} className={`font-semibold border-2 border-white rounded-lg py-2 px-4 overflow-hidden bg-gray-200`}>
                                         {column}
                                     </th>
                                 );
