@@ -19,8 +19,8 @@ export function RadioOption({ id, handleChange, isChecked, name, groupName }: Ra
                 required
                 checked={isChecked}
             />
-            <label htmlFor={id} className="flex items-center justify-between rounded-full cursor-pointer h-8 px-4
-                text-black bg-gray-100 peer-checked:text-white peer-checked:bg-black">
+            <label htmlFor={id} className="flex items-center justify-between rounded-full cursor-pointer h-8 px-4 border
+                text-black bg-gray-50 peer-checked:text-white peer-checked:bg-black peer-checked:border-gray-800">
                 <div className="flex justify-center items-center h-full font-semibold text-sm">
                     {name}
                 </div>

@@ -10,7 +10,7 @@ export default function DatasetSample({ dataset, columns }: DataSampleProps) {
     return (
         <div className="h-96 overflow-scroll">
             <table className="">
-                <thead>
+                <thead className="">
                     <tr>
                         {
                             columns.map((column, index) => {
@@ -23,7 +23,7 @@ export default function DatasetSample({ dataset, columns }: DataSampleProps) {
                         }
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="">
                     {
                         dataset.map((row, rindex) => {
                             return (

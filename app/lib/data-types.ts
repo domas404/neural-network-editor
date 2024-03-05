@@ -30,5 +30,5 @@ export interface ModelSet {
 export interface Network {
     dataset: any,
     modelId: string,
-    hyperparams: HyperparameterSet,
+    // hyperparams: HyperparameterSet,
 }

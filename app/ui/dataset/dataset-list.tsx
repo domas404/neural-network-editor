@@ -1,6 +1,6 @@
 import "@/app/globalicons.css";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NetworkContext } from "@/app/ui/model/main";
 
 interface datasetInfo {
@@ -16,6 +16,22 @@ const datasetNames: datasetInfo[] = [
 
 export default function DatasetList() {
 
+    const [chosenDataset, setChosenDataset] = useState("iris");
+
+    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
+        setChosenDataset(event.currentTarget.value);
+    }
+
+    useEffect(() => {
+        setChosenDataset(JSON.parse(localStorage.getItem("network")!).dataset);
+    }, []);
+
+    // useEffect(() => {
+    //     let newNetwork = JSON.parse(localStorage.getItem("network")!);
+    //     newNetwork.dataset = chosenDataset;
+    //     localStorage.setItem("network", JSON.stringify(newNetwork));
+    // }, [chosenDataset]);
+
     return (
         <div className="flex rounded-xl shadow-sm h-full">
             <div className="py-5 px-6 w-full">
@@ -30,14 +46,14 @@ export default function DatasetList() {
                             return (
                                 <li key={item.id} className="list-none my-1">
                                     <input
-                                        // onChange={updateNetwork}
+                                        onChange={updateDataset}
                                         type="radio"
                                         id={item.id}
                                         name="dataset"
                                         value={item.id}
                                         className="opacity-0 hidden peer"
                                         required
-                                        // checked={item.id === network.dataset}
+                                        checked={item.id === chosenDataset}
                                     />
                                     <label
                                         htmlFor={item.id}

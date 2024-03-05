@@ -21,10 +21,12 @@ export default function Navbar() {
                             return (
                                 <Link
                                     href={link.href}
-                                    className="flex items-center justify-center bg-white w-20 font-bold text-sm uppercase"
+                                    className="flex items-center justify-center bg-white w-20 font-bold text-sm uppercase group"
                                     key={link.href}
                                 >
-                                    <span className={`${pathname === link.href ? "text-sky-600 font-black text-base" : "text-black"}`}>
+                                    <span className={`${pathname === link.href ? "text-sky-600 font-black text-base" : "text-black"}
+                                        bg-none group-hover:underline decoration-4 decoration-sky-200`}
+                                    >
                                         {link.name}
                                     </span>
                                 </Link>

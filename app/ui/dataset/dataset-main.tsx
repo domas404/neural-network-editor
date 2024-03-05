@@ -34,23 +34,28 @@ export default function DatasetMain() {
     return (
         <div className="basis-11/12 flex flex-row gap-3 justify-stretch grow">
             <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48 h-full">
-                <div className="bg-white rounded-xl shadow-md h-full">
+                <div className="bg-white rounded-xl shadow-md h-full border">
                     <DatasetList />
                 </div>
             </div>
 
-            <div className="basis-2/3 bg-white rounded-xl shadow-md grow flex justify-center items-center">
-                <DatasetSample dataset={dataset} columns={columns} />
+            <div className="basis-2/3 bg-white rounded-xl shadow-md grow flex relative border">
+                <div className="h-full w-full flex justify-center items-center absolute top-0">
+                    <DatasetSample dataset={dataset} columns={columns} />
+                </div>
+                <div className="py-5 px-6 text-base z-0 font-bold uppercase">
+                    Iris data
+                </div>
             </div>
 
             <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
-                <div className="basis-1/3 bg-white rounded-xl shadow-md">
+                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
                     <InfoMenu objectName="Dataset" toDisplay="concept" />
                 </div>
-                <div className="basis-1/3 bg-white rounded-xl shadow-md">
+                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
                     <FeatureList features={columns.slice(1, -1)} />
                 </div>
-                <div className="basis-1/3 bg-white rounded-xl shadow-md">
+                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
                     <TargetList targets={["setosa", "versicolor", "virginica"]} />
                 </div>
             </div>

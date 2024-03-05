@@ -1,7 +1,6 @@
 import "@/app/globalicons.css";
 import Link from "next/link";
-import React, { useContext } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
+import React, { useState, useEffect } from "react";
 import { RadioOption } from "@/app/ui/model/list-options";
 
 interface datasetInfo {
@@ -16,14 +15,17 @@ const datasetNames: datasetInfo[] = [
 ];
 
 export default function Dataset() {
-    const networkContext = useContext(NetworkContext);
+    const [chosenDataset, setChosenDataset] = useState("iris");
 
-    const updateNetwork = (event: React.FormEvent<HTMLInputElement>) => {
-        networkContext?.setNetwork({
-            ...networkContext?.network,
-            dataset: event.currentTarget.value
-        });
+    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
+        setChosenDataset(event.currentTarget.value);
     }
+
+    useEffect(() => {
+        let newNetwork = JSON.parse(localStorage.getItem("network")!);
+        newNetwork.dataset = chosenDataset;
+        localStorage.setItem("network", JSON.stringify(newNetwork));
+    }, [chosenDataset]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -45,8 +47,8 @@ export default function Dataset() {
                                 <RadioOption
                                     key={item.id}
                                     id={item.id}
-                                    handleChange={updateNetwork}
-                                    isChecked={item.id === networkContext?.network.dataset}
+                                    handleChange={updateDataset}
+                                    isChecked={item.id === chosenDataset}
                                     name={item.name}
                                     groupName="dataset"
                                 />

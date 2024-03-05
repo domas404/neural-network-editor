@@ -1,5 +1,5 @@
 import "@/app/globalicons.css";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NetworkContext } from "@/app/ui/model/main";
 import { RadioOption } from "@/app/ui/model/list-options";
 
@@ -15,7 +15,19 @@ const modelNames: modelInfo[] = [
 
 export default function Models() {
 
+    const [chosenModel, setChosenModel] = useState("default");
     const networkContext = useContext(NetworkContext);
+
+    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
+        setChosenModel(event.currentTarget.value);
+        networkContext?.updateNetworkModel(event);
+    }
+
+    useEffect(() => {
+        let newNetwork = JSON.parse(localStorage.getItem("network")!);
+        newNetwork.modelId = chosenModel;
+        localStorage.setItem("network", JSON.stringify(newNetwork));
+    }, [chosenModel]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -37,8 +49,8 @@ export default function Models() {
                                 <RadioOption
                                     key={item.id}
                                     id={item.id}
-                                    handleChange={networkContext?.updateNetworkModel}
-                                    isChecked={item.id === networkContext?.network.modelId}
+                                    handleChange={updateDataset}
+                                    isChecked={item.id === chosenModel}
                                     name={item.name}
                                     groupName="model"
                                 />
