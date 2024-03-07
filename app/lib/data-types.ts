@@ -5,6 +5,7 @@ export interface Neuron {
 export interface Layer {
     id: string,
     type: string,
+    order: number,
     neurons: Neuron[],
 }
 

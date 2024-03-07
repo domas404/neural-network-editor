@@ -8,17 +8,33 @@ const defaultModel: ModelSet = {
             {
                 id: v4(),
                 type: "input",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }, { id: v4() }]
+                order: 0,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
             {
                 id: v4(),
                 type: "hidden",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }]
+                order: 1,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
             {
                 id: v4(),
                 type: "output",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }]
+                order: 2,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
         ]
     }
@@ -31,22 +47,46 @@ const myModel: ModelSet = {
             {
                 id: v4(),
                 type: "input",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }, { id: v4() }]
+                order: 0,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
             {
                 id: v4(),
                 type: "hidden",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }, { id: v4() }, { id: v4() }]
+                order: 1,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
             {
                 id: v4(),
                 type: "hidden",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }, { id: v4() }]
+                order: 2,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
             {
                 id: v4(),
                 type: "output",
-                neurons: [{ id: v4() }, { id: v4() }, { id: v4() }]
+                order: 3,
+                neurons: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ]
             },
         ]
     }

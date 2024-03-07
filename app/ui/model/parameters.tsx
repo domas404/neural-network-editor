@@ -1,8 +1,7 @@
 "use client";
 
 import Param from "@/app/ui/model/param-box";
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
+import React, { useCallback } from "react";
 import { HyperparameterSet } from "@/app/lib/data-types";
 import parameterOptions from "@/app/lib/parameter-options";
 
@@ -15,15 +14,10 @@ const defaultHyperparams: HyperparameterSet = {
 
 export default function Parameters() {
 
-    const networkContext = useContext(NetworkContext);
-
-    const [hyperparameters, setHyperparameters] = useState(defaultHyperparams);
-
     const handleChange = (paramType: string, value: number | string) => {
-        setHyperparameters({
-            ...hyperparameters,
-            [paramType]: value
-        });
+        let hyperparamsToChange = JSON.parse(localStorage.getItem("hyperparams")!);
+        hyperparamsToChange[paramType] = value;
+        localStorage.setItem("hyperparams", JSON.stringify(hyperparamsToChange));
     }
 
     const listenChange = useCallback((paramType: string, value: number | string) => {
@@ -42,13 +36,6 @@ export default function Parameters() {
             />
         );
     });
-
-    useEffect(() => {
-        networkContext?.setNetwork({
-            ...networkContext?.network,
-            hyperparams: hyperparameters
-        });
-    }, [hyperparameters]);
 
     return (
         <div className="h-full rounded-xl shadow-sm">
