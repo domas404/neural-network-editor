@@ -10,9 +10,9 @@ export interface Layer {
 }
 
 export interface HyperparameterSet {
-    epochs: number,
-    learningRate: number,
-    batchSize: number,
+    epochs: string,
+    learningRate: string,
+    batchSize: string,
     optimizer: string,
 }
 

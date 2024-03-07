@@ -1,7 +1,8 @@
 import "@/app/globalicons.css";
-import React, { useContext, useState, useEffect } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
 import { RadioOption } from "@/app/ui/model/list-options";
+import { changeModel } from "@/app/lib/redux/features/network-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
 interface modelInfo {
     id: string,
@@ -15,19 +16,12 @@ const modelNames: modelInfo[] = [
 
 export default function Models() {
 
-    const [chosenModel, setChosenModel] = useState("default");
-    const networkContext = useContext(NetworkContext);
+    const currentModel = useAppSelector((state) => state.networkReducer.modelId);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
-        setChosenModel(event.currentTarget.value);
-        networkContext?.updateNetworkModel(event);
+    const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        dispatch(changeModel(event.currentTarget.value));
     }
-
-    useEffect(() => {
-        let newNetwork = JSON.parse(localStorage.getItem("network")!);
-        newNetwork.modelId = chosenModel;
-        localStorage.setItem("network", JSON.stringify(newNetwork));
-    }, [chosenModel]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -49,8 +43,8 @@ export default function Models() {
                                 <RadioOption
                                     key={item.id}
                                     id={item.id}
-                                    handleChange={updateDataset}
-                                    isChecked={item.id === chosenModel}
+                                    handleChange={handleChange}
+                                    isChecked={item.id === currentModel}
                                     name={item.name}
                                     groupName="model"
                                 />

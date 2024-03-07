@@ -6,9 +6,10 @@ import FloatingEdge from "@/app/ui/model/playground/floating-edge";
 import CustomNode from '@/app/ui/model/playground/custom-node';
 import CustomNodeGroup from '@/app/ui/model/playground/custom-node-group';
 import { createNodesAndEdges } from "@/app/lib/flow-utils";
-import { NetworkContext } from "@/app/ui/model/main";
 
 import "./index.css";
+
+import { useAppSelector } from "@/app/lib/redux/store";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
@@ -20,19 +21,22 @@ const nodeTypes = {
 };
 
 const Flow = () => {
-    const networkContext = useContext(NetworkContext)!;
-    const initialModel = networkContext.models[networkContext.network.modelId].layers;
+
+    const currentModelId = useAppSelector((state) => state.networkReducer.modelId);
+    const currentModel = useAppSelector((state) => state.modelsReducer);
+
+    const initialModel = currentModel[currentModelId].layers;
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialModel);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     useEffect(() => {
-        let chosenModel = networkContext.models[networkContext.network.modelId].layers;
+        let chosenModel = currentModel[currentModelId].layers;
         let { nodes: newNodes, edges: newEdges } = createNodesAndEdges(chosenModel);
         setNodes(newNodes);
         setEdges(newEdges);
-    }, [networkContext]);
+    }, [currentModelId]);
 
     return (
         <ReactFlow

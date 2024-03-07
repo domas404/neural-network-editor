@@ -1,7 +1,13 @@
+"use client";
+
 import "@/app/globalicons.css";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { RadioOption } from "@/app/ui/model/list-options";
+
+import { changeDataset } from "@/app/lib/redux/features/network-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
 interface datasetInfo {
     id: string,
@@ -15,17 +21,25 @@ const datasetNames: datasetInfo[] = [
 ];
 
 export default function Dataset() {
-    const [chosenDataset, setChosenDataset] = useState("iris");
 
-    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
-        setChosenDataset(event.currentTarget.value);
+    const currentDataset = useAppSelector((state) => state.networkReducer.dataset);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        dispatch(changeDataset(event.currentTarget.value));
     }
 
-    useEffect(() => {
-        let newNetwork = JSON.parse(localStorage.getItem("network")!);
-        newNetwork.dataset = chosenDataset;
-        localStorage.setItem("network", JSON.stringify(newNetwork));
-    }, [chosenDataset]);
+    // const [chosenDataset, setChosenDataset] = useState("iris");
+
+    // const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
+    //     setChosenDataset(event.currentTarget.value);
+    // }
+
+    // useEffect(() => {
+    //     let newNetwork = JSON.parse(localStorage.getItem("network")!);
+    //     newNetwork.dataset = chosenDataset;
+    //     localStorage.setItem("network", JSON.stringify(newNetwork));
+    // }, [chosenDataset]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -47,8 +61,8 @@ export default function Dataset() {
                                 <RadioOption
                                     key={item.id}
                                     id={item.id}
-                                    handleChange={updateDataset}
-                                    isChecked={item.id === chosenDataset}
+                                    handleChange={handleChange}
+                                    isChecked={item.id === currentDataset}
                                     name={item.name}
                                     groupName="dataset"
                                 />

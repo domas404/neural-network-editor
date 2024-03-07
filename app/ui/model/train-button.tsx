@@ -1,13 +1,10 @@
 import "@/app/globalicons.css";
 import React, { useState, useContext } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
 import { BuildModel } from "@/app/lib/build-model";
 
 export default function TrainButton() {
 
     const [animationState, setAnimationState] = useState(false);
-
-    const networkContext = useContext(NetworkContext)!;
 
     const toggleAnimation = () => {
 

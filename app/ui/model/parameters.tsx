@@ -5,31 +5,25 @@ import React, { useCallback } from "react";
 import { HyperparameterSet } from "@/app/lib/data-types";
 import parameterOptions from "@/app/lib/parameter-options";
 
-const defaultHyperparams: HyperparameterSet = {
-    epochs: 1,
-    learningRate: 0.1,
-    batchSize: 1,
-    optimizer: "SGD",
-}
+import { changeParameter } from "@/app/lib/redux/features/param-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
 export default function Parameters() {
 
-    const handleChange = (paramType: string, value: number | string) => {
-        let hyperparamsToChange = JSON.parse(localStorage.getItem("hyperparams")!);
-        hyperparamsToChange[paramType] = value;
-        localStorage.setItem("hyperparams", JSON.stringify(hyperparamsToChange));
-    }
+    const hyperparams = useAppSelector((state) => state.paramReducer);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const listenChange = useCallback((paramType: string, value: number | string) => {
-        handleChange(paramType, value);
-    }, []);
+    const listenChange = useCallback((parameter: string, value: number | string) => {
+        dispatch(changeParameter({parameter, value}));
+    }, [dispatch]);
 
     const mappedParameters = parameterOptions.map((parameter) => {
         return (
             <Param
                 key={parameter.id}
                 handleChange={listenChange}
-                defaultVal={defaultHyperparams[parameter.id as keyof HyperparameterSet]}
+                defaultVal={hyperparams[parameter.id as keyof HyperparameterSet]}
                 paramType={parameter.id}
                 paramName={parameter.name}
                 paramOptions={parameter.options}

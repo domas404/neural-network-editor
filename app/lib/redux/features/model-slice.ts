@@ -1,3 +1,5 @@
+"use client";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ModelSet } from "@/app/lib/data-types";
 import { InitialModels } from "@/app/lib/initial-model";

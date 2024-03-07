@@ -3,11 +3,12 @@
 import "@/app/globalicons.css";
 import Script from "next/script";
 import Flow from "./playground/network-flow"
-import React, { useContext } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
+import React from "react";
+import { useAppSelector } from "@/app/lib/redux/store";
 
 export default function Playground() {
-    const networkContext = useContext(NetworkContext);
+    
+    const currentModel = useAppSelector((state) => state.networkReducer.modelId);
 
     return (
         <>
@@ -18,7 +19,7 @@ export default function Playground() {
                             <Flow />
                         </div>
                         <div className="py-5 px-6 text-base z-0 font-bold uppercase">
-                            { networkContext?.models[networkContext?.network.modelId].name }
+                            { currentModel }
                         </div>
                     </div>
                 </div>

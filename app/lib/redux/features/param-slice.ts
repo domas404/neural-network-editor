@@ -1,26 +1,27 @@
+"use client";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HyperparameterSet } from "@/app/lib/data-types";
 
 const initialState: HyperparameterSet = {
-    epochs: 1,
-    learningRate: 0.1,
-    batchSize: 1,
+    epochs: "1",
+    learningRate: "0.1",
+    batchSize: "1",
     optimizer: "SGD",
 }
 
-export const param = createSlice({
+export const paramSlice = createSlice({
     name: "param",
     initialState,
     reducers: {
         changeParameter: (state, action: PayloadAction<{ parameter: string, value: any }>) => {
-            const { parameter, value } = action.payload;
-            return ({
+            return {
                 ...state,
-                [parameter]: value
-            });
+                [action.payload.parameter]: action.payload.value
+            }
         }
     }
 });
 
-export const {changeParameter} = param.actions;
-export default param.reducer;
+export const {changeParameter} = paramSlice.actions;
+export default paramSlice.reducer;
