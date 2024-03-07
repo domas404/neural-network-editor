@@ -6,10 +6,11 @@ interface ParamProps {
     paramName: string;
     paramOptions: string[];
     handleChange: any;
-    defaultVal: any;
+    defaultVal?: any;
+    currentValue?: any;
 }
 
-const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal }: ParamProps) => {
+const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal, currentValue }: ParamProps) => {
 
     const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
         handleChange(paramType, event.currentTarget.value);
@@ -32,6 +33,7 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
                 className="bg-gray-50 py-2.5 px-4 text-sm rounded-lg w-full border focus:border-sky-600"
                 onChange={handleSelectChange}
                 defaultValue={defaultVal}
+                value={currentValue}
             >
                 {
                     paramOptions.map((option) => {

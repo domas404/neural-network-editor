@@ -49,13 +49,13 @@ export default function DatasetMain() {
             </div>
 
             <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
-                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
+                {/* <div className="basis-1/3 bg-white rounded-xl shadow-md border">
                     <InfoMenu objectName="Dataset" toDisplay="concept" />
-                </div>
-                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
+                </div> */}
+                <div className="basis-1/2 bg-white rounded-xl shadow-md border">
                     <FeatureList features={columns.slice(1, -1)} />
                 </div>
-                <div className="basis-1/3 bg-white rounded-xl shadow-md border">
+                <div className="basis-1/2 bg-white rounded-xl shadow-md border">
                     <TargetList targets={["setosa", "versicolor", "virginica"]} />
                 </div>
             </div>

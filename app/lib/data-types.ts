@@ -7,6 +7,7 @@ export interface Layer {
     type: string,
     order: number,
     neurons: Neuron[],
+    activation: string,
 }
 
 export interface HyperparameterSet {

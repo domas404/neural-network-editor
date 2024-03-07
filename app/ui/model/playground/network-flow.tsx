@@ -39,6 +39,10 @@ const Flow = () => {
         setEdges(newEdges);
     }, [currentModel, currentModelId]);
 
+    const handleClick = () => {
+        console.log("Clicked");
+    }
+
     return (
         <ReactFlow
             nodes={nodes}

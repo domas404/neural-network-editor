@@ -9,8 +9,11 @@ import { useAppSelector } from "@/app/lib/redux/store";
 
 export default function InfoMenu() {
 
-    const { infoType } = useAppSelector((state) => state.infoMenuReducer);
+    const { infoType, itemId } = useAppSelector((state) => state.infoMenuReducer);
     const [objectToDisplay, setObjectToDisplay] = useState<JSX.Element>();
+    const { modelId } = useAppSelector((state) => state.networkReducer);
+
+    const [isSelected, setIsSelected] = useState(false);
 
     useEffect(() => {
         if (infoType === "layer") {
@@ -22,12 +25,19 @@ export default function InfoMenu() {
         }
     }, [infoType]);
 
+    useEffect(() => {
+        setIsSelected(false);
+    }, [modelId]);
+
+    useEffect(() => {
+        setIsSelected(true);
+    }, [itemId]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
-                    {objectToDisplay}
+                    {isSelected && objectToDisplay}
                 </div>
             </div>
         </div>

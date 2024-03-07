@@ -14,7 +14,8 @@ const defaultModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "",
             },
             {
                 id: v4(),
@@ -24,7 +25,8 @@ const defaultModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "sigmoid",
             },
             {
                 id: v4(),
@@ -34,7 +36,8 @@ const defaultModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "sigmoid",
             },
         ]
     }
@@ -53,7 +56,8 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "",
             },
             {
                 id: v4(),
@@ -65,7 +69,8 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "sigmoid",
             },
             {
                 id: v4(),
@@ -76,7 +81,8 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "sigmoid",
             },
             {
                 id: v4(),
@@ -86,7 +92,8 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() }
-                ]
+                ],
+                activation: "sigmoid",
             },
         ]
     }

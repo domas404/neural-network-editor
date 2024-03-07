@@ -19,6 +19,7 @@ export const models = createSlice({
                 type: "hidden",
                 order: order,
                 neurons: [{ id: v4() }],
+                activation: "sigmoid"
             });
             for (let i=order+1; i<model.layers.length; i++){
                 model.layers[i].order = model.layers[i].order+1;
@@ -50,9 +51,13 @@ export const models = createSlice({
             const { modelName, layerId } = action.payload;
             const model = state[modelName];
             const layerToModify = model.layers.findIndex((el) => el.id === layerId);
-            console.log(model.layers.length);
             model.layers[layerToModify].neurons.pop();
-            console.log(model.layers.length);
+        },
+        changeActivation: (state, action: PayloadAction<{modelName: string, layerId: string, activation: string }>) => {
+            const { activation, modelName, layerId } = action.payload;
+            const model = state[modelName];
+            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
+            model.layers[layerToModify].activation = activation;
         },
         reorderLayers: () => {
             
@@ -60,5 +65,11 @@ export const models = createSlice({
     }
 });
 
-export const { addLayer, removeLayer, addNeuronToLayer, removeNeuronFromLayer } = models.actions;
+export const {
+    addLayer,
+    removeLayer,
+    addNeuronToLayer,
+    removeNeuronFromLayer,
+    changeActivation,
+} = models.actions;
 export default models.reducer;
