@@ -40,11 +40,19 @@ export const models = createSlice({
                 model
             });
         },
-        addNeuronToLayer: () => {
-            
+        addNeuronToLayer: (state, action: PayloadAction<{modelName: string, layerId: string }>) => {
+            const { modelName, layerId } = action.payload;
+            const model = state[modelName];
+            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
+            model.layers[layerToModify].neurons.push({ id: v4() });
         },
-        removeNeuronFromLayer: () => {
-            
+        removeNeuronFromLayer: (state, action: PayloadAction<{modelName: string, layerId: string }>) => {
+            const { modelName, layerId } = action.payload;
+            const model = state[modelName];
+            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
+            console.log(model.layers.length);
+            model.layers[layerToModify].neurons.pop();
+            console.log(model.layers.length);
         },
         reorderLayers: () => {
             
@@ -52,5 +60,5 @@ export const models = createSlice({
     }
 });
 
-export const { addLayer, removeLayer } = models.actions;
+export const { addLayer, removeLayer, addNeuronToLayer, removeNeuronFromLayer } = models.actions;
 export default models.reducer;

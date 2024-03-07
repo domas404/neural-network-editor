@@ -27,7 +27,7 @@ export default function Home() {
             </div>
             <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
                 <div className="basis-5/12 bg-white rounded-xl shadow-md border">
-                    <InfoMenu objectName="Hidden layer #1" toDisplay="layer" />
+                    <InfoMenu />
                 </div>
                 <div className="basis-1/2 bg-white rounded-xl shadow-md grow border">
                     <Layers />

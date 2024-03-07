@@ -28,7 +28,9 @@ export function createNodesAndEdges(layers: Layer[]) {
         nodes.push({
             id: layers[i].id,
             position: { x:i*120+60, y:0 },
-            data: {},
+            data: {
+                id: layers[i].id,
+            },
             type: "customNodeGroup",
             parentNode: nodes[0].id,
             extent: "parent",

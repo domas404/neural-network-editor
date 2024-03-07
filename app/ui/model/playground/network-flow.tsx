@@ -24,6 +24,7 @@ const Flow = () => {
 
     const currentModelId = useAppSelector((state) => state.networkReducer.modelId);
     const currentModel = useAppSelector((state) => state.modelsReducer);
+    // const currentModel = useAppSelector((state) => state.modelsReducer);
 
     const initialModel = currentModel[currentModelId].layers;
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialModel);
@@ -36,7 +37,7 @@ const Flow = () => {
         let { nodes: newNodes, edges: newEdges } = createNodesAndEdges(chosenModel);
         setNodes(newNodes);
         setEdges(newEdges);
-    }, [currentModelId]);
+    }, [currentModel, currentModelId]);
 
     return (
         <ReactFlow

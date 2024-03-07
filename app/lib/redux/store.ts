@@ -1,16 +1,18 @@
 "use client";
 
 import { configureStore } from '@reduxjs/toolkit';
+import { useSelector, TypedUseSelectorHook } from 'react-redux';
 import paramReducer from "./features/param-slice";
 import modelsReducer from "./features/model-slice";
 import networkReducer from "./features/network-slice";
-import { useSelector, TypedUseSelectorHook } from 'react-redux';
+import infoMenuReducer from './features/info-menu-slice';
 
 export const store = configureStore({
     reducer: {
         paramReducer,
         modelsReducer,
         networkReducer,
+        infoMenuReducer
     },
 });
 

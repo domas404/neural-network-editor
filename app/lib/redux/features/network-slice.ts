@@ -9,7 +9,7 @@ const initialState: Network = {
 }
 
 export const networkSlice = createSlice({
-    name: "param",
+    name: "network",
     initialState,
     reducers: {
         changeDataset: (state, action: PayloadAction<string>) => {
