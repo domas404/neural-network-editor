@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactFlow, { Background, useNodesState, useEdgesState, EdgeTypes } from 'reactflow';
 import 'reactflow/dist/base.css';
 
@@ -24,7 +24,6 @@ const Flow = () => {
 
     const currentModelId = useAppSelector((state) => state.networkReducer.modelId);
     const currentModel = useAppSelector((state) => state.modelsReducer);
-    // const currentModel = useAppSelector((state) => state.modelsReducer);
 
     const initialModel = currentModel[currentModelId].layers;
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialModel);
@@ -38,10 +37,6 @@ const Flow = () => {
         setNodes(newNodes);
         setEdges(newEdges);
     }, [currentModel, currentModelId]);
-
-    const handleClick = () => {
-        console.log("Clicked");
-    }
 
     return (
         <ReactFlow

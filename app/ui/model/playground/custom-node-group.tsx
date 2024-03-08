@@ -18,7 +18,12 @@ function CustomNodeGroup() {
     const handleChange = (event: React.MouseEvent<HTMLElement>) => {
         const layerId = event.currentTarget.parentElement!.getAttribute("data-id")!.toString();
         setLayer(layerId);
-        dispatch(setInfo({ infoType: "layer", id: layerId }));
+        if (layerId !== itemId) {
+            dispatch(setInfo({ infoType: "layer", id: layerId }));
+        } else {
+            dispatch(setInfo({ infoType: "", id: "" }));
+            setClicked(false);
+        }
     }
 
     useEffect(() => {
