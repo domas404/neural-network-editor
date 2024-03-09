@@ -6,13 +6,15 @@ import paramReducer from "./features/param-slice";
 import modelsReducer from "./features/model-slice";
 import networkReducer from "./features/network-slice";
 import infoMenuReducer from './features/info-menu-slice';
+import datasetReducer from "./features/dataset-slice";
 
 export const store = configureStore({
     reducer: {
         paramReducer,
         modelsReducer,
         networkReducer,
-        infoMenuReducer
+        infoMenuReducer,
+        datasetReducer,
     },
 });
 

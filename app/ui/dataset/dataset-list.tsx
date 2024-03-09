@@ -1,7 +1,6 @@
 import "@/app/globalicons.css";
 import Link from "next/link";
-import React, { useContext, useState, useEffect } from "react";
-import { NetworkContext } from "@/app/ui/model/main";
+import React, { useState, useEffect } from "react";
 
 interface datasetInfo {
     id: string,

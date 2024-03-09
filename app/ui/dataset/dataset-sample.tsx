@@ -1,11 +1,11 @@
 "use client";
 
-interface DataSampleProps {
-    dataset: [{}],
-    columns: string[]
-}
+import { useAppSelector } from "@/app/lib/redux/store";
 
-export default function DatasetSample({ dataset, columns }: DataSampleProps) {
+export default function DatasetSample() {
+
+    const dataset = useAppSelector((state) => state.datasetReducer.dataset);
+    const columns = useAppSelector((state) => state.datasetReducer.columns);
 
     return (
         <div className="h-96 overflow-scroll">
