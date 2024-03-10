@@ -9,6 +9,8 @@ export async function GET(req: Request, res: Response) {
     const column = searchParams.get("columnName");
     const query = `SELECT DISTINCT ${column} FROM irisdata;`;
     
+    console.log(`Request value: ${column}, initiating query: ${query}`);
+
     // if (!db) {
     const db = await open({
         filename: "./datasets.db",
@@ -16,12 +18,13 @@ export async function GET(req: Request, res: Response) {
     });
     // }
 
+    
     const items = await db.all(query);
-
+    
     console.log(items);
 
     return new Response(JSON.stringify(items), {
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Cache-control": "no-store" },
         status: 200,
     });
 }
