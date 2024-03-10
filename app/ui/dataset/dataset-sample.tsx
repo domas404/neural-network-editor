@@ -2,6 +2,10 @@
 
 import { useAppSelector } from "@/app/lib/redux/store";
 
+interface DataRow {
+    [key: string]: any;
+}
+
 export default function DatasetSample() {
 
     const dataset = useAppSelector((state) => state.datasetReducer.dataset);
@@ -25,7 +29,7 @@ export default function DatasetSample() {
                 </thead>
                 <tbody className="">
                     {
-                        dataset.map((row, rindex) => {
+                        dataset.map((row: DataRow, rindex) => {
                             return (
                                 <tr key={`r${rindex}`}>
                                     {

@@ -1,8 +1,5 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-// import { NextApiRequest, NextApiResponse } from "next/router";
-
-let db = null;
 
 export async function GET(req: Request, res: Response) {
     
@@ -10,12 +7,10 @@ export async function GET(req: Request, res: Response) {
     const column = searchParams.get("columnName");
     const query = `SELECT DISTINCT ${column} FROM irisdata;`;
 
-    if(!db) {
-        db = await open({
-            filename: "./datasets.db",
-            driver: sqlite3.Database,
-        });
-    }
+    const db = await open({
+        filename: "./datasets.db",
+        driver: sqlite3.Database,
+    });
 
     const items = await db.all(query);
 
