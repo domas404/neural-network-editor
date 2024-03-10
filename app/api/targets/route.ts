@@ -1,10 +1,10 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-import { NextApiRequest, NextApiResponse } from "next";
+// import { NextApiRequest, NextApiResponse } from "next/router";
 
 let db = null;
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request, res: Response) {
     
     const { searchParams } = new URL(req.url!);
     const column = searchParams.get("columnName");

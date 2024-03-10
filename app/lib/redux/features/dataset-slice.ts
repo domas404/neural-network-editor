@@ -42,9 +42,6 @@ export const datasetSlice = createSlice({
         },
         updateSelectedTargets: (state, action: PayloadAction<boolean[]>) => {
             state.selectedTargets = action.payload;
-            // console.log(action.payload);
-            // console.log(`Model changed to ${action.payload}`);
-            // state.modelId = action.payload;
         },
     }
 });
