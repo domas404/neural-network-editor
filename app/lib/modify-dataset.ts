@@ -1,6 +1,6 @@
 
 export async function initializeDataset() {
-    const data = await fetch("http://localhost:3000/api", {
+    const data = await fetch("/api", {
         method: "GET",
         headers: { "Content-Type": "application/json", },
     });
@@ -9,7 +9,7 @@ export async function initializeDataset() {
 }
 
 export async function initializeTargets() {
-    const data = await fetch("http://localhost:3000/api/targets?columnName=Species", {
+    const data = await fetch("/api/targets?columnName=Species", {
         method: "GET",
         headers: { "Content-Type": "application/json", },
     });
