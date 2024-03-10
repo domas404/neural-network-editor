@@ -19,9 +19,9 @@ export default function DatasetMain() {
 
     useEffect(() => {
         async function initDataset() {
-            const data = await initializeDataset();
-            // console.log(data);
-            dispatch(uploadDataset(data));
+            // const data = await initializeDataset();
+            // // console.log(data);
+            // dispatch(uploadDataset(data));
 
             const targets = await initializeTargets();
             // console.log(targets);

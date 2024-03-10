@@ -9,10 +9,17 @@ export async function initializeDataset() {
 }
 
 export async function initializeTargets() {
-    const data = await fetch("/api/targets?columnName=Species", {
-        method: "GET",
-        headers: { "Content-Type": "application/json", },
-    });
-
-    return data.json();
+    try {
+        const data = await fetch("/api/targets?columnName=Species", {
+            method: "GET",
+            headers: { "Content-Type": "application/json", },
+        });
+        if (!data.ok) {
+            throw new Error(`${data.status} ${data.statusText}`);
+        }
+        return data.json();
+    } catch(error) {
+        console.log(error);
+    }
+    // return data.json();
 }

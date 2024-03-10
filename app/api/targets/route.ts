@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
 
-let db: Database<sqlite3.Database, sqlite3.Statement>;
+// let db: Database<sqlite3.Database, sqlite3.Statement>;
 
 export async function GET(req: Request, res: Response) {
     
@@ -9,12 +9,12 @@ export async function GET(req: Request, res: Response) {
     const column = searchParams.get("columnName");
     const query = `SELECT DISTINCT ${column} FROM irisdata;`;
     
-    if (!db) {
-        db = await open({
-            filename: "./datasets.db",
-            driver: sqlite3.Database,
-        });
-    }
+    // if (!db) {
+    const db = await open({
+        filename: "./datasets.db",
+        driver: sqlite3.Database,
+    });
+    // }
 
     const items = await db.all(query);
 
