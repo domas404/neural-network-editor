@@ -19,7 +19,11 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
     return (
         <div className="py-3 bg-white mb-px">
             <label className="flex flex-row group items-center pb-1" htmlFor={paramName}>
-                <div className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider leading-3">
+                <div
+                    className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider leading-3
+                    overflow-hidden text-ellipsis whitespace-nowrap"
+                    title={paramName}
+                >
                     {paramName}
                 </div>
                 <div className="flex items-center select-none invisible px-2 group-hover:visible text-gray-300 hover:cursor-pointer hover:text-gray-400 active:text-gray-500">
