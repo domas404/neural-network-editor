@@ -25,12 +25,6 @@ export default function DatasetList() {
         setChosenDataset(JSON.parse(localStorage.getItem("network")!).dataset);
     }, []);
 
-    // useEffect(() => {
-    //     let newNetwork = JSON.parse(localStorage.getItem("network")!);
-    //     newNetwork.dataset = chosenDataset;
-    //     localStorage.setItem("network", JSON.stringify(newNetwork));
-    // }, [chosenDataset]);
-
     return (
         <div className="flex rounded-xl shadow-sm h-full">
             <div className="py-5 px-6 w-full">

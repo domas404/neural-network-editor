@@ -33,7 +33,7 @@ export default function Playground() {
                     </div>
                 </div>
             </div>
-            <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" />
+            {/* <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" /> */}
         </>
     );
 }

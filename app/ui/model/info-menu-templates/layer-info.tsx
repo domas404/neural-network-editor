@@ -6,10 +6,6 @@ import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { addNeuronToLayer, removeNeuronFromLayer, changeActivation } from "@/app/lib/redux/features/model-slice";
 import { useDispatch } from "react-redux";
 
-interface LayerInfoProps {
-    objectName: string;
-}
-
 const MAX_NEURON_COUNT = 12;
 const MIN_NEURON_COUNT = 1;
 

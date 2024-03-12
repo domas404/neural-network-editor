@@ -1,17 +1,10 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { DatasetProps } from "@/app/lib/data-types";
 
-interface datasetProps {
-    dataset: [{}],
-    columns: string[],
-    features: string[],
-    targets: string[],
-    selectedFeatures: boolean[],
-    selectedTargets: boolean[],
-}
 
-const initialState: datasetProps = {
+const initialState: DatasetProps = {
     dataset: [{}],
     columns: [],
     features: [],

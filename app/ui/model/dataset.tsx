@@ -2,7 +2,6 @@
 
 import "@/app/globalicons.css";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
 import { RadioOption } from "@/app/ui/model/list-options";
 
 import { changeDataset } from "@/app/lib/redux/features/network-slice";
@@ -28,18 +27,6 @@ export default function Dataset() {
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         dispatch(changeDataset(event.currentTarget.value));
     }
-
-    // const [chosenDataset, setChosenDataset] = useState("iris");
-
-    // const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
-    //     setChosenDataset(event.currentTarget.value);
-    // }
-
-    // useEffect(() => {
-    //     let newNetwork = JSON.parse(localStorage.getItem("network")!);
-    //     newNetwork.dataset = chosenDataset;
-    //     localStorage.setItem("network", JSON.stringify(newNetwork));
-    // }, [chosenDataset]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">

@@ -22,6 +22,15 @@ export interface Dataset {
     name: string,
 }
 
+export interface DatasetProps {
+    dataset: [{}],
+    columns: string[],
+    features: string[],
+    targets: string[],
+    selectedFeatures: boolean[],
+    selectedTargets: boolean[],
+}
+
 export interface ModelSet {
     [id: string]: {
         name: string,
@@ -32,5 +41,4 @@ export interface ModelSet {
 export interface Network {
     dataset: any,
     modelId: string,
-    // hyperparams: HyperparameterSet,
 }

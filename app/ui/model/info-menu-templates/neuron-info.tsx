@@ -1,9 +1,5 @@
 import "@/app/globalicons.css";
 
-interface LayerInfoProps {
-    objectName: string;
-}
-
 export default function NeuronInfo() {
     return (
         <div>
