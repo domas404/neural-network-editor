@@ -23,10 +23,10 @@ export default function DatasetMain() {
             if (Object.keys(data).length !== 0) {
                 dispatch(uploadDataset(data));
             }
-            const targets = await fetchTargets();
-            if (Object.keys(targets).length !== 0) {
-                dispatch(setTargets(targets));
-            }
+            // const targets = await fetchTargets();
+            // if (Object.keys(targets).length !== 0) {
+            //     dispatch(setTargets(targets));
+            // }
         }
 
         if (Object.keys(dataset[0]).length === 0) {
