@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import { uploadDataset, setTargets } from "@/app/lib/redux/features/dataset-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { initializeDataset, initializeTargets } from '@/app/lib/modify-dataset';
+import { fetchDataset, fetchTargets } from '@/app/lib/modify-dataset';
 
 export default function DatasetMain() {
 
@@ -19,14 +19,14 @@ export default function DatasetMain() {
 
     useEffect(() => {
         async function initDataset() {
-            const data = await initializeDataset();
-            if (data === "") {
-                console.log("Data not available.")
-            } else {
+            const data = await fetchDataset();
+            if (Object.keys(data).length !== 0) {
                 dispatch(uploadDataset(data));
             }
-            // const targets = await initializeTargets();
-            // dispatch(setTargets(targets));
+            const targets = await fetchTargets();
+            if (Object.keys(targets).length !== 0) {
+                dispatch(setTargets(targets));
+            }
         }
 
         if (Object.keys(dataset[0]).length === 0) {

@@ -1,25 +1,31 @@
+import { unstable_noStore as noStore } from 'next/cache';
 
-export async function initializeDataset() {
-    const data = await fetch("/api", { method: "GET" });
-    if (data === undefined) {
-        return "";
-    } else {
+export async function fetchDataset() {
+    noStore();
+    try {
+        console.log('Fetching dataset...');
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        const data = await fetch("/api/irisdata", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
         return data.json();
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch dataset.');
     }
 }
 
-export async function initializeTargets() {
+export async function fetchTargets() {
     try {
-        const data = await fetch("/api/targets?columnName=Species", {
+        console.log('Fetching targets...');
+        const data = await fetch("/api/irisdata/Species", {
             method: "GET",
             headers: { "Content-Type": "application/json", },
         });
-        if (!data.ok) {
-            throw new Error(`${data.status} ${data.statusText}`);
-        }
         return data.json();
     } catch(error) {
-        console.log(error);
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch targets.');
     }
-    // return data.json();
 }
