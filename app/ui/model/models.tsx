@@ -1,3 +1,5 @@
+"use client";
+
 import "@/app/globalicons.css";
 import { RadioOption } from "@/app/ui/model/list-options";
 import { changeModel } from "@/app/lib/redux/features/network-slice";

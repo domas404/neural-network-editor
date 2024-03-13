@@ -1,11 +1,11 @@
 
 export async function initializeDataset() {
-    const data = await fetch("/api", {
-        method: "GET",
-        headers: { "Content-Type": "application/json", },
-    });
-
-    return data.json();
+    const data = await fetch("/api", { method: "GET" });
+    if (data === undefined) {
+        return "";
+    } else {
+        return data.json();
+    }
 }
 
 export async function initializeTargets() {

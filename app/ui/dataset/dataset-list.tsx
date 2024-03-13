@@ -1,3 +1,5 @@
+"use client";
+
 import "@/app/globalicons.css";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";

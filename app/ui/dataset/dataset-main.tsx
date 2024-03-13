@@ -20,10 +20,13 @@ export default function DatasetMain() {
     useEffect(() => {
         async function initDataset() {
             const data = await initializeDataset();
-            dispatch(uploadDataset(data));
-
-            const targets = await initializeTargets();
-            dispatch(setTargets(targets));
+            if (data === "") {
+                console.log("Data not available.")
+            } else {
+                dispatch(uploadDataset(data));
+            }
+            // const targets = await initializeTargets();
+            // dispatch(setTargets(targets));
         }
 
         if (Object.keys(dataset[0]).length === 0) {

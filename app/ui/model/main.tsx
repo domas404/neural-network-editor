@@ -1,5 +1,3 @@
-"use client";
-
 import Dataset from '@/app/ui/model/dataset';
 import Parameters from "@/app/ui/model/parameters";
 import Models from "@/app/ui/model/models";

@@ -1,3 +1,5 @@
+"use client";
+
 import "@/app/globalicons.css";
 import React, { useState, useContext, useCallback, useEffect } from "react";
 import { BuildModel, PrepareForTraining } from "@/app/lib/build-model";
