@@ -10,4 +10,3 @@ const db = new sqlite3.Database(
         console.log("Connected to the SQlite database.");
     }
 );
-

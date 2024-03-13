@@ -5,7 +5,7 @@ export async function fetchDataset() {
     try {
         console.log('Fetching dataset...');
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        const data = await fetch("https://neural-network-editor-beta.vercel.app/api/irisdata", {
+        const data = await fetch("/api/irisdata", {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
