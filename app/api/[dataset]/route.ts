@@ -4,17 +4,17 @@ import { type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
 
-    const name = req.url.split("/").pop();
-    const query = `SELECT * FROM ${name};`;
+    // const name = req.url.split("/").pop();
+    // const query = `SELECT * FROM ${name};`;
 
-    const db = await open({
-        filename: "./datasets.db",
-        driver: sqlite3.Database,
-    });
+    // const db = await open({
+    //     filename: "./datasets.db",
+    //     driver: sqlite3.Database,
+    // });
 
-    const items = await db.all(query);
+    // const items = await db.all(query);
 
-    return new Response(JSON.stringify(items), {
+    return new Response(JSON.stringify({ "message": "message" }), {
         headers: { "Content-Type": "application/json" },
         status: 200,
     });

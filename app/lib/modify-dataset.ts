@@ -5,7 +5,7 @@ export async function fetchDataset() {
     try {
         console.log('Fetching dataset...');
         await new Promise((resolve) => setTimeout(resolve, 3000));
-        const data = await fetch(`${process.env.API_URL}/irisdata`, {
+        const data = await fetch("/api/irisdata", {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
