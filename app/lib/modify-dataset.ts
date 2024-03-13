@@ -4,7 +4,6 @@ export async function fetchDataset() {
     noStore();
     try {
         console.log('Fetching dataset...');
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         const data = await fetch("/api/irisdata", {
             method: "GET",
             headers: { "Content-Type": "application/json" }
