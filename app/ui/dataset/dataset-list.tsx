@@ -9,6 +9,8 @@ interface datasetInfo {
     name: string
 }
 
+import { useAppSelector } from "@/app/lib/redux/store";
+
 const datasetNames: datasetInfo[] = [
     { id: "iris", name: "Iris data" },
     { id: "placeholder", name: "Placeholder" },
@@ -17,15 +19,12 @@ const datasetNames: datasetInfo[] = [
 
 export default function DatasetList() {
 
-    const [chosenDataset, setChosenDataset] = useState("iris");
+    // const [chosenDataset, setChosenDataset] = useState("iris");
+    const dataset = useAppSelector((state) => state.networkReducer.dataset);
 
-    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
-        setChosenDataset(event.currentTarget.value);
+    const updateDataset = () => {
+        console.log("Dataset updated.");
     }
-
-    useEffect(() => {
-        setChosenDataset(JSON.parse(localStorage.getItem("network")!).dataset);
-    }, []);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -48,7 +47,7 @@ export default function DatasetList() {
                                         value={item.id}
                                         className="opacity-0 hidden peer"
                                         required
-                                        checked={item.id === chosenDataset}
+                                        checked={item.id === dataset}
                                     />
                                     <label
                                         htmlFor={item.id}
