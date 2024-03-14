@@ -11,6 +11,7 @@ import { uploadDataset, setTargets } from "@/app/lib/redux/features/dataset-slic
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { fetchDataset, fetchTargets } from '@/app/lib/modify-dataset';
+import { fetchAllData } from '@/app/lib/data';
 
 export default function DatasetMain() {
 
@@ -19,16 +20,16 @@ export default function DatasetMain() {
 
     useEffect(() => {
         async function initDataset() {
-            const data = await fetchDataset();
-            if (Object.keys(data).length !== 0) {
-                dispatch(uploadDataset(data));
-            } else {
-                console.log(data);
-            }
-            const targets = await fetchTargets();
-            if (Object.keys(targets).length !== 0) {
-                dispatch(setTargets(targets));
-            }
+            const data = await fetchAllData("irisdata", "");
+            // if (Object.keys(data).length !== 0) {
+            //     dispatch(uploadDataset(data));
+            // } else {
+            //     console.log(data);
+            // }
+            // const targets = await fetchTargets();
+            // if (Object.keys(targets).length !== 0) {
+            //     dispatch(setTargets(targets));
+            // }
         }
 
         if (Object.keys(dataset[0]).length === 0) {

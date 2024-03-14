@@ -1,20 +1,24 @@
+import { sql } from '@vercel/postgres';
+import { type NextRequest, type NextResponse } from 'next/server';
+import { unstable_noStore as noStore } from 'next/cache';
 
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+export async function fetchAllData(datasetName: string, columnLabelName: string) {
+    noStore();
+    try {
+        const data = await sql`SELECT * FROM ${datasetName}`;
+        console.log(data);
+        // const labels = await sql`SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
+        // return { ...data, ...labels };
+    } catch (error) {
+        console.error("Database error:", error);
+        throw new Error(`Failed to fetch data from ${datasetName}.`);
+    }
+}
 
-export async function getAllItems() {
+export async function fetchAllLabels() {
+    // console.log(iris);
+}
 
-    const db = await open({
-        filename: "@/datasets.db",
-        driver: sqlite3.Database,
-    });
+export async function fetchFilteredData(req: NextRequest, res: NextResponse) {
 
-    const items = await db.all("SELECT * FROM irisdata;");
-
-    return JSON.stringify(items);
-
-    // return new Response(JSON.stringify(items), {
-    //     headers: { "Content-Type": "application/json" },
-    //     status: 200,
-    // });
 }
