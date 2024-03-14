@@ -4,14 +4,16 @@ import { sql } from '@vercel/postgres';
 import { type NextRequest, type NextResponse } from 'next/server';
 import { unstable_noStore as noStore } from 'next/cache';
 
-export async function fetchAllData(datasetName: string, columnLabelName: string) {
+export async function fetchAllData(datasetName: string) {
     // noStore();
     try {
         const queryAll = `SELECT * FROM ${datasetName}`;
-        const queryLabels = `SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
-
         const data = await sql.query(queryAll);
+        const columnLabelName = data.fields[data.fields.length-1].name;
+
+        const queryLabels = `SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
         const labels = await sql.query(queryLabels);
+        // console.log(labels);
 
         return [data.rows, labels.rows];
     } catch (error) {

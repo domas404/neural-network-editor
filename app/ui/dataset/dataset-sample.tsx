@@ -12,14 +12,14 @@ export default function DatasetSample() {
     const columns = useAppSelector((state) => state.datasetReducer.columns);
 
     return (
-        <div className="h-96 overflow-scroll">
-            <table className="">
-                <thead className="">
-                    <tr>
+        <div className="w-full h-full overflow-scroll">
+            <table className="w-full h-full border-separate">
+                <thead className="w-full">
+                    <tr className="sticky top-0">
                         {
                             columns.map((column, index) => {
                                 return (
-                                    <th key={index} className={`font-semibold border-2 border-white rounded-lg py-2 px-4 overflow-hidden bg-gray-200`}>
+                                    <th key={index} className={`font-semibold border-1 border-white rounded-md py-2 px-4 overflow-hidden bg-gray-200`}>
                                         {column}
                                     </th>
                                 );
@@ -35,7 +35,7 @@ export default function DatasetSample() {
                                     {
                                         columns.map((column, dindex) => {
                                             return (
-                                                <td key={`d${rindex}-${dindex}`} className={`text-center border-2 border-white rounded-lg py-1 bg-gray-100`}>
+                                                <td key={`d${rindex}-${dindex}`} className={`text-center border-1 border-white rounded-md py-1 bg-gray-100`}>
                                                     {row[column]}
                                                 </td>
                                             );   

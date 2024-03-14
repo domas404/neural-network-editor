@@ -17,7 +17,7 @@ export const datasetSlice = createSlice({
     name: "dataset",
     initialState,
     reducers: {
-        uploadDataset: (state, action: PayloadAction<{ dataRows: [{}], labels: string[]}>) => {
+        uploadDataset: (state, action: PayloadAction<{ dataRows: any, labels: string[]}>) => {
             const columns = Object.keys(action.payload.dataRows[0]);
             const features = columns.slice(1, -1);
             const targets = action.payload.labels.flatMap(obj => Object.values(obj));
