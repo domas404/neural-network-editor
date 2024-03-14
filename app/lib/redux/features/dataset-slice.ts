@@ -17,13 +17,16 @@ export const datasetSlice = createSlice({
     name: "dataset",
     initialState,
     reducers: {
-        uploadDataset: (state, action: PayloadAction<[{}]>) => {
-            const columns = Object.keys(action.payload[0]);
+        uploadDataset: (state, action: PayloadAction<{ dataRows: [{}], labels: string[]}>) => {
+            const columns = Object.keys(action.payload.dataRows[0]);
             const features = columns.slice(1, -1);
-            state.dataset = action.payload;
+            const targets = action.payload.labels.flatMap(obj => Object.values(obj));
+            state.dataset = action.payload.dataRows;
             state.columns = columns;
             state.features = features;
             state.selectedFeatures = new Array(features.length).fill(true);
+            state.targets = targets;
+            state.selectedTargets = new Array(targets.length).fill(true);
         },
         setTargets: (state, action: PayloadAction<string[]>) => {
             const targets = action.payload.flatMap(obj => Object.values(obj));

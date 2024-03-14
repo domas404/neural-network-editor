@@ -1,14 +1,19 @@
+"use server";
+
 import { sql } from '@vercel/postgres';
 import { type NextRequest, type NextResponse } from 'next/server';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchAllData(datasetName: string, columnLabelName: string) {
-    noStore();
+    // noStore();
     try {
-        const data = await sql`SELECT * FROM ${datasetName}`;
-        console.log(data);
-        // const labels = await sql`SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
-        // return { ...data, ...labels };
+        const queryAll = `SELECT * FROM ${datasetName}`;
+        const queryLabels = `SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
+
+        const data = await sql.query(queryAll);
+        const labels = await sql.query(queryLabels);
+
+        return [data.rows, labels.rows];
     } catch (error) {
         console.error("Database error:", error);
         throw new Error(`Failed to fetch data from ${datasetName}.`);

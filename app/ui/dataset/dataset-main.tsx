@@ -15,14 +15,17 @@ import { fetchAllData } from '@/app/lib/data';
 
 export default function DatasetMain() {
 
+    
     const dispatch = useDispatch<AppDispatch>();
     const dataset = useAppSelector((state) => state.datasetReducer.dataset);
-
+    
     useEffect(() => {
         async function initDataset() {
-            const data = await fetchAllData("irisdata", "");
+            const [dataRows, labels] = await fetchAllData("irisdata", "Species");
+
+            dispatch(uploadDataset({ dataRows: dataRows, labels: labels}));
+            console.log(labels);
             // if (Object.keys(data).length !== 0) {
-            //     dispatch(uploadDataset(data));
             // } else {
             //     console.log(data);
             // }
@@ -30,6 +33,7 @@ export default function DatasetMain() {
             // if (Object.keys(targets).length !== 0) {
             //     dispatch(setTargets(targets));
             // }
+            
         }
 
         if (Object.keys(dataset[0]).length === 0) {
