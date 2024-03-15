@@ -42,3 +42,11 @@ export interface Network {
     dataset: any,
     modelId: string,
 }
+
+export interface TrainHistory {
+    epoch: number[],
+    history: {
+        acc: number[],
+        loss: number[]
+    }
+}

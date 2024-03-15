@@ -7,6 +7,7 @@ import modelsReducer from "./features/model-slice";
 import networkReducer from "./features/network-slice";
 import infoMenuReducer from './features/info-menu-slice';
 import datasetReducer from "./features/dataset-slice";
+import trainReducer from "./features/train-slice";
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         networkReducer,
         infoMenuReducer,
         datasetReducer,
+        trainReducer,
     },
 });
 

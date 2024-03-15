@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
+import PlotMain from "@/app/ui/train/plot-main";
 
 export default function TrainMain() {
 
@@ -32,7 +33,7 @@ export default function TrainMain() {
 
             <div className="basis-2/3 bg-white rounded-xl shadow-md grow flex relative border">
                 <div className="h-full w-full flex justify-center items-center absolute top-0">
-                    {/* <DatasetSample /> */}
+                    <PlotMain />
                 </div>
                 <div className="py-5 px-6 text-base z-0 font-bold uppercase">
                     {currentPlot}

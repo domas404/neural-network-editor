@@ -1,11 +1,13 @@
 "use client";
 
 import "@/app/globalicons.css";
-import React, { useState, useContext, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ExecuteTraining } from "@/app/lib/build-model";
 
-import { useDispatch } from 'react-redux';
-import { AppDispatch, useAppSelector } from '@/app/lib/redux/store';
+import { useAppSelector, AppDispatch } from '@/app/lib/redux/store';
+import { useDispatch } from "react-redux";
+import { updateTrainHistory } from "@/app/lib/redux/features/train-slice";
+import { TrainHistory } from "@/app/lib/data-types";
 
 export default function TrainButton() {
 
@@ -14,16 +16,16 @@ export default function TrainButton() {
     const hyperparams = useAppSelector((state) => state.paramReducer);
     const network = useAppSelector((state) => state.networkReducer);
 
+    const dispatch = useDispatch<AppDispatch>();
+
     const handleTrain = () => {
         async function executeTraining() {
-            // const a = toggleAnimation();
-            // setAnimationState(!animationState);
             console.log("Training started");
             const startTime = performance.now();
-            await ExecuteTraining(dataset, model, hyperparams, network);
+            const results: TrainHistory = await ExecuteTraining(dataset, model, hyperparams, network);
+            dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history}));
             console.log("Training ended");
             const endTime = performance.now();
-            // setAnimationState(!animationState);
             console.log(`Training elapsed ${(endTime - startTime)/1000} seconds`);
             setAnimationState(false);
         }

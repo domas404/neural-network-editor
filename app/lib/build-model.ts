@@ -41,11 +41,15 @@ function getNormalizedFeatures(features: number[][]) {
 export async function PrepareData(dataset: DatasetProps) {
     
     const { features, labels } = getFeaturesAndLabels(dataset);
+    tf.util.shuffleCombo(features, labels);
     const normalizedFeatures = getNormalizedFeatures(features);
     const oneHotLabels = tf.oneHot(labels, dataset.targets.length);
+
+    const trainSize = Math.floor(0.8 * features.length);
+    const valSize = features.length - trainSize;
     
-    const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, 2);
-    const [trainLabels, valLabels] = tf.split(oneHotLabels, 2);
+    const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, [trainSize, valSize]);
+    const [trainLabels, valLabels] = tf.split(oneHotLabels, [trainSize, valSize]);
     
     return [trainFeatures, valFeatures, trainLabels, valLabels];
 }
@@ -107,6 +111,7 @@ export async function ExecuteTraining(
     const createdModel = await BuildModel(modelLayers, hyperparams);
     // console.log(createdModel.summary());
     const results = await Train(createdModel, hyperparams, trainFeatures, valFeatures, trainLabels, valLabels);
-    console.log(results);
-    // return results;
+    const accuracy = results.history.acc.map((value) => Number(value));
+    const loss = results.history.loss.map((value) => Number(value));
+    return { epoch: results.epoch, history: { acc: accuracy, loss: loss } };
 }
