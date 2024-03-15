@@ -2,7 +2,7 @@
 
 import "@/app/globalicons.css";
 import React, { useState, useContext, useCallback, useEffect } from "react";
-import { BuildModel, PrepareForTraining } from "@/app/lib/build-model";
+import { ExecuteTraining } from "@/app/lib/build-model";
 
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from '@/app/lib/redux/store';
@@ -20,7 +20,7 @@ export default function TrainButton() {
             // setAnimationState(!animationState);
             console.log("Training started");
             const startTime = performance.now();
-            await PrepareForTraining(dataset, model, hyperparams, network);
+            await ExecuteTraining(dataset, model, hyperparams, network);
             console.log("Training ended");
             const endTime = performance.now();
             // setAnimationState(!animationState);
