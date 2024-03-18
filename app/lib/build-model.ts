@@ -89,8 +89,10 @@ export async function Train(
 ) {
     let results = await model.fit(trainFeatures, trainLabels, {
         batchSize: parseInt(hyperparams.batchSize),
-        epochs: parseInt(hyperparams.epochs)
+        epochs: parseInt(hyperparams.epochs),
+        validationData: [valFeatures, valLabels]
     });
+
     return results;
 }
 
@@ -104,8 +106,11 @@ export async function ExecuteTraining(
     const modelLayers = model[network.modelId].layers;
     const createdModel = await BuildModel(modelLayers, hyperparams);
 
-    const results = await Train(createdModel, hyperparams, trainFeatures, valFeatures, trainLabels, valLabels);
-    const accuracy = results.history.acc.map((value) => Number(value));
-    const loss = results.history.loss.map((value) => Number(value));
-    return { epoch: results.epoch, history: { acc: accuracy, loss: loss } };
+    const history = await Train(createdModel, hyperparams, trainFeatures, valFeatures, trainLabels, valLabels);
+    const accuracy = history.history.acc.map((value) => Number(value));
+    const loss = history.history.loss.map((value) => Number(value));
+    const val_acc = history.history.val_acc.map((value) => Number(value));
+    const val_loss = history.history.val_loss.map((value) => Number(value));
+
+    return { epoch: history.epoch, history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss }, validation: history };
 }

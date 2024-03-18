@@ -47,6 +47,9 @@ export interface TrainHistory {
     epoch: number[],
     history: {
         acc: number[],
-        loss: number[]
-    }
+        loss: number[],
+        val_acc: number[],
+        val_loss: number[],
+    },
+    // validation: any
 }

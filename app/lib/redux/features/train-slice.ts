@@ -7,7 +7,9 @@ const initialState: TrainHistory = {
     epoch: [],
     history: {
         acc: [],
-        loss: []
+        loss: [],
+        val_acc: [],
+        val_loss: []
     }
 }
 
