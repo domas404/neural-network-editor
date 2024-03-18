@@ -53,7 +53,8 @@ export default function PlotList() {
                                     <label
                                         htmlFor={item.id}
                                         className={`flex items-center justify-center rounded-full cursor-pointer py-2 px-4 border
-                                            text-black bg-gray-50 peer-checked:text-white peer-checked:bg-black peer-checked:border-gray-800`}>
+                                            text-black bg-slate-50 hover:bg-lightblue-50 hover:border-lightblue-100
+                                            peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100`}>
                                         <div
                                             className="text-center font-semibold text-sm overflow-hidden text-ellipsis whitespace-nowrap"
                                             title={item.id}

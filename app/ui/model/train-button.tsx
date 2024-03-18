@@ -62,8 +62,8 @@ export default function TrainButton() {
         <>
             <button
                 onClick={() => setAnimationState(true)}
-                className="bg-black text-white p-2 rounded-lg uppercase font-semibold
-                    hover:bg-gray-900 active:bg-gray-600"
+                className="bg-lightblue-600 text-teal-100 p-2 m-1 rounded-md uppercase font-semibold
+                    hover:bg-lightblue-700 active:bg-lightblue-800"
                 type="submit"
             >
                 { animationState ? "Stop" : "Train"}

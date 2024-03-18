@@ -7,11 +7,11 @@ function CustomNode( { data }: any ) {
     let borderColor: string;
 
     if (data.type === "input"){
-        borderColor = "border-r-teal-400";
+        borderColor = "border-r-lightblue-400";
     } else if (data.type === "output") {
-        borderColor = "border-r-indigo-400";
+        borderColor = "border-r-lightblue-400";
     } else {
-        borderColor = "border-r-sky-400";
+        borderColor = "border-r-lightblue-600";
     }
 
     return (

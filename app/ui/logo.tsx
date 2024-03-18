@@ -17,7 +17,7 @@ export default function Logo({ iconSize, archType }: LogoProps) {
                 </div>
                 {
                     archType &&
-                        <div className="text-xs font-bold ml-2 uppercase text-center text-sky-600">
+                        <div className="text-xs font-bold ml-2 uppercase text-center text-lightblue-500">
                             Multilayer Perceptron
                         </div>
                 }

@@ -14,7 +14,7 @@ export default function Navbar() {
     const pathname = usePathname();
     return (
         <nav className="basis-1/3 flex justify-center">
-            <div className="flex items-center bg-white shadow-lg h-12 rounded-lg select-none px-1">
+            <div className="flex items-center bg-white shadow-sm border h-12 rounded-md select-none px-1">
                 <div className="flex flex-row justify-between h-8 gap-px bg-gray-200">
                     {
                         links.map((link) => {
@@ -24,8 +24,8 @@ export default function Navbar() {
                                     className="flex items-center justify-center bg-white w-20 font-bold text-sm uppercase group"
                                     key={link.href}
                                 >
-                                    <span className={`${pathname === link.href ? "text-sky-600 font-black text-base" : "text-black"}
-                                        bg-none group-hover:underline decoration-4 decoration-sky-200`}
+                                    <span className={`${pathname === link.href ? "text-lightblue-600 font-black text-base" : "text-black"}
+                                        bg-none group-hover:underline decoration-4 decoration-lightblue-300`}
                                     >
                                         {link.name}
                                     </span>

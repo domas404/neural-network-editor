@@ -1,5 +1,4 @@
 import { useAppSelector } from "@/app/lib/redux/store";
-import Script from "next/script";
 import { Chart } from "react-google-charts";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";

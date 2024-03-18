@@ -34,7 +34,7 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
             </label>
             <select
                 name={paramName}
-                className="bg-gray-50 py-2.5 px-4 text-sm rounded-lg w-full border focus:border-sky-600"
+                className="bg-gray-50 py-2.5 px-4 text-sm rounded-lg w-full border focus:border-blue-600"
                 onChange={handleSelectChange}
                 defaultValue={defaultVal}
                 value={currentValue}

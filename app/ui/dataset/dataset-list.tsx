@@ -52,7 +52,8 @@ export default function DatasetList() {
                                     <label
                                         htmlFor={item.id}
                                         className={`flex items-center justify-center rounded-full cursor-pointer py-2 px-4
-                                            border text-black bg-gray-50 peer-checked:text-white peer-checked:bg-black peer-checked:border-gray-800`}>
+                                            border text-black bg-slate-50 hover:bg-lightblue-50 hover:border-lightblue-100
+                                            peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100`}>
                                         <div className="flex justify-center items-center h-full font-semibold text-sm">
                                             {item.name}
                                         </div>

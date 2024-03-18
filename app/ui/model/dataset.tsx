@@ -29,10 +29,10 @@ export default function Dataset() {
     }
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="flex shadow-sm h-full">
             <div className="py-5 px-6 w-full">
                 <div className="flex justify-between">
-                    <div className="bg-white text-base font-bold uppercase">
+                    <div className="text-base font-bold uppercase">
                         Dataset
                     </div>
                     <Link href="/model/data" className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">

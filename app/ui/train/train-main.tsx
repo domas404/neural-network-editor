@@ -21,17 +21,17 @@ export default function TrainMain() {
     }, []);
 
     return (
-        <div className="basis-11/12 flex flex-row gap-3 justify-stretch grow">
-            <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48 h-full">
-                <div className="basis-2/3 bg-white rounded-xl shadow-md h-full border">
+        <div className="basis-11/12 flex flex-row gap-2 justify-stretch grow">
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48 h-full">
+                <div className="basis-2/3 bg-white rounded-lg shadow-xs h-full border">
                     <PlotList />
                 </div>
-                <div className="basis-1/3 bg-white rounded-xl shadow-md h-full border">
+                <div className="basis-1/3 bg-white rounded-lg shadow-xs h-full border">
                     <Metrics />
                 </div>
             </div>
 
-            <div className="basis-2/3 bg-white rounded-xl shadow-md grow flex relative border">
+            <div className="basis-2/3 bg-white rounded-lg shadow-xs grow flex relative border">
                 <div className="h-full w-full flex justify-center items-center absolute top-0">
                     <PlotMain />
                 </div>
@@ -40,11 +40,11 @@ export default function TrainMain() {
                 </div>
             </div>
 
-            <div className="basis-1/6 flex flex-col gap-3 max-w-56 min-w-48">
-                <div className="basis-1/2 bg-white rounded-xl shadow-md border">
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">
+                <div className="basis-1/2 bg-white rounded-lg shadow-xs border">
                     <InfoMenu />
                 </div>
-                <div className="basis-1/2 bg-white rounded-xl shadow-md border">
+                <div className="basis-1/2 bg-white rounded-lg shadow-xs border">
                     <ExportModel />
                 </div>
             </div>
