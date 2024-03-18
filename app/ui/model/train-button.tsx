@@ -20,6 +20,7 @@ export default function TrainButton() {
 
     const handleTrain = () => {
         async function executeTraining() {
+            console.log(model["default"].layers);
             console.log("Training started");
             const startTime = performance.now();
             const results: TrainHistory = await ExecuteTraining(dataset, model, hyperparams, network);

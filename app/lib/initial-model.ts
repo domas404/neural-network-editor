@@ -26,7 +26,7 @@ const defaultModel: ModelSet = {
                     { id: v4() },
                     { id: v4() }
                 ],
-                activation: "sigmoid",
+                activation: "relu",
             },
             {
                 id: v4(),
@@ -37,7 +37,7 @@ const defaultModel: ModelSet = {
                     { id: v4() },
                     { id: v4() }
                 ],
-                activation: "sigmoid",
+                activation: "softmax",
             },
         ]
     }
@@ -70,7 +70,7 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() }
                 ],
-                activation: "sigmoid",
+                activation: "relu",
             },
             {
                 id: v4(),
@@ -82,7 +82,7 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() }
                 ],
-                activation: "sigmoid",
+                activation: "relu",
             },
             {
                 id: v4(),
@@ -93,7 +93,7 @@ const myModel: ModelSet = {
                     { id: v4() },
                     { id: v4() }
                 ],
-                activation: "sigmoid",
+                activation: "softmax",
             },
         ]
     }

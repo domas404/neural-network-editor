@@ -19,7 +19,7 @@ export const models = createSlice({
                 type: "hidden",
                 order: order,
                 neurons: [{ id: v4() }],
-                activation: "sigmoid"
+                activation: "relu"
             });
             for (let i=order+1; i<model.layers.length; i++){
                 model.layers[i].order = model.layers[i].order+1;

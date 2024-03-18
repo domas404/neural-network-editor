@@ -49,7 +49,7 @@ export default function LayerInfo() {
                     handleChange={handleChange}
                     paramType={"activation"}
                     paramName={"activation"}
-                    paramOptions={["sigmoid", "tanh", "relu"]}
+                    paramOptions={["sigmoid", "tanh", "relu", "softmax", "linear"]}
                     currentValue={selectedObject?.activation}
                 />
                 <div>

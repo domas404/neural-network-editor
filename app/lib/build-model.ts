@@ -60,16 +60,13 @@ export async function BuildModel(
 ) {
     const model = tf.sequential();
     
-    // input layer
-    model.add(tf.layers.dense({units: layers[0].neurons.length, inputShape: [layers[0].neurons.length], activation: "relu"}));
-    
     //hidden layers
     for (let i=1; i<layers.length-1; i++){
-        model.add(tf.layers.dense({units: layers[i].neurons.length, inputShape: [layers[i-1].neurons.length], activation: "relu"}));
+        model.add(tf.layers.dense({units: layers[i].neurons.length, inputShape: [layers[i-1].neurons.length], activation: layers[i].activation as any}));
     }
 
     // output layer    
-    model.add(tf.layers.dense({units: layers[layers.length-1].neurons.length, inputShape: [layers[layers.length-2].neurons.length], activation: "softmax"}));
+    model.add(tf.layers.dense({units: layers[layers.length-1].neurons.length, inputShape: [layers[layers.length-2].neurons.length], activation: layers[layers.length-1].activation as any}));
 
     model.compile({
         loss: 'meanSquaredError',
@@ -80,9 +77,6 @@ export async function BuildModel(
     console.log(model.summary());
     
     return model;
-    
-    // console.log(model.summary());
-    
 }
 
 export async function Train(
@@ -109,7 +103,7 @@ export async function ExecuteTraining(
     const [trainFeatures, valFeatures, trainLabels, valLabels] = await PrepareData(dataset);
     const modelLayers = model[network.modelId].layers;
     const createdModel = await BuildModel(modelLayers, hyperparams);
-    // console.log(createdModel.summary());
+
     const results = await Train(createdModel, hyperparams, trainFeatures, valFeatures, trainLabels, valLabels);
     const accuracy = results.history.acc.map((value) => Number(value));
     const loss = results.history.loss.map((value) => Number(value));
