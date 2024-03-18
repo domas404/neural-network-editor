@@ -1,13 +1,17 @@
 "use client";
 
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { updateSelectedFeatures } from "@/app/lib/redux/features/dataset-slice";
+import { updateSelectedFeatures, updateDataset } from "@/app/lib/redux/features/dataset-slice";
 import { useDispatch } from "react-redux";
+import { fetchFilteredData } from "@/app/lib/data";
+import React, { useEffect } from "react";
+import _ from 'lodash';
 
 export default function FeatureList() {
 
     const features = useAppSelector((state) => state.datasetReducer.features);
     const selectedFeatures = useAppSelector((state) => state.datasetReducer.selectedFeatures);
+    const dataset = useAppSelector((state) => state.datasetReducer);
     const dispatch = useDispatch<AppDispatch>();
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -21,6 +25,34 @@ export default function FeatureList() {
         });
         dispatch(updateSelectedFeatures(updatedTargets));
     }
+
+    const debouncedRerender = _.debounce(() => {
+        async function getFilteredData() {
+            const selectedFeatureArray: string[] = features.filter((item, index) => {
+                if (selectedFeatures[index]) {
+                    return item;
+                }
+            });
+            const selectedTargetArray: string[] = dataset.targets.filter((item, index) =>{
+                if (dataset.selectedTargets[index]) {
+                    return item;
+                }
+            });
+            const dataRows = await fetchFilteredData(
+                "irisdata",
+                dataset.columns.slice(-1).toString(),
+                selectedFeatureArray,
+                selectedTargetArray
+            );
+            dispatch(updateDataset(dataRows));
+        }
+        getFilteredData();
+    }, 500);
+
+    useEffect(() => {
+        debouncedRerender();
+        return () => debouncedRerender.cancel();
+    }, [selectedFeatures]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">

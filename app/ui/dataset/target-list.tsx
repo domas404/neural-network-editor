@@ -1,14 +1,18 @@
 "use client";
 
-import { updateSelectedTargets } from "@/app/lib/redux/features/dataset-slice";
+import { updateDataset, updateSelectedTargets } from "@/app/lib/redux/features/dataset-slice";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { fetchFilteredData } from "@/app/lib/data";
+import _ from "lodash";
 
 export default function TargetList() {
 
     const targets = useAppSelector((state) => state.datasetReducer.targets);
     const selectedTargets = useAppSelector((state) => state.datasetReducer.selectedTargets);
     const dispatch = useDispatch<AppDispatch>();
+    const dataset = useAppSelector((state) => state.datasetReducer);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const targetToChange = targets.indexOf(event.currentTarget.value);
@@ -21,6 +25,34 @@ export default function TargetList() {
         });
         dispatch(updateSelectedTargets(updatedTargets));
     }
+
+    const debouncedRerender = _.debounce(() => {
+        async function getFilteredData() {
+            const selectedFeatureArray: string[] = dataset.features.filter((item, index) => {
+                if (dataset.selectedFeatures[index]) {
+                    return item;
+                }
+            });
+            const selectedTargetArray: string[] = targets.filter((item, index) =>{
+                if (selectedTargets[index]) {
+                    return item;
+                }
+            });
+            const dataRows = await fetchFilteredData(
+                "irisdata",
+                dataset.columns.slice(-1).toString(),
+                selectedFeatureArray,
+                selectedTargetArray
+            );
+            dispatch(updateDataset(dataRows));
+        }
+        getFilteredData();
+    }, 500);
+
+    useEffect(() => {
+        debouncedRerender();
+        return () => debouncedRerender.cancel();
+    }, [selectedTargets]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">

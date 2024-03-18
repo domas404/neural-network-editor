@@ -13,7 +13,6 @@ export async function fetchAllData(datasetName: string) {
 
         const queryLabels = `SELECT DISTINCT ${columnLabelName} FROM ${datasetName}`;
         const labels = await sql.query(queryLabels);
-        // console.log(labels);
 
         return [data.rows, labels.rows];
     } catch (error) {
@@ -22,10 +21,21 @@ export async function fetchAllData(datasetName: string) {
     }
 }
 
-export async function fetchAllLabels() {
-    // console.log(iris);
-}
+export async function fetchFilteredData(datasetName: string, labelColumnName: string, selectedColumns: string[], selectedLabels: string[]) {
+    try {
+        let labelsIn = selectedLabels.map((item) => {
+            return `'${item}'`;
+        })
+        const queryFiltered = `
+            SELECT id,${selectedColumns.toString()},${labelColumnName}
+            FROM ${datasetName}
+            WHERE ${labelColumnName} IN (${labelsIn.toString()})
+        `;
+        const data = await sql.query(queryFiltered);
 
-export async function fetchFilteredData(req: NextRequest, res: NextResponse) {
-
+        return data.rows;
+    } catch (error) {
+        console.error("Database error:", error);
+        throw new Error(`Failed to fetch data from ${datasetName}.`);
+    }
 }

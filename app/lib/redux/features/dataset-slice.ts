@@ -39,8 +39,11 @@ export const datasetSlice = createSlice({
         updateSelectedTargets: (state, action: PayloadAction<boolean[]>) => {
             state.selectedTargets = action.payload;
         },
+        updateDataset: (state, action: PayloadAction<any>) => {
+            state.dataset = action.payload;
+        }
     }
 });
 
-export const { uploadDataset, setTargets, updateSelectedFeatures, updateSelectedTargets } = datasetSlice.actions;
+export const { uploadDataset, setTargets, updateSelectedFeatures, updateSelectedTargets, updateDataset } = datasetSlice.actions;
 export default datasetSlice.reducer;
