@@ -8,7 +8,8 @@ interface MatrixProps {
 
 export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixProps) {
 
-    const [matrixLabels, setMatrixLabels] = useState<React.JSX.Element[]>();
+    const [predictedLabels, setPredictedLabels] = useState<React.JSX.Element[]>();
+    const [realLabels, setRealLabels] = useState<React.JSX.Element[]>();
 
     const createMatrixLabels = () => {
         const filteredLabels = dataset.targets.filter((item, index) => {
@@ -23,7 +24,15 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
                 </div>
             );
         });
-        setMatrixLabels(mappedLabels);
+        const mappedRealLabels = filteredLabels.map((item, index) => {
+            return (
+                <div key={index} className="bg-lightblue-100 m-px h-12 w-24 flex items-center justify-center">
+                    <span className="">{item}</span>
+                </div>
+            );
+        });
+        setPredictedLabels(mappedLabels);
+        setRealLabels(mappedRealLabels);
     }
 
     useEffect(() => {
@@ -42,31 +51,35 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
                     </div>
                     <div className="flex flex-row">
                         <div className="bg-lightblue-100 m-px h-24 w-24 flex items-center justify-center"></div>
-                        {matrixLabels}
+                        {predictedLabels}
                     </div>
-                    {
-                        confusionMatrix.map((row, index) => {
-                            return (
-                                <div key={index} className="flex flex-row">
-                                    <div className="bg-lightblue-100 m-px h-12 w-24 flex items-center justify-center">
-                                        label
-                                    </div>
-                                    {
-                                        row.map((item, rindex) => {
-                                            return (
-                                                <div
-                                                    key={`${index}-${rindex}`}
-                                                    className="bg-lightblue-100 m-px h-12 w-12 flex items-center justify-center"
-                                                >
-                                                    {item}
-                                                </div>
-                                            );
-                                        })
-                                    }
-                                </div>
-                            )
-                        })
-                    }
+                    <div className="flex flex-row">
+                        <div className="flex flex-col">
+                            {realLabels}
+                        </div>
+                        <div className="no-flex">
+                            {
+                                confusionMatrix.map((row, index) => {
+                                    return (
+                                        <div key={index} className="flex flex-row">
+                                            {
+                                                row.map((item, rindex) => {
+                                                    return (
+                                                        <div
+                                                            key={`${index}-${rindex}`}
+                                                            className="bg-lightblue-100 m-px h-12 w-12 flex items-center justify-center"
+                                                        >
+                                                            {item}
+                                                        </div>
+                                                    );
+                                                })
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
