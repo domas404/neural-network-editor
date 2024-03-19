@@ -8,6 +8,7 @@ import ConceptDefinition from "@/app/ui/model/info-menu-templates/concept-defini
 import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
+import DefaultInfo from './info-menu-templates/default-info';
 
 export default function InfoMenu() {
 
@@ -23,6 +24,8 @@ export default function InfoMenu() {
             setObjectToDisplay(<NeuronInfo />);
         } else if (infoType === "concept") {
             setObjectToDisplay(<ConceptDefinition />);
+        } else {
+            setObjectToDisplay(<DefaultInfo />);
         }
     }, [infoType]);
 
@@ -34,7 +37,7 @@ export default function InfoMenu() {
         <div className="flex rounded-xl shadow-sm h-full">
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
-                    {infoType !== "" && objectToDisplay}
+                    {objectToDisplay}
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ModelSet } from "@/app/lib/data-types";
+import { Layer, ModelSet } from "@/app/lib/data-types";
 import { InitialModels } from "@/app/lib/initial-model";
 import { v4 } from "uuid";
 
@@ -77,6 +77,26 @@ export const models = createSlice({
             const layerToModify = model.layers.findIndex((el) => el.id === layerId);
             model.layers[layerToModify].activation = activation;
         },
+        addHiddenLayer: (state, action: PayloadAction<string>) => {
+            const model = state[action.payload];
+            const lastHiddenLayer = model.layers[model.layers.length-2];
+            const neuronsToAdd = [];
+            for (let i=0; i<lastHiddenLayer.neurons.length; i++) {
+                neuronsToAdd.push({ id: v4() });
+            }
+            const newLayer: Layer = {
+                id: v4(),
+                activation: lastHiddenLayer.activation,
+                neurons: neuronsToAdd,
+                order: lastHiddenLayer.order + 1,
+                type: "hidden"
+            };
+            model.layers.splice(model.layers.length-1, 0, newLayer);
+        },
+        removeHiddenLayer: (state, action: PayloadAction<string>) => {
+            const model = state[action.payload];
+            model.layers.splice(model.layers.length-2, 1);
+        },
         reorderLayers: () => {
             
         },
@@ -90,6 +110,8 @@ export const {
     updateInputLayer,
     updateOutputLayer,
     removeNeuronFromLayer,
+    addHiddenLayer,
+    removeHiddenLayer,
     changeActivation,
 } = models.actions;
 export default models.reducer;
