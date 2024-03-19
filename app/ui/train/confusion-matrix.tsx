@@ -1,8 +1,35 @@
+import { DatasetProps } from "@/app/lib/data-types";
+import React, { useEffect, useState } from "react";
+
 interface MatrixProps {
-    confusionMatrix: number[][]
+    confusionMatrix: number[][],
+    dataset: DatasetProps
 }
 
-export default function ConfusionMatrix ({ confusionMatrix }: MatrixProps) {
+export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixProps) {
+
+    const [matrixLabels, setMatrixLabels] = useState<React.JSX.Element[]>();
+
+    const createMatrixLabels = () => {
+        const filteredLabels = dataset.targets.filter((item, index) => {
+            if (dataset.selectedTargets[index]) {
+                return item;
+            }
+        });
+        const mappedLabels = filteredLabels.map((item, index) => {
+            return (
+                <div key={index} className="bg-lightblue-100 m-px h-24 w-12 flex items-center justify-center">
+                    <span className="-rotate-90">{item}</span>
+                </div>
+            );
+        });
+        setMatrixLabels(mappedLabels);
+    }
+
+    useEffect(() => {
+        createMatrixLabels();
+    }, [dataset]);
+
     return (
         <div className="h-full flex justify-center items-center">
             <div className="bg-white flex flex-row justify-center items-center">
@@ -15,15 +42,7 @@ export default function ConfusionMatrix ({ confusionMatrix }: MatrixProps) {
                     </div>
                     <div className="flex flex-row">
                         <div className="bg-lightblue-100 m-px h-24 w-24 flex items-center justify-center"></div>
-                        <div className="bg-lightblue-100 m-px h-24 w-12 flex items-center justify-center">
-                            <span className="-rotate-90">label</span>
-                        </div>
-                        <div className="bg-lightblue-100 m-px h-24 w-12 flex items-center justify-center">
-                            <span className="-rotate-90">label</span>
-                        </div>
-                        <div className="bg-lightblue-100 m-px h-24 w-12 flex items-center justify-center">
-                            <span className="-rotate-90">label</span>
-                        </div>
+                        {matrixLabels}
                     </div>
                     {
                         confusionMatrix.map((row, index) => {

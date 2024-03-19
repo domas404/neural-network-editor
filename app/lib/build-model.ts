@@ -43,7 +43,7 @@ export async function PrepareData(dataset: DatasetProps) {
     const { features, labels } = getFeaturesAndLabels(dataset);
     tf.util.shuffleCombo(features, labels);
     const normalizedFeatures = getNormalizedFeatures(features);
-    const oneHotLabels = tf.oneHot(labels, dataset.targets.length);
+    const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
 
     const trainSize = Math.floor(0.8 * features.length);
     const valSize = features.length - trainSize;
@@ -125,7 +125,7 @@ export async function ExecuteTraining(
     const val_acc = history.history.val_acc.map((value) => Number(value));
     const val_loss = history.history.val_loss.map((value) => Number(value));
 
-    const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, dataset.targets.length);
+    const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, dataset.labelsCount);
 
     return {
         epoch: history.epoch,

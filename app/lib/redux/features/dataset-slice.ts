@@ -11,6 +11,8 @@ const initialState: DatasetProps = {
     targets: [],
     selectedFeatures: [],
     selectedTargets: [],
+    featuresCount: 1,
+    labelsCount: 1
 }
 
 export const datasetSlice = createSlice({
@@ -21,23 +23,24 @@ export const datasetSlice = createSlice({
             const columns = Object.keys(action.payload.dataRows[0]);
             const features = columns.slice(1, -1);
             const targets = action.payload.labels.flatMap(obj => Object.values(obj));
+            const selectedFeatures = new Array(features.length).fill(true);
+            const selectedTargets = new Array(targets.length).fill(true);
             state.dataset = action.payload.dataRows;
             state.columns = columns;
             state.features = features;
-            state.selectedFeatures = new Array(features.length).fill(true);
+            state.selectedFeatures = selectedFeatures;
             state.targets = targets;
-            state.selectedTargets = new Array(targets.length).fill(true);
-        },
-        setTargets: (state, action: PayloadAction<string[]>) => {
-            const targets = action.payload.flatMap(obj => Object.values(obj));
-            state.targets = targets;
-            state.selectedTargets = new Array(targets.length).fill(true);
+            state.selectedTargets = selectedTargets;
+            state.featuresCount = selectedFeatures.filter(Boolean).length;
+            state.labelsCount = selectedTargets.filter(Boolean).length;
         },
         updateSelectedFeatures: (state, action: PayloadAction<boolean[]>) => {
             state.selectedFeatures = action.payload;
+            state.featuresCount = action.payload.filter(Boolean).length;
         },
         updateSelectedTargets: (state, action: PayloadAction<boolean[]>) => {
             state.selectedTargets = action.payload;
+            state.labelsCount = action.payload.filter(Boolean).length;
         },
         updateDataset: (state, action: PayloadAction<any>) => {
             state.dataset = action.payload;
@@ -45,5 +48,5 @@ export const datasetSlice = createSlice({
     }
 });
 
-export const { uploadDataset, setTargets, updateSelectedFeatures, updateSelectedTargets, updateDataset } = datasetSlice.actions;
+export const { uploadDataset, updateSelectedFeatures, updateSelectedTargets, updateDataset } = datasetSlice.actions;
 export default datasetSlice.reducer;

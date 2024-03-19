@@ -29,6 +29,8 @@ export interface DatasetProps {
     targets: string[],
     selectedFeatures: boolean[],
     selectedTargets: boolean[],
+    featuresCount: number,
+    labelsCount: number
 }
 
 export interface ModelSet {

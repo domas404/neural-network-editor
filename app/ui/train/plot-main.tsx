@@ -3,6 +3,7 @@ import { Chart } from "react-google-charts";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import ConfusionMatrix from "./confusion-matrix";
+import { DatasetProps } from "@/app/lib/data-types";
 
 export default function PlotMain() {
 
@@ -10,6 +11,7 @@ export default function PlotMain() {
     const currentPlot = useAppSelector((state) => state.infoMenuReducer.itemId);
     const { acc, val_acc, loss, val_loss } = useAppSelector((state) => state.trainReducer.history);
     const confusionMatrix = useAppSelector((state) => state.trainReducer.confusionMatrix);
+    const dataset: DatasetProps = useAppSelector((state) => state.datasetReducer);
 
     const [plotToShow, setPlotToShow] = useState<React.JSX.Element>();
 
@@ -23,7 +25,7 @@ export default function PlotMain() {
         let plotData: number[][] = [];
         if (plotType === "confusion matrix") {
             return (
-                <ConfusionMatrix confusionMatrix={confusionMatrix} />
+                <ConfusionMatrix confusionMatrix={confusionMatrix} dataset={dataset} />
             );
         } else if (plotType === "accuracy") {
             plotData = setUpDataArray(acc, val_acc);
