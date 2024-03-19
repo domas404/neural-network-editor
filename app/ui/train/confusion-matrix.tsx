@@ -67,7 +67,8 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
                                                     return (
                                                         <div
                                                             key={`${index}-${rindex}`}
-                                                            className="bg-lightblue-100 m-px h-12 w-12 flex items-center justify-center"
+                                                            className="bg-lightblue-100 m-px h-12 w-12 flex items-center justify-center
+                                                                hover:bg-lightblue-50"
                                                         >
                                                             {item}
                                                         </div>

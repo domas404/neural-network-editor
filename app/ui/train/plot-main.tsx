@@ -60,7 +60,14 @@ export default function PlotMain() {
 
     return (
         <div className="w-full h-full">
-            {plotToShow}
+            {
+                epochs.length !== 0 ?
+                    plotToShow
+                :
+                    <div className="h-full flex justify-center items-center">
+                        Train the model to see results.
+                    </div>
+            }
         </div>
     );
 }
