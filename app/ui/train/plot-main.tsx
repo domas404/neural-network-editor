@@ -6,29 +6,28 @@ import React, { useEffect, useState } from "react";
 export default function PlotMain() {
 
     const epochs = useAppSelector((state) => state.trainReducer.epoch);
-    const accuracy = useAppSelector((state) => state.trainReducer.history.acc);
-    const loss = useAppSelector((state) => state.trainReducer.history.loss);
     const currentPlot = useAppSelector((state) => state.infoMenuReducer.itemId);
+    const { acc, val_acc, loss, val_loss } = useAppSelector((state) => state.trainReducer.history);
 
     const [plotToShow, setPlotToShow] = useState<React.JSX.Element>();
 
-    const setUpDataArray = (arrayToZip: number[]) => {
-        const pairedArray = _.zip(epochs, arrayToZip);
-        const accuracyPlotData: number[][] = pairedArray.map(pair => pair as number[]);
-        return accuracyPlotData;
+    const setUpDataArray = (trainData: number[], validationData: number[]) => {
+        const pairedArray = _.zip(epochs, trainData, validationData);
+        const plotData: number[][] = pairedArray.map(pair => pair as number[]);
+        return plotData;
     }
 
     const createPlot = (plotType: string) => {
-        let accuracyPlotData: number[][] = [];
+        let plotData: number[][] = [];
         if (plotType === "accuracy") {
-            accuracyPlotData = setUpDataArray(accuracy);
+            plotData = setUpDataArray(acc, val_acc);
         } else if (plotType === "loss") {
-            accuracyPlotData = setUpDataArray(loss);
+            plotData = setUpDataArray(loss, val_loss);
         }
         return (
             <Chart
                 chartType="LineChart"
-                data={[["Epochs", `${plotType}`], ...accuracyPlotData]}
+                data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
                 width="100%"
                 height="600px"
                 options={{
