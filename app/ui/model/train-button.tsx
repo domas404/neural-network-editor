@@ -24,8 +24,7 @@ export default function TrainButton() {
             console.log("Training started");
             const startTime = performance.now();
             const results: TrainHistory = await ExecuteTraining(dataset, model, hyperparams, network);
-            // console.log(results);
-            dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history}));
+            dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history, confusionMatrix: results.confusionMatrix}));
             console.log("Training ended");
             const endTime = performance.now();
             console.log(`Training elapsed ${(endTime - startTime)/1000} seconds`);

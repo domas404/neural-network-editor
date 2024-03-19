@@ -51,5 +51,5 @@ export interface TrainHistory {
         val_acc: number[],
         val_loss: number[],
     },
-    // validation: any
+    confusionMatrix: number[][]
 }

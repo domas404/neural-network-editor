@@ -96,6 +96,19 @@ export async function Train(
     return results;
 }
 
+export async function getConfusionMatrix(
+    model: tf.Sequential,
+    valFeatures: tf.Tensor<tf.Rank>,
+    valLabels: tf.Tensor<tf.Rank>,
+    numOfClasses: number
+) {
+    const predictions = model.predict(valFeatures) as tf.Tensor1D;
+    const predictionsArray = await (predictions.argMax(1)).array();
+    const realLabelsArray = await (valLabels as tf.Tensor1D).argMax(1).array();
+    const matrix = await (tf.math.confusionMatrix(realLabelsArray, predictionsArray, numOfClasses)).array();
+    return matrix;
+}
+
 export async function ExecuteTraining(
     dataset: DatasetProps,
     model: ModelSet,
@@ -112,5 +125,11 @@ export async function ExecuteTraining(
     const val_acc = history.history.val_acc.map((value) => Number(value));
     const val_loss = history.history.val_loss.map((value) => Number(value));
 
-    return { epoch: history.epoch, history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss }, validation: history };
+    const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, dataset.targets.length);
+
+    return {
+        epoch: history.epoch,
+        history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss },
+        confusionMatrix: confusionMatrix
+    };
 }

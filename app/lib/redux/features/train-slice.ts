@@ -10,7 +10,8 @@ const initialState: TrainHistory = {
         loss: [],
         val_acc: [],
         val_loss: []
-    }
+    },
+    confusionMatrix: []
 }
 
 export const trainSlice = createSlice({
@@ -21,6 +22,7 @@ export const trainSlice = createSlice({
             // console.log(`Dataset changed to ${action.payload}`);
             state.epoch = action.payload.epoch;
             state.history = action.payload.history;
+            state.confusionMatrix = action.payload.confusionMatrix;
         },
     }
 });

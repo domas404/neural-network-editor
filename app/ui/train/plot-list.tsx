@@ -14,7 +14,7 @@ interface plotInfo {
 const plotNames: plotInfo[] = [
     { id: "accuracy", name: "Accuracy" },
     { id: "loss", name: "Loss" },
-    { id: "confusion-matrix", name: "Confusion matrix" }
+    { id: "confusion matrix", name: "Confusion matrix" }
 ];
 
 export default function PlotList() {
