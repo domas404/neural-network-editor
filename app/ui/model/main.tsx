@@ -1,11 +1,11 @@
 "use client";
 
-import Dataset from '@/app/ui/model/dataset';
-import Parameters from "@/app/ui/model/parameters";
-import Models from "@/app/ui/model/models";
-import InfoMenu from "@/app/ui/model/info-menu";
-import Layers from "@/app/ui/model/layers";
-import Playground from "@/app/ui/model/playground";
+import Dataset from '@/app/ui/model/dataset-panel/dataset';
+import Parameters from "@/app/ui/model/hyperparameter-panel/parameters";
+import Models from "@/app/ui/model/model-panel/models";
+import InfoMenu from "@/app/ui/model/info-menu-panel/info-menu";
+import Layers from "@/app/ui/model/layers-panel/layers";
+import Playground from "@/app/ui/model/playground/playground";
 import TrainButton from "@/app/ui/model/train-button";
 
 import React, { useEffect } from "react";
@@ -19,10 +19,11 @@ export default function Home() {
 
     const dispatch = useDispatch<AppDispatch>();
     const dataset = useAppSelector((state) => state.datasetReducer.dataset);
+    const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
 
     useEffect(() => {
         async function initDataset() {
-            const [dataRows, labels] = await fetchAllData("irisdata");
+            const [dataRows, labels] = await fetchAllData(selectedDataset);
             dispatch(uploadDataset({ dataRows: dataRows, labels: labels}));            
         }
         if (Object.keys(dataset[0]).length === 0) {

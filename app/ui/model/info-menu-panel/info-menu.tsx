@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import LayerInfo from "@/app/ui/model/info-menu-templates/layer-info";
-import NeuronInfo from "@/app/ui/model/info-menu-templates/neuron-info";
-import ConceptDefinition from "@/app/ui/model/info-menu-templates/concept-definition";
+import LayerInfo from "@/app/ui/model/info-menu-panel/info-menu-templates/layer-info";
+import NeuronInfo from "@/app/ui/model/info-menu-panel/info-menu-templates/neuron-info";
+import ConceptDefinition from "@/app/ui/model/info-menu-panel/info-menu-templates/concept-definition";
 
 import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";

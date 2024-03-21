@@ -13,6 +13,7 @@ export default function FeatureList() {
     const selectedFeatures = useAppSelector((state) => state.datasetReducer.selectedFeatures);
     const dataset = useAppSelector((state) => state.datasetReducer);
     const dispatch = useDispatch<AppDispatch>();
+    const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const targetToChange = features.indexOf(event.currentTarget.value);
@@ -39,7 +40,7 @@ export default function FeatureList() {
                 }
             });
             const dataRows = await fetchFilteredData(
-                "irisdata",
+                selectedDataset,
                 dataset.columns.slice(-1).toString(),
                 selectedFeatureArray,
                 selectedTargetArray

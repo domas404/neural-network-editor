@@ -2,7 +2,7 @@
 
 import "@/app/globalicons.css";
 import React, { useState, useEffect } from "react";
-import { ExecuteTraining } from "@/app/lib/build-model";
+import { ExecuteTraining } from "@/app/lib/train-model/build-model";
 
 import { useAppSelector, AppDispatch } from '@/app/lib/redux/store';
 import { useDispatch } from "react-redux";
@@ -63,11 +63,11 @@ export default function TrainButton() {
         <>
             <button
                 onClick={() => setAnimationState(true)}
-                className="bg-lightblue-600 text-teal-100 p-2 m-1 rounded-md uppercase font-semibold
-                    hover:bg-lightblue-700 active:bg-lightblue-800"
+                className={`bg-lightblue-600 text-teal-100 p-2 m-1 rounded-md uppercase font-semibold
+                    hover:bg-lightblue-700 active:bg-lightblue-800 ${animationState && "pointer-events-none"}`}
                 type="submit"
             >
-                { animationState ? "Stop" : "Train"}
+                { animationState ? "Training" : "Train"}
             </button>
         </>
     );

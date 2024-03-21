@@ -4,8 +4,27 @@ import DatasetList from '@/app/ui/dataset/dataset-list';
 import TargetList from "@/app/ui/dataset/target-list";
 import FeatureList from "@/app/ui/dataset/feature-list";
 import DatasetSample from "@/app/ui/dataset/dataset-sample";
+import React, { useEffect } from "react";
+
+import { uploadDataset } from "@/app/lib/redux/features/dataset-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
+import { fetchAllData } from '@/app/lib/data';
 
 export default function DatasetMain() {
+
+    const dispatch = useDispatch<AppDispatch>();
+    const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
+
+    useEffect(() => {
+        async function initDataset() {
+            const [dataRows, labels] = await fetchAllData(selectedDataset);
+            dispatch(uploadDataset({ dataRows: dataRows, labels: labels}));
+        }
+        initDataset();
+    }, [selectedDataset]);
+
+
     return (
         <div className="basis-11/12 flex flex-row gap-2 justify-stretch grow">
             <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48 h-full">

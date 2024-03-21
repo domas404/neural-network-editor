@@ -9,20 +9,23 @@ interface datasetInfo {
     name: string
 }
 
-import { useAppSelector } from "@/app/lib/redux/store";
+import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
+import { changeDataset } from "@/app/lib/redux/features/network-slice";
+import { useDispatch } from "react-redux";
 
 const datasetNames: datasetInfo[] = [
-    { id: "iris", name: "Iris data" },
-    { id: "placeholder", name: "Placeholder" },
-    { id: "dataset", name: "Dataset" }
+    { id: "irisdata", name: "Iris data" },
+    { id: "penguins", name: "Penguin data" },
+    // { id: "dataset", name: "Dataset" }
 ];
 
 export default function DatasetList() {
 
-    // const [chosenDataset, setChosenDataset] = useState("iris");
+    const dispatch = useDispatch<AppDispatch>();
     const dataset = useAppSelector((state) => state.networkReducer.dataset);
 
-    const updateDataset = () => {
+    const updateDataset = (event: React.FormEvent<HTMLInputElement>) => {
+        dispatch(changeDataset(event.currentTarget.value));
         console.log("Dataset updated.");
     }
 

@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Network } from "@/app/lib/data-types";
 
 const initialState: Network = {
-    dataset: "iris",
+    dataset: "irisdata",
     modelId: "default"
 }
 

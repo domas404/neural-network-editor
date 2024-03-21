@@ -3,7 +3,7 @@
 import PlotList from "@/app/ui/train/plot-list";
 import Metrics from "@/app/ui/train/metrics";
 import ExportModel from "@/app/ui/train/export-model";
-import InfoMenu from "@/app/ui/model/info-menu";
+import InfoMenu from "@/app/ui/model/info-menu-panel/info-menu";
 import React, { useEffect } from "react";
 
 import { setInfo } from "@/app/lib/redux/features/info-menu-slice";

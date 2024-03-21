@@ -2,7 +2,7 @@
 
 import "@/app/globalicons.css";
 import Script from "next/script";
-import Flow from "./playground/network-flow"
+import Flow from "./network-flow"
 import React, { useEffect } from "react";
 // import { useAppSelector } from "@/app/lib/redux/store";
 

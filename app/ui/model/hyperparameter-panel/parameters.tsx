@@ -1,6 +1,6 @@
 "use client";
 
-import Param from "@/app/ui/model/param-box";
+import Param from "@/app/ui/misc/param-box";
 import React, { useCallback } from "react";
 import { HyperparameterSet } from "@/app/lib/data-types";
 import parameterOptions from "@/app/lib/parameter-options";

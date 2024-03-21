@@ -18,7 +18,7 @@ export default function Metrics() {
                     <div className="flex flex-col gap-px bg-gray-200">
                         <div className="flex justify-between bg-white py-2">
                             <div>Accuracy</div>
-                            <div>{Math.round(finalAccuracy*1000)/10}%</div>
+                            <div>{finalAccuracy ? Math.round(finalAccuracy*1000)/10 : "-- "}%</div>
                         </div>
                         <div className="flex justify-between bg-white py-2">
                             <div>Precision</div>

@@ -17,10 +17,7 @@ export interface HyperparameterSet {
     optimizer: string,
 }
 
-export interface Dataset {
-    id: string,
-    name: string,
-}
+export type Dataset = Map<string, DatasetProps>
 
 export interface DatasetProps {
     dataset: [{}],
@@ -39,6 +36,13 @@ export interface ModelSet {
         layers: Layer[],
     }
 }
+
+export interface Model {
+    name: string,
+    layers: Layer[]
+}
+
+export type ModelProps = Map<string, Model>;
 
 export interface Network {
     dataset: any,

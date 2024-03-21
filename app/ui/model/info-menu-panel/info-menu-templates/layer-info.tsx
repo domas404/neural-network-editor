@@ -1,5 +1,5 @@
 import "@/app/globalicons.css";
-import Param from "@/app/ui/model/param-box";
+import Param from "@/app/ui/misc/param-box";
 import React, { useState, useEffect } from 'react';
 
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
