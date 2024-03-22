@@ -1,5 +1,3 @@
-"use client";
-
 import Dataset from '@/app/ui/model/dataset-panel/dataset';
 import Parameters from "@/app/ui/model/hyperparameter-panel/parameters";
 import Models from "@/app/ui/model/model-panel/models";

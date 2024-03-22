@@ -9,7 +9,7 @@ import { uploadDataset } from "@/app/lib/redux/features/dataset-slice";
 import { fetchAllData } from '@/app/lib/data';
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { DatasetPanelSkeleton } from "../../misc/skeletons";
+import { DatasetPanelSkeleton, DatasetSkeleton } from "../../misc/skeletons";
 import allDatasets from "@/app/lib/all-datasets";
 
 import React, { useEffect, useState } from "react";
@@ -42,38 +42,42 @@ export default function Dataset() {
     }
 
     return (
-        <div className="flex shadow-sm h-full">
-            <div className="py-5 px-6 w-full">
-                <div className="flex justify-between">
-                    <div className="text-base font-bold uppercase">
-                        Dataset
+        <>
+            {
+                !datasetLoaded ?
+                    <DatasetSkeleton />
+                :
+                <div className="flex shadow-sm h-full">
+                    <div className="py-5 px-6 w-full">
+                        <div className="flex justify-between">
+                            <div className="text-base font-bold uppercase">
+                                Dataset
+                            </div>
+                            <Link href="/model/data" className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">
+                                <span className="material-symbols-outlined">
+                                    arrow_right_alt
+                                </span>
+                            </Link>
+                        </div>
+                        <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2">
+                            {
+                                allDatasets.map((item) => {
+                                    return (
+                                        <RadioOption
+                                            key={item.id}
+                                            id={item.id}
+                                            handleChange={handleChange}
+                                            isChecked={item.id === selectedDataset}
+                                            name={item.name}
+                                            groupName="dataset"
+                                        />
+                                    );
+                                })
+                            }
+                        </div>
                     </div>
-                    <Link href="/model/data" className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">
-                        <span className="material-symbols-outlined">
-                            arrow_right_alt
-                        </span>
-                    </Link>
                 </div>
-                <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2">
-                    {
-                        datasetLoaded ?
-                            allDatasets.map((item) => {
-                                return (
-                                    <RadioOption
-                                        key={item.id}
-                                        id={item.id}
-                                        handleChange={handleChange}
-                                        isChecked={item.id === selectedDataset}
-                                        name={item.name}
-                                        groupName="dataset"
-                                    />
-                                );
-                            })
-                        :
-                            <DatasetPanelSkeleton />
-                    }
-                </div>
-            </div>
-        </div>
+            }
+        </>
     );
 }
