@@ -5,6 +5,7 @@ import { DatasetProps } from "@/app/lib/data-types";
 
 
 const initialState: DatasetProps = {
+    loaded: false,
     dataset: [{}],
     columns: [],
     features: [],
@@ -33,6 +34,7 @@ export const datasetSlice = createSlice({
             state.selectedTargets = selectedTargets;
             state.featuresCount = selectedFeatures.filter(Boolean).length;
             state.labelsCount = selectedTargets.filter(Boolean).length;
+            state.loaded = true;
         },
         updateSelectedFeatures: (state, action: PayloadAction<boolean[]>) => {
             state.selectedFeatures = action.payload;

@@ -20,6 +20,7 @@ export interface HyperparameterSet {
 export type Dataset = Map<string, DatasetProps>
 
 export interface DatasetProps {
+    loaded: boolean,
     dataset: [{}],
     columns: string[],
     features: string[],
