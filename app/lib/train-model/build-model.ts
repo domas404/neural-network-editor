@@ -45,7 +45,7 @@ export async function PrepareData(dataset: DatasetProps) {
     const normalizedFeatures = getNormalizedFeatures(features);
     const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
 
-    const trainSize = Math.floor(0.8 * features.length);
+    const trainSize = Math.floor(0.5 * features.length);
     const valSize = features.length - trainSize;
     
     const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, [trainSize, valSize]);
