@@ -11,7 +11,13 @@ export default function PlotMain() {
     const currentPlot = useAppSelector((state) => state.infoMenuReducer.itemId);
     const { acc, val_acc, loss, val_loss } = useAppSelector((state) => state.trainReducer.history);
     const confusionMatrix = useAppSelector((state) => state.trainReducer.confusionMatrix);
-    const dataset: DatasetProps = useAppSelector((state) => state.datasetReducer);
+    const dataset = useAppSelector((state) => state.datasetReducer);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const [selectedDataset, setSelectedDataset] = useState(dataset[datasetId]);
+
+    useEffect(() => {
+        setSelectedDataset(dataset[datasetId]);
+    }, [dataset]);
 
     const [plotToShow, setPlotToShow] = useState<React.JSX.Element>();
 
@@ -25,7 +31,7 @@ export default function PlotMain() {
         let plotData: number[][] = [];
         if (plotType === "confusion matrix") {
             return (
-                <ConfusionMatrix confusionMatrix={confusionMatrix} dataset={dataset} />
+                <ConfusionMatrix confusionMatrix={confusionMatrix} dataset={selectedDataset} />
             );
         } else if (plotType === "accuracy") {
             plotData = setUpDataArray(acc, val_acc);

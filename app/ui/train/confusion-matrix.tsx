@@ -12,8 +12,8 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
     const [realLabels, setRealLabels] = useState<React.JSX.Element[]>();
 
     const createMatrixLabels = () => {
-        const filteredLabels = dataset.targets.filter((item, index) => {
-            if (dataset.selectedTargets[index]) {
+        const filteredLabels = dataset.labels.filter((item, index) => {
+            if (dataset.selectedLabels[index]) {
                 return item;
             }
         });
