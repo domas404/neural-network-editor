@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import ReactFlow, { Background, useNodesState, useEdgesState, EdgeTypes } from 'reactflow';
+import ReactFlow, { Background, useNodesState, useEdgesState, EdgeTypes, useReactFlow } from 'reactflow';
 import 'reactflow/dist/base.css';
 
 import FloatingEdge from "@/app/ui/model/playground/floating-edge";
 import CustomNode from '@/app/ui/model/playground/custom-node';
 import CustomNodeGroup from '@/app/ui/model/playground/custom-node-group';
 import { createNodesAndEdges } from "@/app/lib/flow-utils";
-import { v4 } from "uuid";
 
 import "./index.css";
 
@@ -39,10 +38,12 @@ const Flow = () => {
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+    const { fitView } = useReactFlow();
+
     useEffect(() => {
-        dispatch(updateInputLayer({ modelName: "default", neuronCount: dataset[datasetId].featuresCount }));
-        dispatch(updateOutputLayer({ modelName: "default", neuronCount: dataset[datasetId].labelsCount }));
-    }, [datasetId])
+        dispatch(updateInputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].featuresCount }));
+        dispatch(updateOutputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].labelsCount }));
+    }, [datasetId, currentModelId]);
 
     useEffect(() => {
         let chosenModel = currentModel[currentModelId].layers;
@@ -50,6 +51,14 @@ const Flow = () => {
         setNodes(newNodes);
         setEdges(newEdges);
     }, [currentModel, currentModelId]);
+
+    const fitModelToScreen = () => {
+        fitView({duration: 500});
+    }
+
+    useEffect(() => {
+        fitModelToScreen();
+    }, [nodes]);
 
     return (
         <ReactFlow
@@ -61,6 +70,9 @@ const Flow = () => {
             edgeTypes={edgeTypes}
             nodeTypes={nodeTypes}
             className="bg-white rounded-xl"
+            panOnDrag={false}
+            nodesDraggable={false}
+            zoomOnScroll={false}
         >
             <Background gap={24} />
         </ReactFlow>
