@@ -4,48 +4,54 @@ import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { updateSelectedFeatures, updateDataset } from "@/app/lib/redux/features/dataset-slice";
 import { useDispatch } from "react-redux";
 import { fetchFilteredData } from "@/app/lib/data";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import _ from 'lodash';
+import allDatasets from "@/app/lib/all-datasets";
 
 export default function FeatureList() {
 
-    const features = useAppSelector((state) => state.datasetReducer.features);
-    const selectedFeatures = useAppSelector((state) => state.datasetReducer.selectedFeatures);
+    // const features = useAppSelector((state) => state.datasetReducer.features);
+    // const selectedFeatures = useAppSelector((state) => state.datasetReducer.selectedFeatures);
     const dataset = useAppSelector((state) => state.datasetReducer);
     const dispatch = useDispatch<AppDispatch>();
-    const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const [selectedDataset, setSelectedDataset] = useState(dataset[allDatasets[0].id]);
+
+    useEffect(() => {
+        setSelectedDataset(dataset[datasetId]);
+    }, [dataset]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-        const targetToChange = features.indexOf(event.currentTarget.value);
-        const updatedTargets = selectedFeatures.map((feature, index) => {
-            if (index === targetToChange) {
+        const featureToChange = selectedDataset.features.indexOf(event.currentTarget.value);
+        const updatedFeatures = selectedDataset.selectedFeatures.map((feature, index) => {
+            if (index === featureToChange) {
                 return !feature;
             } else {
                 return feature;
             }
         });
-        dispatch(updateSelectedFeatures(updatedTargets));
+        dispatch(updateSelectedFeatures({ datasetName: datasetId,  selectedFeatures: updatedFeatures }));
     }
 
     const debouncedRerender = _.debounce(() => {
         async function getFilteredData() {
-            const selectedFeatureArray: string[] = features.filter((item, index) => {
-                if (selectedFeatures[index]) {
+            const selectedFeatureArray: string[] = selectedDataset.features.filter((item, index) => {
+                if (selectedDataset.selectedFeatures[index]) {
                     return item;
                 }
             });
-            const selectedTargetArray: string[] = dataset.targets.filter((item, index) =>{
-                if (dataset.selectedTargets[index]) {
+            const selectedLabelArray: string[] = selectedDataset.labels.filter((item, index) =>{
+                if (selectedDataset.selectedLabels[index]) {
                     return item;
                 }
             });
             const dataRows = await fetchFilteredData(
-                selectedDataset,
-                dataset.columns.slice(-1).toString(),
+                datasetId,
+                selectedDataset.columns.slice(-1).toString(),
                 selectedFeatureArray,
-                selectedTargetArray
+                selectedLabelArray
             );
-            dispatch(updateDataset(dataRows));
+            dispatch(updateDataset({ datasetName: datasetId, updatedRows: dataRows }));
         }
         getFilteredData();
     }, 500);
@@ -53,7 +59,7 @@ export default function FeatureList() {
     useEffect(() => {
         debouncedRerender();
         return () => debouncedRerender.cancel();
-    }, [selectedFeatures]);
+    }, [selectedDataset.selectedFeatures]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -64,13 +70,13 @@ export default function FeatureList() {
                     </div>
                     <div className="uppercase text-gray-500 tracking-wider -mt-2">
                         <span className="text-xs font-bold">
-                            {selectedFeatures.filter(Boolean).length}/{features.length}
+                            {selectedDataset.selectedFeatures.filter(Boolean).length}/{selectedDataset.features.length}
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
                     <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll">
                         {
-                            features.map((feature, index) => {
+                            selectedDataset.features.map((feature, index) => {
                                 return (
                                     <div key={feature} className="bg-white py-2">
                                         <input
@@ -79,7 +85,7 @@ export default function FeatureList() {
                                             name="features"
                                             className="mr-2"
                                             value={feature}
-                                            checked={selectedFeatures[index]}
+                                            checked={selectedDataset.selectedFeatures[index]}
                                             onChange={handleChange}
                                         />
                                         <label htmlFor={feature} className="hover:cursor-pointer">{feature}</label>

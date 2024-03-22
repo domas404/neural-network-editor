@@ -17,23 +17,24 @@ import React, { useEffect, useState } from "react";
 export default function Dataset() {
 
     const dispatch = useDispatch<AppDispatch>();
-    const dataset = useAppSelector((state) => state.datasetReducer.dataset);
+    const dataset = useAppSelector((state) => state.datasetReducer);
     const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
 
     const [datasetLoaded, setDatasetLoaded] = useState(false);
 
     useEffect(() => {
         async function initDataset() {
+            console.log(`dataset loader called for ${selectedDataset}`);
             const [dataRows, labels] = await fetchAllData(selectedDataset);
-            dispatch(uploadDataset({ dataRows: dataRows, labels: labels}));            
+            dispatch(uploadDataset({ datasetName: selectedDataset, dataRows: dataRows, labels: labels}));            
             setDatasetLoaded(true);
         }
-        if (Object.keys(dataset[0]).length === 0) {
+        if (!dataset[selectedDataset].loaded) {
             initDataset();
         } else if (!datasetLoaded) {
             setDatasetLoaded(true);
         }
-    }, []);
+    }, [selectedDataset]);
 
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {

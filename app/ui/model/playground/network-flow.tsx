@@ -27,7 +27,8 @@ const Flow = () => {
 
     const currentModelId = useAppSelector((state) => state.networkReducer.modelId);
     const currentModel = useAppSelector((state) => state.modelsReducer);
-    const { featuresCount, labelsCount } = useAppSelector((state) => state.datasetReducer);
+    const dataset = useAppSelector((state) => state.datasetReducer);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
 
     const initialModel = currentModel[currentModelId].layers;
 
@@ -39,9 +40,9 @@ const Flow = () => {
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     useEffect(() => {
-        dispatch(updateInputLayer({ modelName: "default", neuronCount: featuresCount }));
-        dispatch(updateOutputLayer({ modelName: "default", neuronCount: labelsCount }));
-    }, [])
+        dispatch(updateInputLayer({ modelName: "default", neuronCount: dataset[datasetId].featuresCount }));
+        dispatch(updateOutputLayer({ modelName: "default", neuronCount: dataset[datasetId].labelsCount }));
+    }, [datasetId])
 
     useEffect(() => {
         let chosenModel = currentModel[currentModelId].layers;

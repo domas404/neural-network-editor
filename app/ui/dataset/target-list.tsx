@@ -1,51 +1,57 @@
 "use client";
 
-import { updateDataset, updateSelectedTargets } from "@/app/lib/redux/features/dataset-slice";
+import { updateDataset, updateSelectedLabels } from "@/app/lib/redux/features/dataset-slice";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { useDispatch } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchFilteredData } from "@/app/lib/data";
 import _ from "lodash";
+import allDatasets from "@/app/lib/all-datasets";
 
 export default function TargetList() {
 
-    const targets = useAppSelector((state) => state.datasetReducer.targets);
-    const selectedTargets = useAppSelector((state) => state.datasetReducer.selectedTargets);
+    // const targets = useAppSelector((state) => state.datasetReducer.targets);
+    // const selectedTargets = useAppSelector((state) => state.datasetReducer.selectedTargets);
     const dispatch = useDispatch<AppDispatch>();
     const dataset = useAppSelector((state) => state.datasetReducer);
-    const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const [selectedDataset, setSelectedDataset] = useState(dataset[allDatasets[0].id]);
+
+    useEffect(() => {
+        setSelectedDataset(dataset[datasetId]);
+    }, [dataset]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-        const targetToChange = targets.indexOf(event.currentTarget.value);
-        const updatedTargets = selectedTargets.map((target, index) => {
-            if (index === targetToChange) {
-                return !target;
+        const labelToChange = selectedDataset.labels.indexOf(event.currentTarget.value);
+        const updatedTargets = selectedDataset.selectedLabels.map((label, index) => {
+            if (index === labelToChange) {
+                return !label;
             } else {
-                return target;
+                return label;
             }
         });
-        dispatch(updateSelectedTargets(updatedTargets));
+        dispatch(updateSelectedLabels({ datasetName: datasetId, selectedLabels: updatedTargets }));
     }
 
     const debouncedRerender = _.debounce(() => {
         async function getFilteredData() {
-            const selectedFeatureArray: string[] = dataset.features.filter((item, index) => {
-                if (dataset.selectedFeatures[index]) {
+            const selectedFeatureArray: string[] = selectedDataset.features.filter((item, index) => {
+                if (selectedDataset.selectedFeatures[index]) {
                     return item;
                 }
             });
-            const selectedTargetArray: string[] = targets.filter((item, index) =>{
-                if (selectedTargets[index]) {
+            const selectedLabelArray: string[] = selectedDataset.labels.filter((item, index) =>{
+                if (selectedDataset.selectedLabels[index]) {
                     return item;
                 }
             });
             const dataRows = await fetchFilteredData(
-                selectedDataset,
-                dataset.columns.slice(-1).toString(),
+                datasetId,
+                selectedDataset.columns.slice(-1).toString(),
                 selectedFeatureArray,
-                selectedTargetArray
+                selectedLabelArray
             );
-            dispatch(updateDataset(dataRows));
+            dispatch(updateDataset({ datasetName: datasetId, updatedRows: dataRows }));
         }
         getFilteredData();
     }, 500);
@@ -53,7 +59,7 @@ export default function TargetList() {
     useEffect(() => {
         debouncedRerender();
         return () => debouncedRerender.cancel();
-    }, [selectedTargets]);
+    }, [selectedDataset.selectedLabels]);
 
     return (
         <div className="flex rounded-xl shadow-sm h-full">
@@ -64,25 +70,25 @@ export default function TargetList() {
                     </div>
                     <div className="uppercase text-gray-500 tracking-wider -mt-2">
                         <span className="text-xs font-bold">
-                            {selectedTargets.filter(Boolean).length}/{targets.length}
+                            {selectedDataset.selectedLabels.filter(Boolean).length}/{selectedDataset.labels.length}
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
                     <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll">
                         {
-                            targets.map((target, index) => {
+                            selectedDataset.labels.map((label, index) => {
                                 return (
-                                    <div key={target} className="bg-white py-2">
+                                    <div key={label} className="bg-white py-2">
                                         <input
-                                            id={target}
+                                            id={label}
                                             type="checkbox"
                                             name="targets"
                                             className="mr-2"
-                                            value={target}
-                                            checked={selectedTargets[index]}
+                                            value={label}
+                                            checked={selectedDataset.selectedLabels[index]}
                                             onChange={handleChange}
                                         />
-                                        <label htmlFor={target} className="hover:cursor-pointer">{target}</label>
+                                        <label htmlFor={label} className="hover:cursor-pointer">{label}</label>
                                     </div>
                                 );
                             })

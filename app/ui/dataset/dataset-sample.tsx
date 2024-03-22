@@ -1,6 +1,8 @@
 "use client";
 
+import allDatasets from "@/app/lib/all-datasets";
 import { useAppSelector } from "@/app/lib/redux/store";
+import { useEffect, useState } from "react";
 
 interface DataRow {
     [key: string]: any;
@@ -8,9 +10,13 @@ interface DataRow {
 
 export default function DatasetSample() {
 
-    const dataset = useAppSelector((state) => state.datasetReducer.dataset);
-    const columns = useAppSelector((state) => state.datasetReducer.columns);
-    const datasetInfo = useAppSelector((state) => state.datasetReducer);
+    const dataset = useAppSelector((state) => state.datasetReducer);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const [selectedDataset, setSelectedDataset] = useState(dataset[allDatasets[0].id]);
+
+    useEffect(() => {
+        setSelectedDataset(dataset[datasetId]);
+    }, [datasetId, dataset]);
 
     return (
         <div className="w-full h-full overflow-scroll">
@@ -18,11 +24,11 @@ export default function DatasetSample() {
                 <thead className="w-full">
                     <tr className="sticky top-0">
                         <th className={`font-semibold border-1 border-white rounded-md py-2 px-4 overflow-hidden bg-slate-200`}>
-                            {columns[0]}
+                            {selectedDataset.columns[0]}
                         </th>
                         {
-                            datasetInfo.features.map((column, index) => {
-                                if (datasetInfo.selectedFeatures[index]) {
+                            selectedDataset.features.map((column, index) => {
+                                if (selectedDataset.selectedFeatures[index]) {
                                     return (
                                         <th key={index} className={`font-semibold border-1 border-white rounded-md py-2 px-4 overflow-hidden bg-slate-200`}>
                                             {column}
@@ -32,21 +38,21 @@ export default function DatasetSample() {
                             })
                         }
                         <th className={`font-semibold border-1 border-white rounded-md py-2 px-4 overflow-hidden bg-slate-200`}>
-                            {columns[columns.length-1]}
+                            {selectedDataset.columns[selectedDataset.columns.length-1]}
                         </th>
                     </tr>
                 </thead>
                 <tbody className="">
                     {
-                        dataset.map((row: DataRow, rindex) => {
+                        selectedDataset.dataset.map((row: DataRow, rindex) => {
                             return (
                                 <tr key={`r${rindex}`}>
                                     <td className={`text-center border-1 border-white rounded-md py-1 bg-slate-100`}>
-                                        {row[columns[0]]}
+                                        {row[selectedDataset.columns[0]]}
                                     </td>
                                     {
-                                        datasetInfo.features.map((column, dindex) => {
-                                            if (datasetInfo.selectedFeatures[dindex]) {
+                                        selectedDataset.features.map((column, dindex) => {
+                                            if (selectedDataset.selectedFeatures[dindex]) {
                                                 return (
                                                     <td key={`d${rindex}-${dindex}`} className={`text-center border-1 px-4 border-white rounded-md py-1 bg-slate-100`}>
                                                         {row[column]}
@@ -56,7 +62,7 @@ export default function DatasetSample() {
                                         })
                                     }
                                     <td className={`text-center border-1 border-white rounded-md py-1 bg-slate-100`}>
-                                        {row[columns[columns.length-1]]}
+                                        {row[selectedDataset.columns[selectedDataset.columns.length-1]]}
                                     </td>
                                 </tr>
                             );

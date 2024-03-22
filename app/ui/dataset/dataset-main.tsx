@@ -15,13 +15,16 @@ export default function DatasetMain() {
 
     const dispatch = useDispatch<AppDispatch>();
     const selectedDataset = useAppSelector((state) => state.networkReducer.dataset);
+    const dataset = useAppSelector((state) => state.datasetReducer);
 
     useEffect(() => {
         async function initDataset() {
+            console.log(`dataset page loader called for ${selectedDataset}`);
             const [dataRows, labels] = await fetchAllData(selectedDataset);
-            dispatch(uploadDataset({ dataRows: dataRows, labels: labels}));
+            dispatch(uploadDataset({ datasetName: selectedDataset, dataRows: dataRows, labels: labels}));
         }
-        initDataset();
+        if (!dataset[selectedDataset].loaded)
+            initDataset();
     }, [selectedDataset]);
 
 

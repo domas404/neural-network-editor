@@ -17,16 +17,18 @@ export interface HyperparameterSet {
     optimizer: string,
 }
 
-export type Dataset = Map<string, DatasetProps>
+export interface Dataset {
+    [id: string]: DatasetProps
+}
 
 export interface DatasetProps {
     loaded: boolean,
     dataset: [{}],
     columns: string[],
     features: string[],
-    targets: string[],
+    labels: string[],
     selectedFeatures: boolean[],
-    selectedTargets: boolean[],
+    selectedLabels: boolean[],
     featuresCount: number,
     labelsCount: number
 }
@@ -46,7 +48,7 @@ export interface Model {
 export type ModelProps = Map<string, Model>;
 
 export interface Network {
-    dataset: any,
+    dataset: string,
     modelId: string,
 }
 

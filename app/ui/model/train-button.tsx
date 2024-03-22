@@ -23,7 +23,7 @@ export default function TrainButton() {
             console.log(model["default"].layers);
             console.log("Training started");
             const startTime = performance.now();
-            const results: TrainHistory = await ExecuteTraining(dataset, model, hyperparams, network);
+            const results: TrainHistory = await ExecuteTraining(dataset[network.dataset], model, hyperparams, network);
             dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history, confusionMatrix: results.confusionMatrix}));
             console.log("Training ended");
             const endTime = performance.now();

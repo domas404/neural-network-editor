@@ -5,7 +5,8 @@ import { useAppSelector } from '@/app/lib/redux/store';
 
 export default function Playground() {
 
-    const datasetLoaded = useAppSelector((state) => state.datasetReducer.loaded);
+    const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const datasetLoaded = useAppSelector((state) => state.datasetReducer[datasetId].loaded);
 
     return (
         <>
