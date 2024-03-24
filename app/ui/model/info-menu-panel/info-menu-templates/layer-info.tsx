@@ -41,7 +41,7 @@ export default function LayerInfo() {
 
     return (
         <>
-            <div className="bg-white text-base font-bold uppercase">
+            <div className="text-base font-bold uppercase dark:text-teal-100">
                 {`${selectedObject?.type} layer ${selectedObject?.type === "hidden" ? selectedObject?.order : ""}`}
             </div>
             <div className="text-sm text-justify leading-5 mt-2 hyphens-auto">
@@ -53,10 +53,11 @@ export default function LayerInfo() {
                     currentValue={selectedObject?.activation}
                 />
                 <div>
-                    <div className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider pb-1">
+                    <div className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider pb-1 dark:text-slate-200">
                         Neurons
                     </div>
-                    <div className="bg-gray-50 border py-2.5 w-28 px-2 text-sm rounded-lg h-10 flex flex-row items-center justify-between">
+                    <div className="bg-gray-50 border py-2.5 w-28 px-2 text-sm rounded-lg h-10 flex flex-row items-center justify-between
+                        dark:bg-slate-700 dark:border-slate-600 dark:text-white">
                         <div className="basis-2/5 h-full text-center">
                             <span>{neuronCount}</span>
                         </div>
@@ -64,7 +65,8 @@ export default function LayerInfo() {
                             <button
                                 onClick={addNeuron}
                                 className={`select-none flex items-center rounded-full hover:bg-gray-200 p-1 active:bg-blue-200
-                                    ${selectedObject?.type === "hidden" ? "text-gray-600" : "text-gray-300 pointer-events-none"}`}>
+                                    ${selectedObject?.type === "hidden" ? "text-gray-600" : "text-gray-300 pointer-events-none"}
+                                    dark:text-slate-200 dark:hover:bg-slate-600 dark:active:bg-slate-500`}>
                                 <span className="material-symbols-outlined md-20">
                                     add
                                 </span>
@@ -72,7 +74,8 @@ export default function LayerInfo() {
                             <button
                                 onClick={removeNeuron}
                                 className={`select-none flex items-center rounded-full hover:bg-gray-200 p-1 active:bg-blue-200
-                                    ${selectedObject?.type === "hidden" ? "text-gray-600" : "text-gray-300 pointer-events-none"}`}>
+                                    ${selectedObject?.type === "hidden" ? "text-gray-600" : "text-gray-300 pointer-events-none"}
+                                    dark:text-slate-200 dark:hover:bg-slate-600 dark:active:bg-slate-500`}>
                                 <span className="material-symbols-outlined md-20">
                                     remove
                                 </span>

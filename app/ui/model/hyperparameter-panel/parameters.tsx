@@ -32,10 +32,10 @@ export default function Parameters() {
     });
 
     return (
-        <div className="h-full rounded-xl shadow-sm">
+        <div className="h-full rounded-md bg-white shadow-xs border shadow-sm dark:bg-slate-800 dark:border-slate-700">
             <div className="flex flex-col py-5 px-1 w-full h-full">
                 <div className="mx-5 shrink">
-                    <div className="bg-white text-base font-bold uppercase text-ellipsis overflow-hidden" title="Hyperparameters">
+                    <div className="text-base font-bold uppercase text-ellipsis overflow-hidden dark:text-teal-100" title="Hyperparameters">
                         Hyperparameters
                     </div>
                 </div>

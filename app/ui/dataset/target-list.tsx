@@ -62,23 +62,24 @@ export default function TargetList() {
     }, [selectedDataset.selectedLabels]);
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="flex rounded-md shadow-sm h-full border bg-white dark:bg-slate-800 dark:border-slate-700">
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
-                    <div className="bg-white text-base font-bold uppercase">
+                    <div className="text-base font-bold uppercase dark:text-teal-100">
                         Targets
                     </div>
-                    <div className="uppercase text-gray-500 tracking-wider -mt-2">
+                    <div className="uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
                         <span className="text-xs font-bold">
                             {selectedDataset.selectedLabels.filter(Boolean).length}/{selectedDataset.labels.length}
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
-                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll">
+                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll
+                        dark:bg-slate-700">
                         {
                             selectedDataset.labels.map((label, index) => {
                                 return (
-                                    <div key={label} className="bg-white py-2">
+                                    <div key={label} className="bg-white py-2 dark:bg-slate-800">
                                         <input
                                             id={label}
                                             type="checkbox"
@@ -88,7 +89,7 @@ export default function TargetList() {
                                             checked={selectedDataset.selectedLabels[index]}
                                             onChange={handleChange}
                                         />
-                                        <label htmlFor={label} className="hover:cursor-pointer">{label}</label>
+                                        <label htmlFor={label} className="hover:cursor-pointer dark:text-white">{label}</label>
                                     </div>
                                 );
                             })

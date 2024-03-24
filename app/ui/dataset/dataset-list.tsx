@@ -30,10 +30,11 @@ export default function DatasetList() {
     }
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="flex rounded-md shadow-sm h-full bg-white border
+            dark:bg-slate-800 dark:border-slate-700">
             <div className="py-5 px-6 w-full">
                 <div className="flex justify-between">
-                    <div className="bg-white text-base font-bold uppercase">
+                    <div className="text-base font-bold uppercase dark:text-teal-100">
                         Dataset
                     </div>
                 </div>
@@ -56,7 +57,9 @@ export default function DatasetList() {
                                         htmlFor={item.id}
                                         className={`flex items-center justify-center rounded-full cursor-pointer py-2 px-4
                                             border text-black bg-slate-50 hover:bg-lightblue-50 hover:border-lightblue-100
-                                            peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100`}>
+                                            peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100
+                                            dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:hover:bg-slate-600 dark:hover:border-slate-500
+                                            dark:peer-checked:text-white dark:peer-checked:bg-slate-600 dark:peer-checked:border-slate-500`}>
                                         <div className="flex justify-center items-center h-full font-semibold text-sm">
                                             {item.name}
                                         </div>

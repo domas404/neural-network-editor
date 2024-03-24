@@ -69,12 +69,12 @@ const Flow = () => {
             fitView
             edgeTypes={edgeTypes}
             nodeTypes={nodeTypes}
-            className="bg-white rounded-xl"
+            className="bg-white dark:bg-slate-800 rounded-md"
             panOnDrag={false}
             nodesDraggable={false}
             zoomOnScroll={false}
         >
-            <Background gap={24} />
+            {/* <Background gap={28} color="#64748b" /> */}
         </ReactFlow>
     );
 };

@@ -26,14 +26,14 @@ export default function Models() {
     }
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="bg-white flex rounded-md border shadow-sm h-full dark:bg-slate-800 dark:border-slate-700">
             <div className="py-5 px-6 w-full">
                 <div className="flex justify-between">
-                    <div className="bg-white text-base font-bold uppercase">
+                    <div className="text-base font-bold uppercase dark:text-teal-100">
                         Model
                     </div>
                     <div className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined dark:text-slate-100">
                             add
                         </span>
                     </div>

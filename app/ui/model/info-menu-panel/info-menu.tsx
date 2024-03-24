@@ -34,7 +34,7 @@ export default function InfoMenu() {
     }, [modelId]);
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="bg-white flex rounded-md shadow-sm h-full border dark:bg-slate-800 dark:border-slate-700">
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
                     {objectToDisplay}

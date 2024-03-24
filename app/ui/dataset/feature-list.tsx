@@ -62,23 +62,24 @@ export default function FeatureList() {
     }, [selectedDataset.selectedFeatures]);
 
     return (
-        <div className="flex rounded-xl shadow-sm h-full">
+        <div className="bg-white flex rounded-md shadow-sm h-full border dark:bg-slate-800 dark:border-slate-700">
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
-                    <div className="bg-white text-base font-bold uppercase">
+                    <div className="text-base font-bold uppercase dark:text-teal-100">
                         Features
                     </div>
-                    <div className="uppercase text-gray-500 tracking-wider -mt-2">
+                    <div className="uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
                         <span className="text-xs font-bold">
                             {selectedDataset.selectedFeatures.filter(Boolean).length}/{selectedDataset.features.length}
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
-                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll">
+                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll
+                        dark:bg-slate-700">
                         {
                             selectedDataset.features.map((feature, index) => {
                                 return (
-                                    <div key={feature} className="bg-white py-2">
+                                    <div key={feature} className="bg-white py-2 dark:bg-slate-800 dark:text-white">
                                         <input
                                             id={feature}
                                             type="checkbox"

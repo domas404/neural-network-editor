@@ -17,11 +17,11 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
     }
 
     return (
-        <div className="py-3 bg-white mb-px">
+        <div className="py-3 bg-white mb-px dark:bg-slate-800">
             <label className="flex flex-row group items-center pb-1" htmlFor={paramName}>
                 <div
                     className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider leading-3
-                    overflow-hidden text-ellipsis whitespace-nowrap"
+                    overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-200"
                     title={paramName}
                 >
                     {paramName}
@@ -34,7 +34,8 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
             </label>
             <select
                 name={paramName}
-                className="bg-gray-50 py-2.5 px-4 text-sm rounded-lg w-full border focus:border-blue-600"
+                className="bg-gray-50 py-2.5 px-4 text-sm rounded-lg w-full border focus:border-blue-600
+                    dark:bg-slate-700 dark:text-white dark:border-slate-600"
                 onChange={handleSelectChange}
                 defaultValue={defaultVal}
                 value={currentValue}
@@ -45,7 +46,7 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
                             <option
                                 key={option}
                                 value={option}
-                                className="font-sans"
+                                className="font-sans dark:text-white"
                             >
                                 {option}
                             </option>

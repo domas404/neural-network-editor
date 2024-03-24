@@ -14,6 +14,24 @@ export default function PlotMain() {
     const dataset = useAppSelector((state) => state.datasetReducer);
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
     const [selectedDataset, setSelectedDataset] = useState(dataset[datasetId]);
+    const [darkMode, setDarkMode] = useState(false);
+
+    const handleDarkModeChange = () => {
+        const isDarkMode = document.getElementsByTagName("html")[0].classList.contains("dark");
+        setDarkMode(isDarkMode);
+    }
+
+    useEffect(() => {
+        handleDarkModeChange();
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver(handleDarkModeChange);
+        observer.observe(document.getElementsByTagName("html")[0], { attributes: true });
+        return () => {
+            observer.disconnect();
+        }
+    }, []);
 
     useEffect(() => {
         setSelectedDataset(dataset[datasetId]);
@@ -28,6 +46,38 @@ export default function PlotMain() {
     }
 
     const createPlot = (plotType: string) => {
+        const options = {
+            curveType: "function",
+            legend: { position: "bottom" },
+            animation: {
+                startup: true,
+                easing: "linear",
+                duration: 200,
+            },
+        }
+
+        const darkModeOptions = {
+            curveType: "function",
+            legend: { position: "bottom", textStyle: { color: "white" } },
+            animation: {
+                startup: true,
+                easing: "linear",
+                duration: 200,
+            },
+            colors: ["#0ea5e9", "#d97706"],
+            backgroundColor:"#1e293b",
+            hAxis: {
+                gridlines: { color: "#475569" },
+                textStyle: { color: "white" },
+                baselineColor: "white"
+            },
+            vAxis: {
+                gridlines: { color: "#475569" },
+                textStyle: { color: "white" },
+                baselineColor: "white"
+            },
+        }
+
         let plotData: number[][] = [];
         if (plotType === "confusion matrix") {
             return (
@@ -45,24 +95,15 @@ export default function PlotMain() {
                     data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
                     width="100%"
                     height="600px"
-                    options={{
-                        title: `${plotType} plot`,
-                        curveType: "function",
-                        legend: { position: "bottom" },
-                        animation: {
-                            startup: true,
-                            easing: "linear",
-                            duration: 200,
-                        },
-                    }}
+                    options={darkMode ? darkModeOptions : options}
                 />
             </div>
         );
     }
 
     useEffect(() => {
-        setPlotToShow(createPlot(currentPlot)); 
-    }, [currentPlot]);
+        setPlotToShow(createPlot(currentPlot));
+    }, [currentPlot, darkMode]);
 
     return (
         <div className="w-full h-full">
@@ -70,7 +111,7 @@ export default function PlotMain() {
                 epochs.length !== 0 ?
                     plotToShow
                 :
-                    <div className="h-full flex justify-center items-center">
+                    <div className="h-full flex justify-center items-center dark:text-white">
                         Train the model to see results.
                     </div>
             }

@@ -41,7 +41,7 @@ function CustomNodeGroup() {
             <Handle type="target" id="a" position={Position.Left} isConnectable={false} className="hidden" />
             <div
                 className={`h-full w-24 rounded-lg hover:cursor-pointer
-                    ${clicked? "border-2 border-blue-400" : "hover:border-2 hover:border-blue-200"}`}
+                    ${clicked? "border-2 border-blue-400" : "hover:border-2 hover:border-blue-200 dark:hover:border-slate-600"}`}
                 onClick={handleChange}
             ></div>
             <Handle type="source" id="b" position={Position.Right} isConnectable={false} className="hidden" />

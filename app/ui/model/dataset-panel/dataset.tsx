@@ -47,14 +47,14 @@ export default function Dataset() {
                 !datasetLoaded ?
                     <DatasetSkeleton />
                 :
-                <div className="flex shadow-sm h-full">
+                <div className="bg-white flex shadow-sm rounded-md border h-full dark:bg-slate-800 dark:border-slate-700">
                     <div className="py-5 px-6 w-full">
                         <div className="flex justify-between">
-                            <div className="text-base font-bold uppercase">
+                            <div className="text-base font-bold uppercase dark:text-teal-100">
                                 Dataset
                             </div>
                             <Link href="/model/data" className="select-none hover:cursor-pointer text-gray-400 hover:text-gray-500 active:text-gray-600">
-                                <span className="material-symbols-outlined">
+                                <span className="material-symbols-outlined dark:text-slate-100">
                                     arrow_right_alt
                                 </span>
                             </Link>
