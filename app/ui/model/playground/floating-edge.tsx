@@ -34,7 +34,7 @@ function FloatingEdge({ id, source, target, markerEnd, style }: EdgeProps) {
     return (
         <path
             id={id}
-            className="stroke-blue-400 stroke-1 active:stroke-sky-500"
+            className="stroke-blue-400 stroke-1 active:stroke-sky-500 dark:stroke-slate-500"
             d={edgePath}
             markerEnd={markerEnd}
             style={style}
