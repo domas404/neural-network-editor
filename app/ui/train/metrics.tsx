@@ -4,6 +4,8 @@ import { useAppSelector } from "@/app/lib/redux/store";
 export default function Metrics() {
 
     const accuracy = useAppSelector((state) => state.trainReducer.history.val_acc);
+    const precision = useAppSelector((state) => state.trainReducer.history.precision);
+    const recall = useAppSelector((state) => state.trainReducer.history.recall);
     const finalAccuracy = accuracy[accuracy.length-1];
 
     return (
@@ -22,11 +24,11 @@ export default function Metrics() {
                         </div>
                         <div className="flex justify-between bg-white py-2 dark:bg-slate-800 dark:text-white">
                             <div>Precision</div>
-                            <div>-- %</div>
+                            <div>{precision !== 0 ? Math.round(precision*1000)/10 : "-- "}%</div>
                         </div>
                         <div className="flex justify-between bg-white py-2 dark:bg-slate-800 dark:text-white">
                             <div>Recall</div>
-                            <div>-- %</div>
+                            <div>{recall !== 0 ? Math.round(recall*1000)/10 : "-- "}%</div>
                         </div>
                     </div>
                 </div>

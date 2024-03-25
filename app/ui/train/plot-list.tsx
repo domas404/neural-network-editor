@@ -56,7 +56,7 @@ export default function PlotList() {
                                             text-black bg-slate-50 hover:bg-lightblue-50 hover:border-lightblue-100
                                             peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100
                                             dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:hover:bg-slate-600 dark:hover:border-slate-500
-                                            dark:peer-checked:text-white dark:peer-checked:bg-slate-600 dark:peer-checked:border-slate-500`}>
+                                            dark:peer-checked:text-white dark:peer-checked:bg-slate-500 dark:peer-checked:border-slate-400`}>
                                         <div
                                             className="text-center font-semibold text-sm overflow-hidden text-ellipsis whitespace-nowrap"
                                             title={item.id}

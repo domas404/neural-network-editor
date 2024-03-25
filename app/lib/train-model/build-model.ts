@@ -105,8 +105,39 @@ export async function getConfusionMatrix(
     const predictions = model.predict(valFeatures) as tf.Tensor1D;
     const predictionsArray = await (predictions.argMax(1)).array();
     const realLabelsArray = await (valLabels as tf.Tensor1D).argMax(1).array();
+
     const matrix = await (tf.math.confusionMatrix(realLabelsArray, predictionsArray, numOfClasses)).array();
+
     return matrix;
+}
+
+export async function calculatePrecisionAndRecall(matrix: number[][], numOfClasses: number) {
+    const truePositives = new Array(numOfClasses).fill(0);
+    const trueNegatives = new Array(numOfClasses).fill(0);
+    const allClassInstances = new Array(numOfClasses).fill(0);
+    matrix.forEach((row, i) => {
+        row.forEach((cell, j) => {
+            if (i === j) {
+                truePositives[i] = cell;
+            } else {
+                trueNegatives[j] += cell;
+            }
+            allClassInstances[i] += cell;
+        });
+    });
+
+    let precision = new Array(numOfClasses).fill(0);
+    let recall = new Array(numOfClasses).fill(0);
+
+    for (let i=0; i<numOfClasses; i++) {
+        let allPredictedInstances = truePositives[i] + trueNegatives[i];
+        precision[i] = truePositives[i]/allClassInstances[i];
+        recall[i] = truePositives[i]/(allPredictedInstances > 0 ? allPredictedInstances : 1);
+    }
+    const precisionMacroAverage: number = precision.reduce((sum, item) => sum + item, 0)/numOfClasses;
+    const recallMacroAverage: number = recall.reduce((sum, item) => sum + item, 0)/numOfClasses;
+
+    return { precision: precisionMacroAverage, recall: recallMacroAverage };
 }
 
 export async function ExecuteTraining(
@@ -126,10 +157,11 @@ export async function ExecuteTraining(
     const val_loss = history.history.val_loss.map((value) => Number(value));
 
     const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, dataset.labelsCount);
+    const { precision, recall } = await calculatePrecisionAndRecall(confusionMatrix, dataset.labelsCount);
 
     return {
         epoch: history.epoch,
-        history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss },
+        history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss, precision: precision, recall: recall },
         confusionMatrix: confusionMatrix
     };
 }

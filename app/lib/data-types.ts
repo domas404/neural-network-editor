@@ -59,6 +59,8 @@ export interface TrainHistory {
         loss: number[],
         val_acc: number[],
         val_loss: number[],
+        precision: number,
+        recall: number
     },
     confusionMatrix: number[][]
 }

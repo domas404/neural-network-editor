@@ -9,7 +9,9 @@ const initialState: TrainHistory = {
         acc: [],
         loss: [],
         val_acc: [],
-        val_loss: []
+        val_loss: [],
+        precision: 0,
+        recall: 0
     },
     confusionMatrix: []
 }
