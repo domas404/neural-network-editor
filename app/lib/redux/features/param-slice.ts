@@ -8,6 +8,7 @@ const initialState: HyperparameterSet = {
     learningRate: "0.1",
     batchSize: "1",
     optimizer: "SGD",
+    trainTestRatio: "0.8"
 }
 
 export const paramSlice = createSlice({

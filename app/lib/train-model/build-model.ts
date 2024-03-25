@@ -58,8 +58,6 @@ function getFeaturesAndLabels(dataset: DatasetProps) {
         labels.push(labelMap.get(label));
     });
 
-
-
     return { features: features, labels: labels };
 }
 
@@ -69,7 +67,7 @@ function getNormalizedFeatures(features: number[][]) {
     return normalizedFeatures;
 }
 
-export async function PrepareData(dataset: DatasetProps) {
+export async function PrepareData(dataset: DatasetProps, trainTestRatio: number) {
     
     const { features, labels } = getFeaturesAndLabels(dataset);
 
@@ -77,7 +75,7 @@ export async function PrepareData(dataset: DatasetProps) {
     const normalizedFeatures = getNormalizedFeatures(features);
     const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
 
-    const trainSize = Math.floor(0.8 * features.length);
+    const trainSize = Math.floor(trainTestRatio * features.length);
     const valSize = features.length - trainSize;
     
     const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, [trainSize, valSize]);
@@ -91,6 +89,13 @@ export async function BuildModel(
     hyperparams: HyperparameterSet,
 ) {
     const model = tf.sequential();
+    let optimizer: string | tf.Optimizer = tf.train.sgd(parseFloat(hyperparams.learningRate));
+
+    if (hyperparams.optimizer === "Adam") {
+        optimizer = tf.train.adam(parseFloat(hyperparams.learningRate));
+    } else if (hyperparams.optimizer === "Adagrad") {
+        optimizer = tf.train.adagrad(parseFloat(hyperparams.learningRate));
+    }
     
     //hidden layers
     for (let i=1; i<layers.length-1; i++){
@@ -102,7 +107,7 @@ export async function BuildModel(
 
     model.compile({
         loss: 'meanSquaredError',
-        optimizer: tf.train.sgd(parseFloat(hyperparams.learningRate)),
+        optimizer: optimizer,
         metrics: ['accuracy']
     });
 
@@ -178,7 +183,7 @@ export async function ExecuteTraining(
     hyperparams: HyperparameterSet,
     network: Network
 ) {
-    const [trainFeatures, valFeatures, trainLabels, valLabels] = await PrepareData(dataset);
+    const [trainFeatures, valFeatures, trainLabels, valLabels] = await PrepareData(dataset, parseFloat(hyperparams.trainTestRatio));
     const modelLayers = model[network.modelId].layers;
     const createdModel = await BuildModel(modelLayers, hyperparams);
 

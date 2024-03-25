@@ -15,6 +15,7 @@ export interface HyperparameterSet {
     learningRate: string,
     batchSize: string,
     optimizer: string,
+    trainTestRatio: string
 }
 
 export interface Dataset {

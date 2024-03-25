@@ -18,6 +18,11 @@ const parameterOptions = [
         id: "optimizer",
         name: "optimizer",
         options: ["SGD", "Adam", "Adagrad"]
+    },
+    {
+        id: "trainTestRatio",
+        name: "train/test ratio",
+        options: ["0.5", "0.6", "0.7", "0.8", "0.9"]
     }
 ];
 
