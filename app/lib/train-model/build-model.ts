@@ -6,28 +6,59 @@ interface DataRow {
 }
 
 function getFeaturesAndLabels(dataset: DatasetProps) {
-    const features: number[][] = [];
+    const features: any[][] = [];
     const labels: number[] = [];
     
     const labelName: string = dataset.columns[dataset.columns.length-1];
     const labelMap = new Map();
     let labelIndex = 0;
 
+    // const featureTypes: string[] = [];
+    const categoricalFeatureMap = new Map();
+    const featureIndices = new Map();
+
+    Object.keys(dataset.dataset[0]).forEach((key) => {
+        if (dataset.features.includes(key)) {
+            const item: DataRow = dataset.dataset[0];
+            if (!parseFloat(item[key])) {
+                categoricalFeatureMap.set(key, new Map());
+                featureIndices.set(key, 0);
+                // featureTypes.push("string");
+            } else {
+                // featureTypes.push("number");
+            }
+        }
+    });
+
     dataset.dataset.forEach((row: DataRow) => {
         const featureArray: number[] = [];
         for (const key in row) {
             if (dataset.features.includes(key)) {
-                featureArray.push(parseFloat(row[key]));
+                let item = parseFloat(row[key]);
+                if (!item) {
+                    // console.log(key, row[key]);
+                    // console.log(categoricalFeatureMap.get(key));
+                    if (!categoricalFeatureMap.get(key).has(row[key])) {
+                        let index = featureIndices.get(key);
+                        // console.log(key, row[key], index, index+1);
+                        categoricalFeatureMap.get(key).set(row[key], index);
+                        featureIndices.set(key, index+1);
+                    }
+                    item = categoricalFeatureMap.get(key).get(row[key]);
+                }
+                featureArray.push(item);
             }
         }
         const label = row[labelName];
         if (!labelMap.has(label)) {
-            labelMap.set(label, labelIndex);  
+            labelMap.set(label, labelIndex);
             labelIndex++;
         }
         features.push(featureArray);
         labels.push(labelMap.get(label));
     });
+
+
 
     return { features: features, labels: labels };
 }
@@ -41,11 +72,12 @@ function getNormalizedFeatures(features: number[][]) {
 export async function PrepareData(dataset: DatasetProps) {
     
     const { features, labels } = getFeaturesAndLabels(dataset);
+
     tf.util.shuffleCombo(features, labels);
     const normalizedFeatures = getNormalizedFeatures(features);
     const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
 
-    const trainSize = Math.floor(0.5 * features.length);
+    const trainSize = Math.floor(0.8 * features.length);
     const valSize = features.length - trainSize;
     
     const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, [trainSize, valSize]);
