@@ -98,7 +98,9 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
                     <div className="h-36 w-36 mt-1 ml-1"></div>
                     <div className="flex flex-col gap-1">
                         <div className="h-12 w-full flex items-center justify-center dark:text-white">
-                            <span className="">predicted</span>
+                            <span className="text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">
+                                predicted
+                            </span>
                         </div>
                         <div className="flex flex-row gap-1">
                             {predictedLabels}
@@ -107,7 +109,7 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
                 </div>
                 <div className="flex flex-row justify-stretch gap-1">
                     <div className="min-w-12 flex items-center justify-center dark:text-white">
-                        <span className="-rotate-90">real</span>
+                        <span className="-rotate-90 text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">real</span>
                     </div>
                     <div className="flex flex-col gap-1">
                         {realLabels}

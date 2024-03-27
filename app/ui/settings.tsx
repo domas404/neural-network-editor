@@ -1,15 +1,23 @@
 "use client";
 
 import "@/app/globalicons.css";
+import { useState } from "react";
 
 export default function Settings() {
+
+    const lightMode = "light_mode";
+    const darkMode = "dark_mode";
+
+    const [darkModeIcon, setDarkModeIcon] = useState(lightMode);
 
     const toggleDarkMode = () => {
         let root = document.getElementsByTagName("html")[0];
         if (root.classList.contains("dark")) {
+            setDarkModeIcon(lightMode);
             root.classList.remove("dark");
-            console.log("switched to light mode")
+            console.log("switched to light mode");
         } else {
+            setDarkModeIcon(darkMode);
             root.classList.add("dark");
             console.log("switched to dark mode");
         }
@@ -26,8 +34,8 @@ export default function Settings() {
                                 hover:text-sky-600 dark:hover:text-teal-200"
                             onClick={toggleDarkMode}
                         >
-                            <span className="material-symbols-outlined">
-                                light_mode
+                            <span className="material-symbols-outlined md-20">
+                                {darkModeIcon}
                             </span>
                         </button>
                     </div>
