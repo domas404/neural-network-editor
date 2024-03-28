@@ -54,7 +54,7 @@ export default function FeatureList() {
             dispatch(updateDataset({ datasetName: datasetId, updatedRows: dataRows }));
         }
         getFilteredData();
-    }, 500);
+    }, 1000);
 
     useEffect(() => {
         debouncedRerender();
