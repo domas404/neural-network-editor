@@ -172,3 +172,78 @@ export function ModelPageSkeleton() {
         </div>
     );
 }
+
+interface ListSkeletonProps {
+    listName: string;
+}
+
+export const ListSkeleton = ({ listName }: ListSkeletonProps) => {
+    return (
+        <div className="h-full rounded-md shadow-sm bg-white border dark:bg-slate-800 dark:border-slate-700">
+            <div className="flex flex-col py-5 px-1 w-full h-full">
+                <div className="mx-5 shrink">
+                    <div className="text-base font-bold uppercase text-ellipsis overflow-hidden dark:text-teal-100" title="Hyperparameters">
+                        {listName}
+                    </div>
+                </div>
+                <div className="mx-5 mt-2 animate-pulse">
+                    <div className="my-2">
+                        <div className="bg-slate-100 py-2.5 px-4 rounded-lg w-full h-10 dark:bg-slate-700"></div>
+                    </div>
+                    <div className="my-2">
+                        <div className="bg-slate-100 py-2.5 px-4 rounded-lg w-full h-10 dark:bg-slate-700"></div>
+                    </div>
+                    <div className="my-2">
+                        <div className="bg-slate-100 py-2.5 px-4 rounded-lg w-full h-10 dark:bg-slate-700"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function DatasetPageSkeleton() {
+    return (
+        <div className="basis-11/12 flex flex-row gap-2 justify-stretch grow">
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">
+                <div className="h-full">
+                    <ListSkeleton listName="Dataset" />
+                </div>
+            </div>
+            <div className="basis-2/3 grow">
+                <PlaygroundSkeleton />
+            </div>
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">
+                <div className="basis-1/2">
+                    <ListSkeleton listName="Features" />
+                </div>
+                <div className="basis-1/2 grow">
+                    <ListSkeleton listName="Labels" />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export function TrainPageSkeleton() {
+    return (
+        <div className="basis-11/12 flex flex-row gap-2 justify-stretch grow">
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">
+                <div className="h-full">
+                    <ListSkeleton listName="Plot" />
+                </div>
+            </div>
+            <div className="basis-2/3 grow">
+                <PlaygroundSkeleton />
+            </div>
+            <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">
+                <div className="basis-1/2">
+                    <ListSkeleton listName="Metrics" />
+                </div>
+                <div className="basis-1/2 grow">
+                    <ListSkeleton listName="Export" />
+                </div>
+            </div>
+        </div>
+    );
+}
