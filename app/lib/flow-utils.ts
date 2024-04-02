@@ -41,6 +41,23 @@ export function createNodesAndEdges(layers: Layer[]) {
                 // borderRadius: "0.75rem",
             }
         });
+        if (i < layers.length-1) {
+            const addLayerId = v4();
+            nodes.push({
+                id: addLayerId,
+                position: { x:i*120+60+88, y:0 },
+                data: {
+                    layerId: layers[i].id,
+                },
+                type: "customAddLayer",
+                parentNode: nodes[0].id,
+                extent: "parent",
+                zIndex: 1,
+                style: {
+                    height: `${height}px`,
+                }
+            });
+        }
         let topMargin = (height - (layers[i].neurons.length*40 + (layers[i].neurons.length-1)*20))/2;
         for (let j=0; j<layers[i].neurons.length; j++) {
             nodes.push({

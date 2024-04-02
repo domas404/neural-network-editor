@@ -4,10 +4,12 @@ import fullyConnectedLayer from "@/public/fully-connected.png";
 
 export default function Layers() {
 
-    // const onDragStart = (event: React.DragEvent, nodeType: any) => {
-    //     event.dataTransfer.setData('application/reactflow', nodeType);
-    //     event.dataTransfer.effectAllowed = 'move';
-    // };
+    const onDragStart = (event: React.DragEvent) => {
+        console.log("Drag started");
+        event.dataTransfer.clearData();
+        event.dataTransfer.setData('text/plain', event.currentTarget.id);
+        event.dataTransfer.effectAllowed = 'move';
+    };
 
     return (
         <div className="bg-white flex rounded-md shadow-sm border h-full dark:bg-slate-800 dark:border-slate-700">
@@ -19,7 +21,7 @@ export default function Layers() {
                     <div className="flex flex-col bg-gray-200 gap-px mt-4 dark:bg-slate-700">
                         <div className="bg-white dark:bg-slate-800">
                             <div
-                                // onDragStart={(event) => onDragStart(event, "input")}
+                                onDragStart={onDragStart}
                                 draggable
                                 className="flex flex-row items-center rounded-lg select-none hover:cursor-grab hover:bg-gray-100 p-2
                                 dark:hover:bg-slate-700"

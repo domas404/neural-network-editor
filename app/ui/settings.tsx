@@ -33,20 +33,21 @@ export default function Settings() {
                             className="rounded-full flex items-center justify-center h-full
                                 hover:text-sky-600 dark:hover:text-teal-200"
                             onClick={toggleDarkMode}
+                            title={darkModeIcon === "light_mode" ? "switch to dark mode": "switch to light mode"}
                         >
                             <span className="material-symbols-outlined md-20">
                                 {darkModeIcon}
                             </span>
                         </button>
                     </div>
-                    <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
+                    {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
                         <span>EN</span>
                     </div>
                     <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
                         <span>?</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

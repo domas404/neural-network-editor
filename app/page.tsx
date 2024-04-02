@@ -3,7 +3,9 @@ import Settings from '@/app/ui/settings';
 import Logo from '@/app/ui/logo';
 import { LinkToPageButton } from '@/app/ui/buttons';
 import Link from 'next/link';
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
+// import Image from "next/image";
+// import DefaultImage from "@/public/nn3.png";
 
 export const metadata: Metadata = {
     title: 'Home | Neural Network Editor',
@@ -30,8 +32,8 @@ export default function Home() {
                     </Link>
                 </div>
             </div>
-            <div className="col-span-4 row-span-9 row-start-2 bg-slate-100 rounded-xl p-4 dark:bg-slate-800">
-                <div></div>
+            <div className="relative col-span-4 row-span-8 row-start-2 bg-slate-100 rounded-xl p-4 dark:bg-slate-800">
+                {/* <Image src={DefaultImage} alt="" fill={true} className="rounded-xl" style={{objectFit: "cover"}} /> */}
             </div>
         </main>
     );

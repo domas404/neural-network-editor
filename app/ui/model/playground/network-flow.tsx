@@ -12,6 +12,7 @@ import "./index.css";
 import { useAppSelector, AppDispatch } from "@/app/lib/redux/store";
 import { useDispatch } from "react-redux";
 import { updateInputLayer, updateOutputLayer } from "@/app/lib/redux/features/model-slice";
+import customAddLayer from "./custom-add-layer";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
@@ -20,6 +21,7 @@ const edgeTypes: EdgeTypes = {
 const nodeTypes = {
     customNode: CustomNode,
     customNodeGroup: CustomNodeGroup,
+    customAddLayer: customAddLayer
 };
 
 const Flow = () => {

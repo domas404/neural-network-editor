@@ -22,3 +22,7 @@
     0% {transform: rotate(-45deg);}
     100% {transform: rotate(315deg);}
 }
+
+.on-drag-over {
+    background-color: hsla(220, 66%, 55%, 0.3);
+}
