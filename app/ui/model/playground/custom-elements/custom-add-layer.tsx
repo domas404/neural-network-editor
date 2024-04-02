@@ -31,16 +31,17 @@ function CustomAddLayer( { data }: any ) {
     const modelId = useAppSelector((state) => state.networkReducer.modelId);
     const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
 
-    const onDrop = (event: React.DragEvent) => {
+    const onDrop = async (event: React.DragEvent) => {
+        console.log("before", objects);
         const insertAfterIndex = objects.findIndex((item) => item.id === data.layerId);
-        if (objects.length-2 < MAX_LAYER_COUNT){
+        event.currentTarget.classList.remove("on-drag-over");
+        if (objects.length-2 < MAX_LAYER_COUNT) {
             dispatch(addHiddenLayerAfter({
                 modelId: modelId,
                 insertAfter: objects[insertAfterIndex],
                 insertAfterIndex: insertAfterIndex
             }));
         }
-        event.currentTarget.classList.remove("on-drag-over");
     }
 
     return (

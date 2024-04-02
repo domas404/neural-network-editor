@@ -96,6 +96,7 @@ export const models = createSlice({
         addHiddenLayerAfter: (state, action: PayloadAction<{ modelId: string, insertAfter: Layer, insertAfterIndex: number }>) => {
             const model = state[action.payload.modelId];
             const insertAfter = action.payload.insertAfter;
+            const insertAfterIndex = action.payload.insertAfterIndex;
 
             const neuronsToAdd = [];
             for (let i=0; i<insertAfter.neurons.length; i++) {
@@ -103,15 +104,15 @@ export const models = createSlice({
             }
             const newLayer: Layer = {
                 id: v4(),
-                activation: insertAfter.activation,
+                activation: insertAfterIndex === 0 ? "relu" : insertAfter.activation,
                 neurons: neuronsToAdd,
                 order: insertAfter.order + 1,
                 type: "hidden"
             };
-            model.layers.slice(action.payload.insertAfterIndex + 1).forEach((layer) => {
+            model.layers.slice(insertAfterIndex + 1).forEach((layer) => {
                 layer.order = layer.order + 1;
             })
-            model.layers.splice(action.payload.insertAfterIndex + 1, 0, newLayer);
+            model.layers.splice(insertAfterIndex + 1, 0, newLayer);
         },
         removeHiddenLayer: (state, action: PayloadAction<string>) => {
             const model = state[action.payload];

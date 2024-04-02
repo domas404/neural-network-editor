@@ -2,26 +2,32 @@ import React, { useEffect } from "react";
 import ReactFlow, { Background, useNodesState, useEdgesState, EdgeTypes, useReactFlow } from 'reactflow';
 import 'reactflow/dist/base.css';
 
-import FloatingEdge from "@/app/ui/model/playground/floating-edge";
-import CustomNode from '@/app/ui/model/playground/custom-node';
-import CustomNodeGroup from '@/app/ui/model/playground/custom-node-group';
+import FloatingEdge from "@/app/ui/model/playground/custom-elements/floating-edge";
+import CustomNode from '@/app/ui/model/playground/custom-elements/custom-node';
+import CustomNodeGroup from '@/app/ui/model/playground/custom-elements/custom-node-group';
 import { createNodesAndEdges } from "@/app/lib/flow-utils";
 
-import "./index.css";
+import "./custom-elements/index.css";
 
 import { useAppSelector, AppDispatch } from "@/app/lib/redux/store";
 import { useDispatch } from "react-redux";
 import { updateInputLayer, updateOutputLayer } from "@/app/lib/redux/features/model-slice";
-import customAddLayer from "./custom-add-layer";
+import customAddLayer from "./custom-elements/custom-add-layer";
+import customInputNode from "./custom-elements/custom-input-node";
+import customHiddenNode from "./custom-elements/custom-hidden-node";
+import customOutputNode from "./custom-elements/custom-output-node";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
 };
 
 const nodeTypes = {
-    customNode: CustomNode,
+    // customNode: CustomNode,
     customNodeGroup: CustomNodeGroup,
-    customAddLayer: customAddLayer
+    customAddLayer,
+    customInputNode,
+    customHiddenNode,
+    customOutputNode
 };
 
 const Flow = () => {

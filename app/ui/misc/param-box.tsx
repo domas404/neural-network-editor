@@ -46,7 +46,7 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
                             <option
                                 key={option}
                                 value={option}
-                                className="font-sans dark:text-white"
+                                className="font-sans dark:text-white checked:bg-slate-200 dark:checked:bg-slate-600"
                             >
                                 {option}
                             </option>

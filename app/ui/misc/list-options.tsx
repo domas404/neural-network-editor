@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface RadioOptionProps {
     id: string,
     handleChange: any,

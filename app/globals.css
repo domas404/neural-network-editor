@@ -6,6 +6,10 @@ body {
   height: 100vh;
 }
 
+* {
+  @apply transition-colors duration-200;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

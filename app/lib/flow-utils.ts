@@ -60,6 +60,12 @@ export function createNodesAndEdges(layers: Layer[]) {
         }
         let topMargin = (height - (layers[i].neurons.length*40 + (layers[i].neurons.length-1)*20))/2;
         for (let j=0; j<layers[i].neurons.length; j++) {
+            let nodeType = "customHiddenNode";
+            if (layers[i].type === "input") {
+                nodeType = "customInputNode";
+            } else if (layers[i].type === "output") {
+                nodeType = "customOutputNode";
+            }
             nodes.push({
                 id: layers[i].neurons[j].id,
                 position: { x:28, y:topMargin+j*60 },
@@ -67,7 +73,7 @@ export function createNodesAndEdges(layers: Layer[]) {
                     type: layers[i].type,
                 },
                 parentNode: layers[i].id,
-                type: "customNode",
+                type: nodeType,
                 extent: "parent",
                 draggable: false,
                 zIndex: 3,

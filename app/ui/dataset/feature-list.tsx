@@ -74,8 +74,7 @@ export default function FeatureList() {
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
-                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 overflow-scroll
-                        dark:bg-slate-700">
+                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 dark:bg-slate-700">
                         {
                             selectedDataset.features.map((feature, index) => {
                                 return (
