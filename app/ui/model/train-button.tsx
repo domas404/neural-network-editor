@@ -1,7 +1,7 @@
 "use client";
 
 import "@/app/globalicons.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { ExecuteTraining } from "@/app/lib/train-model/build-model";
 
 import { useAppSelector, AppDispatch } from '@/app/lib/redux/store';
@@ -10,14 +10,17 @@ import { updateTrainHistory } from "@/app/lib/redux/features/train-slice";
 import { TrainHistory } from "@/app/lib/data-types";
 import Link from "next/link";
 
-export default function TrainButton() {
+
+function useTrainHandler() {
 
     const dataset = useAppSelector((state) => state.datasetReducer);
     const model = useAppSelector((state) => state.modelsReducer);
     const hyperparams = useAppSelector((state) => state.paramReducer);
     const network = useAppSelector((state) => state.networkReducer);
-
     const dispatch = useDispatch<AppDispatch>();
+
+    const [animationState, setAnimationState] = useState(false);
+    const [resultsReady, setResultsReady] = useState(false);
 
     const handleTrain = () => {
         async function executeTraining() {
@@ -34,9 +37,6 @@ export default function TrainButton() {
         }
         executeTraining();
     };
-
-    const [animationState, setAnimationState] = useState(false);
-    const [resultsReady, setResultsReady] = useState(false);
 
     useEffect(() => {
         if (resultsReady) {
@@ -66,14 +66,27 @@ export default function TrainButton() {
         }
     }
 
+    const initiateAnimation = () => {
+        setAnimationState(true);
+    };
+
+    return [animationState, resultsReady, initiateAnimation] as const;
+
+}
+
+export default function TrainButton() {
+
+    const [animationState, resultsReady, initiateAnimation] = useTrainHandler();
+
     return (
         <>
             <div className="w-full flex flex-col gap-2">
                 <button
-                    onClick={() => setAnimationState(true)}
-                    className={`bg-lightblue-600 text-teal-100 p-2 rounded-md uppercase font-semibold ${ animationState ? "w-full" : "basis-2/3"}
-                        hover:bg-lightblue-700 active:bg-lightblue-800 ${animationState && "pointer-events-none"}
-                        transition-all ease-in-out duration-200`}
+                    onClick={initiateAnimation}
+                    className={`bg-lightblue-600 text-teal-100 p-2 rounded-md uppercase font-semibold
+                        ${ animationState ? "w-full pointer-events-none" : "basis-2/3"}
+                        hover:bg-lightblue-700 active:bg-lightblue-800
+                        dark:bg-lightblue-700 dark:hover:bg-lightblue-600 dark:active:bg-lightblue-500`}
                     type="submit"
                 >
                     {

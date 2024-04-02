@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 import "./index.css";
@@ -14,6 +14,8 @@ const MAX_LAYER_COUNT = 8;
 function CustomAddLayer( { data }: any ) {
 
     const dispatch = useDispatch<AppDispatch>();
+    const modelId = useAppSelector((state) => state.networkReducer.modelId);
+    const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
 
     const onDragEnter = (event: React.DragEvent) => {
         event.currentTarget.classList.add("on-drag-over");
@@ -27,9 +29,6 @@ function CustomAddLayer( { data }: any ) {
     const onDragLeave = (event: React.DragEvent) => {
         event.currentTarget.classList.remove("on-drag-over");
     }
-
-    const modelId = useAppSelector((state) => state.networkReducer.modelId);
-    const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
 
     const onDrop = async (event: React.DragEvent) => {
         console.log("before", objects);
