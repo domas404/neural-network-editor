@@ -115,7 +115,7 @@ export default function Models() {
                     </div>
                     {menuOpen && <ModelMenu pos={buttonPosition} />}
                 </div>
-                <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2">
+                <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2 overflow-y-hidden">
                     {
                         modelNames.map((item) => {
                             return (
