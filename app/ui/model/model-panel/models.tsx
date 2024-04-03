@@ -5,26 +5,20 @@ import { RadioOption } from "@/app/ui/misc/list-options";
 import { changeModel } from "@/app/lib/redux/features/network-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { useState } from "react";
-
-interface modelInfo {
-    id: string,
-    name: string
-}
-
-const modelNames: modelInfo[] = [
-    { id: "default", name: "Default" },
-    { id: "mymodel", name: "My Model" }
-];
+import { useEffect, useState } from "react";
+import { createModelFromDefault, createModelFromCurrent } from "@/app/lib/redux/features/model-slice";
 
 interface ModelMenuProps {
     pos: {
         x: number,
         y: number
-    };
+    },
+    createDefault: () => void,
+    createFromCurrent: () => void,
 }
 
-const ModelMenu = ({ pos }: ModelMenuProps) => {
+const ModelMenu = ({ pos, createDefault, createFromCurrent }: ModelMenuProps) => {
+
     const height = pos.y - 118;
     return (
         <div
@@ -45,7 +39,9 @@ const ModelMenu = ({ pos }: ModelMenuProps) => {
                 </div>
                 <div className="w-full p-2 rounded-md hover:cursor-pointer flex flex-row gap-2
                     bg-white hover:bg-slate-200 active:bg-lightblue-200
-                    dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-500">
+                    dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-500"
+                    onMouseUp={createDefault}
+                >
                     <div className="flex items-center">
                         <span className="material-symbols-outlined md-20">
                             add_circle
@@ -55,7 +51,9 @@ const ModelMenu = ({ pos }: ModelMenuProps) => {
                 </div>
                 <div className="w-full p-2 rounded-md hover:cursor-pointer flex flex-row gap-2
                     bg-white hover:bg-slate-200 active:bg-lightblue-200
-                    dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-500">
+                    dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-500"
+                    onMouseUp={createFromCurrent}
+                >
                     <div className="flex items-center">
                         <span className="material-symbols-outlined md-20">
                             add_circle
@@ -72,6 +70,15 @@ export default function Models() {
 
     const currentModel = useAppSelector((state) => state.networkReducer.modelId);
     const dispatch = useDispatch<AppDispatch>();
+    const allModels = useAppSelector((state) => state.modelsReducer);
+
+    const [modelNames, setModelNames] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (Object.keys(allModels) != modelNames) {
+            setModelNames(Object.keys(allModels));
+        }
+    }, [allModels]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         dispatch(changeModel(event.currentTarget.value));
@@ -96,6 +103,18 @@ export default function Models() {
             document.addEventListener('mouseup', closeModelMenu);
         }
     }
+
+    const createDefault = () => {
+        console.log("model creation called");
+        dispatch(createModelFromDefault({ modelId: "newmodel", modelName: "New Model" }));
+        dispatch(changeModel("newmodel"));
+    }
+
+    const createFromCurrent = () => {
+        console.log("model creation called");
+        dispatch(createModelFromCurrent({ modelId: "fromcurrent", modelName: "From Current", createFrom: currentModel }));
+        dispatch(changeModel("fromcurrent"));
+    }
     
     return (
         <div className="bg-white flex rounded-md border shadow-sm h-full dark:bg-slate-800 dark:border-slate-700">
@@ -113,18 +132,25 @@ export default function Models() {
                             add
                         </span>
                     </div>
-                    {menuOpen && <ModelMenu pos={buttonPosition} />}
+                    {
+                        menuOpen &&
+                        <ModelMenu
+                            pos={buttonPosition}
+                            createDefault={createDefault}
+                            createFromCurrent={createFromCurrent}
+                        />
+                    }
                 </div>
                 <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2 overflow-y-hidden">
                     {
                         modelNames.map((item) => {
                             return (
                                 <RadioOption
-                                    key={item.id}
-                                    id={item.id}
+                                    key={item}
+                                    id={item}
                                     handleChange={handleChange}
-                                    isChecked={item.id === currentModel}
-                                    name={item.name}
+                                    isChecked={item === currentModel}
+                                    name={allModels[item].name}
                                     groupName="model"
                                 />
                             );

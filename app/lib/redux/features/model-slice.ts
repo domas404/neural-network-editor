@@ -2,7 +2,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Layer, ModelSet } from "@/app/lib/data-types";
-import { InitialModels } from "@/app/lib/initial-model";
+import { InitialModels, defaultModel } from "@/app/lib/initial-model";
 import { v4 } from "uuid";
 
 const initialState: ModelSet = InitialModels;
@@ -121,6 +121,30 @@ export const models = createSlice({
         reorderLayers: () => {
             
         },
+        createModelFromDefault: (state, action: PayloadAction<{ modelId: string, modelName: string }>) => {
+            const { modelId, modelName } = action.payload;
+            const model: ModelSet = { [modelId]: {
+                name: modelName,
+                layers: defaultModel["default"].layers
+            } };
+            console.log(model);
+            return {
+                ...state,
+                ...model
+            }
+        },
+        createModelFromCurrent: (state, action: PayloadAction<{ modelId: string, modelName: string, createFrom: string }>) => {
+            const { modelId, modelName, createFrom } = action.payload;
+            const model: ModelSet = { [modelId]: {
+                name: modelName,
+                layers: state[createFrom].layers
+            } };
+            console.log(model);
+            return {
+                ...state,
+                ...model
+            }
+        }
     }
 });
 
@@ -135,5 +159,7 @@ export const {
     addHiddenLayerAfter,
     removeHiddenLayer,
     changeActivation,
+    createModelFromDefault,
+    createModelFromCurrent
 } = models.actions;
 export default models.reducer;

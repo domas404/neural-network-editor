@@ -1,7 +1,7 @@
 import { ModelSet } from "@/app/lib/data-types";
 import { v4 } from "uuid";
 
-const defaultModel: ModelSet = {
+export const defaultModel: ModelSet = {
     'default': {
         name: 'Default',
         layers: [

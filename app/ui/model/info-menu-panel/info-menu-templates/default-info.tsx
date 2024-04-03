@@ -12,7 +12,7 @@ export default function DefaultInfo() {
 
     const dispatch = useDispatch<AppDispatch>();
     const modelId = useAppSelector((state) => state.networkReducer.modelId);
-    const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
+    const allModels = useAppSelector((state) => state.modelsReducer);
     const [layerCount, setLayerCount] = useState(MIN_LAYER_COUNT);
 
     const addLayer = () => {
@@ -28,14 +28,14 @@ export default function DefaultInfo() {
     }
 
     useEffect(() => {
-        const newNeuronCount = objects.length-2;
+        const newNeuronCount = allModels[modelId].layers.length-2;
         setLayerCount(newNeuronCount);
-    }, [objects]);
+    }, [allModels[modelId].layers]);
 
     return (
         <div>
             <div className="text-base font-bold uppercase dark:text-teal-100">
-                Network
+                {allModels[modelId].name}
             </div>
             <div className="mt-4">
                 <div className="text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider pb-1 dark:text-slate-200">
