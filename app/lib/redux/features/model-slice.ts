@@ -144,6 +144,10 @@ export const models = createSlice({
                 ...state,
                 ...model
             }
+        },
+        updateModelName: (state, action: PayloadAction<{ modelId: string, newName: string }>) => {
+            const { modelId, newName } = action.payload;
+            state[modelId].name = newName;
         }
     }
 });
@@ -160,6 +164,7 @@ export const {
     removeHiddenLayer,
     changeActivation,
     createModelFromDefault,
-    createModelFromCurrent
+    createModelFromCurrent,
+    updateModelName
 } = models.actions;
 export default models.reducer;

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useRef, useEffect } from 'react';
+import { useAppSelector } from '@/app/lib/redux/store';
 
 interface RadioOptionProps {
     id: string,
@@ -10,9 +11,20 @@ interface RadioOptionProps {
 
 export function RadioOption({ id, handleChange, isChecked, name, groupName }: RadioOptionProps) {
 
+    // const modelId = useAppSelector((state) => state.networkReducer);
+
+    // const listOption = useRef<null | HTMLLabelElement>(null);
+
     const scrollIntoPlace = (event: React.MouseEvent<HTMLElement>) => {
         event.currentTarget.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // useEffect(() => {
+    //     console.log(listOption);
+    //     if (listOption.current !== null) {
+    //         listOption.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    // }, [modelId]);
 
     return (
         <div key={id} className="flex-none list-none my-2">
@@ -34,7 +46,9 @@ export function RadioOption({ id, handleChange, isChecked, name, groupName }: Ra
                     peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100
                     dark:text-slate-100 dark:bg-slate-700 dark:border-slate-600
                     dark:hover:bg-slate-600 dark:hover:border-slate-500
-                    dark:peer-checked:bg-slate-500 dark:peer-checked:text-slate-100 dark:peer-checked:border-slate-400">
+                    dark:peer-checked:bg-slate-500 dark:peer-checked:text-slate-100 dark:peer-checked:border-slate-400"
+                // ref={listOption}
+                >
                 <div className="flex justify-center items-center h-full font-semibold text-sm">
                     {name}
                 </div>

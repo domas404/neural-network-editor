@@ -35,7 +35,7 @@ export default function InfoMenu() {
 
     return (
         <div className="bg-white flex rounded-md shadow-sm h-full border dark:bg-slate-800 dark:border-slate-700">
-            <div className="py-5 px-6 w-full">
+            <div className="py-5 px-6 w-full relative">
                 <div className="flex flex-col">
                     {objectToDisplay}
                 </div>

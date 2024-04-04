@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { useEffect, useState } from "react";
 import { createModelFromDefault, createModelFromCurrent } from "@/app/lib/redux/features/model-slice";
+import { v4 } from "uuid";
 
 interface ModelMenuProps {
     pos: {
@@ -106,14 +107,16 @@ export default function Models() {
 
     const createDefault = () => {
         console.log("model creation called");
-        dispatch(createModelFromDefault({ modelId: "newmodel", modelName: "New Model" }));
-        dispatch(changeModel("newmodel"));
+        const newModelId = v4();
+        dispatch(createModelFromDefault({ modelId: newModelId, modelName: "My Model" }));
+        dispatch(changeModel(newModelId));
     }
 
     const createFromCurrent = () => {
         console.log("model creation called");
-        dispatch(createModelFromCurrent({ modelId: "fromcurrent", modelName: "From Current", createFrom: currentModel }));
-        dispatch(changeModel("fromcurrent"));
+        const newModelId = v4();
+        dispatch(createModelFromCurrent({ modelId: newModelId, modelName: "My Model", createFrom: currentModel }));
+        dispatch(changeModel(newModelId));
     }
     
     return (
