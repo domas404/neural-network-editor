@@ -1,7 +1,12 @@
 "use client";
 
 import "@/app/globalicons.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import githubLight from "@/public/github-mark-white.png";
+import githubDark from "@/public/github-mark.png";
+import Link from "next/link";
+
 
 export default function Settings() {
 
@@ -23,6 +28,10 @@ export default function Settings() {
         }
     }
 
+    useEffect(() => {
+        toggleDarkMode();
+    }, []);
+
     return (
         <div className="basis-1/3 flex justify-end">
             <div className="flex items-center bg-white border shadow-sm h-8 rounded-md select-none px-1
@@ -40,6 +49,24 @@ export default function Settings() {
                             </span>
                         </button>
                     </div>
+                    <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
+                        dark:bg-slate-800 dark:text-slate-200">
+                        <Link href="https://github.com/domas404/neural-network-editor" target="blank">
+                            <Image
+                                src={darkModeIcon === "light_mode" ? githubDark : githubLight}
+                                width={18}
+                                alt="github link"
+                                className="hover:opacity-70 active:opacity-50 hover:cursor-pointer"
+                                title="open github repository"
+                            />
+                        </Link>
+                    </div>
+                    {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm hover:cursor-pointer
+                        dark:bg-slate-800 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400">
+                        <span className="material-symbols-outlined md-20">
+                            delete
+                        </span>
+                    </div> */}
                     {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
                         <span>EN</span>

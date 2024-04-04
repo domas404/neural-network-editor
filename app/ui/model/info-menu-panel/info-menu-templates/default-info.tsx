@@ -84,7 +84,6 @@ export default function DefaultInfo() {
                             />
                         :
                             <div className="w-4/5 text-ellipsis overflow-hidden text-nowrap" title={modelName}>{modelName}</div>
-
                     }
                 </div>
                 {
@@ -106,6 +105,7 @@ export default function DefaultInfo() {
                             text-slate-400 hover:text-slate-700 dark:text-slate-500
                             dark:hover:bg-slate-700 dark:hover:text-slate-300 dark:active:bg-slate-600"
                             onClick={toggleInputMode}
+                            title="edit name"
                         >
                             <span className="material-symbols-outlined md-20">
                                 edit

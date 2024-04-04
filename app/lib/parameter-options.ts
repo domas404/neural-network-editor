@@ -2,12 +2,12 @@ const parameterOptions = [
     {
         id: "epochs",
         name: "epochs",
-        options: ["1", "5", "10", "20", "50", "100", "200", "500", "1000"]
+        options: ["1", "5", "10", "20", "50", "100", "200", "500"]
     },
     {
         id: "learningRate",
         name: "learning rate",
-        options: ["0.00001", "0.0001", "0.001", "0.01", "0.1", "1", "5", "10"]
+        options: ["0.0001", "0.001", "0.01", "0.1", "1", "5", "10"]
     },
     {
         id: "batchSize",

@@ -241,7 +241,7 @@ export function TrainPageSkeleton() {
                     <ListSkeleton listName="Metrics" />
                 </div>
                 <div className="basis-1/2 grow">
-                    <ListSkeleton listName="Export" />
+                    <ListSkeleton listName="Download" />
                 </div>
             </div>
         </div>

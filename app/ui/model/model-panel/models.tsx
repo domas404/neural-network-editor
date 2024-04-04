@@ -130,6 +130,7 @@ export default function Models() {
                         hover:bg-slate-200 active:bg-lightblue-200 transition-all ease-in-out duration-200
                         dark:hover:bg-slate-700 dark:active:bg-slate-600"
                         onClick={openModelMenu}
+                        title="create new model"
                     >
                         <span className="material-symbols-outlined text-slate-600 dark:text-slate-100">
                             add
