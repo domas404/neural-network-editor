@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HyperparameterSet } from "@/app/lib/data-types";
 
 const initialState: HyperparameterSet = {
-    epochs: "1",
+    epochs: "5",
     learningRate: "0.1",
     batchSize: "1",
     optimizer: "SGD",
