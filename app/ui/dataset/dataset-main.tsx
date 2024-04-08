@@ -10,6 +10,7 @@ import { uploadDataset } from "@/app/lib/redux/features/dataset-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { fetchAllData } from '@/app/lib/data';
+import { DataTableSkeleton } from '../misc/skeletons';
 
 export default function DatasetMain() {
 
@@ -39,7 +40,12 @@ export default function DatasetMain() {
 
             <div className="basis-2/3 grow flex relative bg-white rounded-md border dark:border-slate-700 dark:bg-slate-800">
                 <div className="w-full h-[500px] my-8 px-6 absolute top-8 z-10">
-                    <DatasetSample />
+                    {
+                        dataset[selectedDataset].loaded ?
+                            <DatasetSample />
+                        :
+                            <DataTableSkeleton />
+                    }
                 </div>
                 <div className="py-5 px-6 text-base z-0 font-bold uppercase dark:text-teal-100">
                     {selectedDataset}

@@ -247,3 +247,52 @@ export function TrainPageSkeleton() {
         </div>
     );
 }
+
+export function DataTableSkeleton() {
+
+    const rows = []
+    for (let i=0; i<10; i++) {
+        rows.push(
+            <tr className="h-8">
+                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+            </tr>
+        )
+    }
+    return (
+        <>
+            <div className="flex justify-between w-full text-sm mb-2 items-center">
+                <div className="uppercase tracking-wider font-semibold text-right text-slate-600 dark:text-slate-300">
+                    ... rows
+                </div>
+                <button className="py-1 px-2 uppercase tracking-wider font-semibold rounded-md bg-slate-100 border text-lightblue-900
+                    hover:cursor-pointer hover:bg-lightblue-100 active:bg-lightblue-200
+                    dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200
+                    dark:hover:bg-slate-600 dark:hover:border-slate-500
+                    dark:active:bg-slate-500 dark:active:border-slate-400"
+                >
+                    Shuffle
+                </button>
+            </div>
+            <div className="w-full overflow-scroll">
+                <table className="w-full h-full border-separate animate-pulse">
+                    <thead className="w-full">
+                        <tr className="sticky top-0 h-10">
+                            <th className={`border-1 border-white rounded-md py-2 px-4 bg-slate-200 dark:bg-slate-600`}></th>
+                            <th className={`border-1 border-white rounded-md py-2 px-4 bg-slate-200 dark:bg-slate-600`}></th>
+                            <th className={`border-1 border-white rounded-md py-2 px-4 bg-slate-200 dark:bg-slate-600`}></th>
+                            <th className={`border-1 border-white rounded-md py-2 px-4 bg-slate-200 dark:bg-slate-600`}></th>
+                            <th className={`border-1 border-white rounded-md py-2 px-4 bg-slate-200 dark:bg-slate-600`}></th>
+                        </tr>
+                    </thead>
+                    <tbody className="">
+                        { rows }
+                    </tbody>
+                </table>
+            </div>
+        </>
+    );
+}
