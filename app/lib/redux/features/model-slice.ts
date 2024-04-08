@@ -29,17 +29,17 @@ export const models = createSlice({
                 model
             });
         },
-        removeLayer: (state, action: PayloadAction<{ modelName: string, order: number }>) => {
-            const { modelName, order } = action.payload;
+        removeLayer: (state, action: PayloadAction<{ modelName: string, layerId: string }>) => {
+            const { modelName, layerId } = action.payload;
             const model = state[modelName];
-            model.layers.splice(order, 1);
-            for (let i=order; i<model.layers.length; i++){
-                model.layers[i].order = model.layers[i].order-1;
+            const layerToRemove = model.layers.findIndex((item) => item.id === layerId);
+            if (layerToRemove === 0 || layerToRemove === model.layers.length-1 || model.layers.length <= 3) {
+                return;
             }
-            return ({
-                ...state,
-                model
-            });
+            model.layers.slice(layerToRemove + 1).forEach((layer) => {
+                layer.order = layer.order - 1;
+            })
+            model.layers.splice(layerToRemove, 1);
         },
         addNeuronToLayer: (state, action: PayloadAction<{ modelName: string, layerId: string }>) => {
             const { modelName, layerId } = action.payload;

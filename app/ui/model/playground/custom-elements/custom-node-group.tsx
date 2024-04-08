@@ -6,6 +6,7 @@ import { Handle, Position } from 'reactflow';
 import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
+import { setLayerBeingDragged, setLayerNotBeingDragged } from '@/app/lib/redux/features/settings-slice';
 
 function CustomNodeGroup() {
 
@@ -36,6 +37,12 @@ function CustomNodeGroup() {
         }
     }, [itemId]);
 
+    const onDragStart = (event: React.DragEvent) => {
+        dispatch(setLayerBeingDragged());
+        const layerId = event.currentTarget.parentElement!.getAttribute("data-id")!.toString();
+        event.dataTransfer.setData("layerToRemove", layerId);
+    }
+
     return (
         <>
             <Handle type="target" id="a" position={Position.Left} isConnectable={false} className="hidden" />
@@ -44,6 +51,8 @@ function CustomNodeGroup() {
                     ${clicked? "!border-blue-400" : ""}`}
                 onClick={handleChange}
                 draggable
+                onDragStart={onDragStart}
+                onDragEnd={() => dispatch(setLayerNotBeingDragged())}
             ></div>
             <Handle type="source" id="b" position={Position.Right} isConnectable={false} className="hidden" />
         </>

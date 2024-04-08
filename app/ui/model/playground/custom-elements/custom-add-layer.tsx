@@ -31,7 +31,6 @@ function CustomAddLayer( { data }: any ) {
     }
 
     const onDrop = async (event: React.DragEvent) => {
-        console.log("before", objects);
         const insertAfterIndex = objects.findIndex((item) => item.id === data.layerId);
         event.currentTarget.classList.remove("on-drag-over");
         if (objects.length-2 < MAX_LAYER_COUNT) {

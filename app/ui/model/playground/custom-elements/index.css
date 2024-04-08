@@ -26,3 +26,8 @@
 .on-drag-over {
     background-color: hsla(220, 66%, 55%, 0.2);
 }
+
+.bin-dragged-over {
+    border: 2px solid rgb(255, 80, 80);
+    color: rgb(255, 80, 80);
+}

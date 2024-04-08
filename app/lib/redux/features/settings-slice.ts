@@ -3,11 +3,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface settingsProps {
-    isDarkMode: boolean
+    isDarkMode: boolean,
+    isLayerBeingDragged: boolean,
 }
 
 const initialState: settingsProps = {
     isDarkMode: false,
+    isLayerBeingDragged: false,
 }
 
 export const settingsSlice = createSlice({
@@ -23,9 +25,15 @@ export const settingsSlice = createSlice({
                 state.isDarkMode = true;
                 root.classList.add("dark");
             }
+        },
+        setLayerBeingDragged: (state) => {
+            state.isLayerBeingDragged = true;
+        },
+        setLayerNotBeingDragged: (state) => {
+            state.isLayerBeingDragged = false;
         }
     }
 });
 
-export const { toogleDarkMode } = settingsSlice.actions;
+export const { toogleDarkMode, setLayerBeingDragged, setLayerNotBeingDragged } = settingsSlice.actions;
 export default settingsSlice.reducer;
