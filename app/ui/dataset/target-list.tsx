@@ -1,6 +1,6 @@
 "use client";
 
-import { updateDataset, updateSelectedLabels } from "@/app/lib/redux/features/dataset-slice";
+import { setAsLoading, updateDataset, updateSelectedLabels } from "@/app/lib/redux/features/dataset-slice";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { useDispatch } from "react-redux";
 import { CheckboxOption } from "@/app/ui/misc/list-options";
@@ -15,12 +15,15 @@ function useTargets() {
     const dataset = useAppSelector((state) => state.datasetReducer);
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
     const [selectedDataset, setSelectedDataset] = useState(dataset[allDatasets[0].id]);
+    const [targetsChanged, setTargetsChanged] = useState(false);
 
     useEffect(() => {
         setSelectedDataset(dataset[datasetId]);
     }, [dataset]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        setTargetsChanged(true);
+        dispatch(setAsLoading(datasetId));
         const labelToChange = selectedDataset.labels.indexOf(event.currentTarget.value);
         const updatedTargets = selectedDataset.selectedLabels.map((label, index) => {
             if (index === labelToChange) {
@@ -51,13 +54,16 @@ function useTargets() {
                 selectedLabelArray
             );
             dispatch(updateDataset({ datasetName: datasetId, updatedRows: dataRows }));
+            setTargetsChanged(false);
         }
         getFilteredData();
     }, 1000);
 
     useEffect(() => {
-        debouncedRerender();
-        return () => debouncedRerender.cancel();
+        if (targetsChanged) {
+            debouncedRerender();
+            return () => debouncedRerender.cancel();
+        }
     }, [selectedDataset.selectedLabels]);
 
     return [selectedDataset, handleChange] as const;

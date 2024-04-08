@@ -36,7 +36,7 @@ export default function Parameters() {
             <div className="flex flex-col py-5 px-1 w-full h-full">
                 <div className="mx-5 shrink">
                     <div className="text-base font-bold uppercase text-ellipsis overflow-hidden dark:text-teal-100" title="Hyperparameters">
-                        Parameters
+                        Hyperparameters
                     </div>
                 </div>
                 <div className="mx-1 mt-2 overflow-y-auto h-full">

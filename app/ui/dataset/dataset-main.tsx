@@ -19,12 +19,13 @@ export default function DatasetMain() {
 
     useEffect(() => {
         async function initDataset() {
-            console.log(`dataset page loader called for ${selectedDataset}`);
+            // console.log(`dataset page loader called for ${selectedDataset} at 'data'`);
             const [dataRows, labels] = await fetchAllData(selectedDataset);
             dispatch(uploadDataset({ datasetName: selectedDataset, dataRows: dataRows, labels: labels}));
         }
-        if (!dataset[selectedDataset].loaded)
+        if (!dataset[selectedDataset].loaded) {
             initDataset();
+        }
     }, [selectedDataset]);
 
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="h-screen flex flex-col p-3 bg-slate-50 gap-4 dark:bg-slate-900">
+        <div className="h-full flex flex-col p-3 bg-slate-50 gap-4 dark:bg-slate-900">
             <div className="basis-1/12 flex flex-row items-center justify-between max-h-10 pt-1">
                 <div className="flex basis-1/3">
                     <Link className="justify-self-start" href="/">

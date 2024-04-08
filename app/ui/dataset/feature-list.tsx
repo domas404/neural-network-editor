@@ -1,7 +1,7 @@
 "use client";
 
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { updateSelectedFeatures, updateDataset } from "@/app/lib/redux/features/dataset-slice";
+import { updateSelectedFeatures, updateDataset, setAsLoading } from "@/app/lib/redux/features/dataset-slice";
 import { useDispatch } from "react-redux";
 import { fetchFilteredData } from "@/app/lib/data";
 import { CheckboxOption } from "@/app/ui/misc/list-options";
@@ -14,12 +14,15 @@ function useFeatures() {
     const dispatch = useDispatch<AppDispatch>();
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
     const [selectedDataset, setSelectedDataset] = useState(dataset[allDatasets[0].id]);
+    const [featuresChanged, setFeaturesChanged] = useState(false);
 
     useEffect(() => {
         setSelectedDataset(dataset[datasetId]);
     }, [dataset, datasetId]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        setFeaturesChanged(true);
+        dispatch(setAsLoading(datasetId));
         const featureToChange = selectedDataset.features.indexOf(event.currentTarget.value);
         const updatedFeatures = selectedDataset.selectedFeatures.map((feature, index) => {
             if (index === featureToChange) {
@@ -43,6 +46,7 @@ function useFeatures() {
                     return item;
                 }
             });
+            console.log(datasetId, selectedDataset.columns.slice(-1).toString(), selectedFeatureArray, selectedLabelArray);
             const dataRows = await fetchFilteredData(
                 datasetId,
                 selectedDataset.columns.slice(-1).toString(),
@@ -50,15 +54,17 @@ function useFeatures() {
                 selectedLabelArray
             );
             dispatch(updateDataset({ datasetName: datasetId, updatedRows: dataRows }));
+            setFeaturesChanged(false);
         }
         getFilteredData();
     }, 1000);
 
     useEffect(() => {
-        debouncedRerender();
-        return () => debouncedRerender.cancel();
+        if (featuresChanged) {
+            debouncedRerender();
+            return () => debouncedRerender.cancel();
+        }
     }, [selectedDataset.selectedFeatures]);
-
 
     return [selectedDataset, handleChange] as const;
 }

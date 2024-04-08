@@ -13,6 +13,7 @@ import { DatasetPanelSkeleton, DatasetSkeleton } from "../../misc/skeletons";
 import allDatasets from "@/app/lib/all-datasets";
 
 import React, { useEffect, useState } from "react";
+import { ShuffleData } from "@/app/lib/train-model/build-model";
 
 export default function Dataset() {
 
@@ -24,9 +25,9 @@ export default function Dataset() {
 
     useEffect(() => {
         async function initDataset() {
-            console.log(`dataset loader called for ${selectedDataset}`);
+            // console.log(`dataset loader called for ${selectedDataset} at 'model'`);
             const [dataRows, labels] = await fetchAllData(selectedDataset);
-            dispatch(uploadDataset({ datasetName: selectedDataset, dataRows: dataRows, labels: labels}));            
+            dispatch(uploadDataset({ datasetName: selectedDataset, dataRows: dataRows, labels: labels}));
             setDatasetLoaded(true);
         }
         if (!dataset[selectedDataset].loaded) {

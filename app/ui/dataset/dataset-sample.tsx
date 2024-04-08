@@ -56,7 +56,7 @@ export default function DatasetSample() {
                                     <tr key={`r${rindex}`}>
                                         <td className={`text-center border-1 border-white rounded-md py-1 bg-slate-100
                                             dark:text-white dark:bg-slate-700`}>
-                                            {row[selectedDataset.columns[0]]}
+                                            {rindex+1}
                                         </td>
                                         {
                                             selectedDataset.features.map((column, dindex) => {

@@ -5,7 +5,7 @@ interface DataRow {
     [key: string]: any;
 }
 
-function getFeaturesAndLabels(dataset: DatasetProps) {
+export function getFeaturesAndLabels(dataset: DatasetProps) {
     const features: any[][] = [];
     const labels: number[] = [];
     
@@ -58,7 +58,7 @@ function getFeaturesAndLabels(dataset: DatasetProps) {
         labels.push(labelMap.get(label));
     });
 
-    return { features: features, labels: labels };
+    return [features, labels] as const;
 }
 
 function getNormalizedFeatures(features: number[][]) {
@@ -67,11 +67,17 @@ function getNormalizedFeatures(features: number[][]) {
     return normalizedFeatures;
 }
 
+export function ShuffleData(dataset: [{}]) {
+    // const { features, labels } = getFeaturesAndLabels(dataset);
+    tf.util.shuffle(dataset);
+    console.log("shuffled");
+    return dataset;
+}
+
 export async function PrepareData(dataset: DatasetProps, trainTestRatio: number) {
     
-    const { features, labels } = getFeaturesAndLabels(dataset);
+    const [features, labels] = getFeaturesAndLabels(dataset);
 
-    tf.util.shuffleCombo(features, labels);
     const normalizedFeatures = getNormalizedFeatures(features);
     const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
 

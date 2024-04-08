@@ -20,11 +20,11 @@ export default function Settings() {
         if (root.classList.contains("dark")) {
             setDarkModeIcon(lightMode);
             root.classList.remove("dark");
-            console.log("switched to light mode");
+            // console.log("switched to light mode");
         } else {
             setDarkModeIcon(darkMode);
             root.classList.add("dark");
-            console.log("switched to dark mode");
+            // console.log("switched to dark mode");
         }
     }
 
