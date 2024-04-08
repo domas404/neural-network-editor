@@ -118,8 +118,32 @@ export const models = createSlice({
             const model = state[action.payload];
             model.layers.splice(model.layers.length-2, 1);
         },
-        reorderLayers: () => {
-            
+        reorderLayers: (state, action: PayloadAction<{ modelId: string, layerToMoveId: string, moveToIndex: number }>) => {
+            const { modelId, layerToMoveId, moveToIndex } = action.payload;
+            const model = state[modelId];
+
+            const moveFromIndex = model.layers.findIndex((item) => item.id === layerToMoveId);
+
+            if (moveFromIndex === 0 || moveFromIndex === model.layers.length-1) {
+                return;
+            }
+
+            const layerToMove = model.layers[moveFromIndex];
+            layerToMove.order = moveToIndex;
+
+            if (moveToIndex < moveFromIndex) {
+                model.layers.slice(moveToIndex, moveFromIndex).forEach((layer) => {
+                    layer.order = layer.order + 1;
+                });
+                model.layers.splice(moveFromIndex, 1);
+                model.layers.splice(moveToIndex + 1, 0, layerToMove);
+            } else if (moveToIndex > moveFromIndex) {
+                model.layers.slice(moveFromIndex, moveToIndex).forEach((layer) => {
+                    layer.order = layer.order - 1;
+                });
+                model.layers.splice(moveToIndex + 1, 0, layerToMove);
+                model.layers.splice(moveFromIndex, 1);
+            }
         },
         createModelFromDefault: (state, action: PayloadAction<{ modelId: string, modelName: string }>) => {
             const { modelId, modelName } = action.payload;
@@ -162,6 +186,7 @@ export const {
     addHiddenLayer,
     addHiddenLayerAfter,
     removeHiddenLayer,
+    reorderLayers,
     changeActivation,
     createModelFromDefault,
     createModelFromCurrent,

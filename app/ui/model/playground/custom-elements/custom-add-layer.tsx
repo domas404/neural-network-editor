@@ -7,7 +7,7 @@ import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
-import { addHiddenLayerAfter } from "@/app/lib/redux/features/model-slice";
+import { addHiddenLayerAfter, reorderLayers } from "@/app/lib/redux/features/model-slice";
 
 const MAX_LAYER_COUNT = 8;
 
@@ -33,12 +33,22 @@ function CustomAddLayer( { data }: any ) {
     const onDrop = async (event: React.DragEvent) => {
         const insertAfterIndex = objects.findIndex((item) => item.id === data.layerId);
         event.currentTarget.classList.remove("on-drag-over");
-        if (objects.length-2 < MAX_LAYER_COUNT) {
-            dispatch(addHiddenLayerAfter({
+
+        if (event.dataTransfer.getData("dragSource") === "playground") {
+            dispatch(reorderLayers({
                 modelId: modelId,
-                insertAfter: objects[insertAfterIndex],
-                insertAfterIndex: insertAfterIndex
+                layerToMoveId: event.dataTransfer.getData("layerToRemove"),
+                moveToIndex: insertAfterIndex
             }));
+            return;
+        } else if (event.dataTransfer.getData("dragSource") === "layersPanel") {
+            if (objects.length-2 < MAX_LAYER_COUNT) {
+                dispatch(addHiddenLayerAfter({
+                    modelId: modelId,
+                    insertAfter: objects[insertAfterIndex],
+                    insertAfterIndex: insertAfterIndex
+                }));
+            }
         }
     }
 

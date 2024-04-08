@@ -41,6 +41,7 @@ function CustomNodeGroup() {
         dispatch(setLayerBeingDragged());
         const layerId = event.currentTarget.parentElement!.getAttribute("data-id")!.toString();
         event.dataTransfer.setData("layerToRemove", layerId);
+        event.dataTransfer.setData("dragSource", "playground");
     }
 
     return (

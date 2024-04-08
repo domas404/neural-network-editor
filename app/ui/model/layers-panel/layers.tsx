@@ -7,23 +7,13 @@ import { useAppSelector } from "@/app/lib/redux/store";
 
 export default function Layers() {
 
-    // const [darkMode, setDarkMode] = useState(false);
     const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
-
-    // const handleDarkModeChange = () => {
-    //     const isDarkMode = document.getElementsByTagName("html")[0].classList.contains("dark");
-    //     setDarkMode(isDarkMode);
-    // }
-
-    // useEffect(() => {
-    //     handleDarkModeChange();
-    // }, []);
 
     const onDragStart = (event: React.DragEvent) => {
         console.log("Drag started");
         event.dataTransfer.clearData();
-        event.dataTransfer.setData('text/plain', event.currentTarget.id);
         event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData("dragSource", "layersPanel");
     };
 
     return (
