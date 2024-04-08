@@ -1,9 +1,8 @@
 import { useAppSelector } from "@/app/lib/redux/store";
 import { Chart } from "react-google-charts";
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ConfusionMatrix from "./confusion-matrix";
-import { DatasetProps } from "@/app/lib/data-types";
 
 export default function PlotMain() {
 
@@ -27,39 +26,84 @@ export default function PlotMain() {
         const plotData: number[][] = pairedArray.map(pair => pair as number[]);
         return plotData;
     }
+    const options = {
+        curveType: "function",
+        legend: { position: "bottom" },
+        animation: {
+            startup: true,
+            easing: "linear",
+            duration: 200,
+        },
+        colors: ["#0ea5e9", "#d97706"],
+        hAxis: {
+            title: "epochs",
+        },
+        vAxis: {
+            title: ""
+        }
+    }
+
+    const darkModeOptions = {
+        curveType: "function",
+        legend: { position: "bottom", textStyle: { color: "white" } },
+        animation: {
+            startup: true,
+            easing: "linear",
+            duration: 200,
+        },
+        colors: ["#0ea5e9", "#d97706"],
+        backgroundColor:"#1e293b",
+        hAxis: {
+            title: "epochs",
+            gridlines: { color: "#475569" },
+            textStyle: { color: "white" },
+            baselineColor: "white",
+            titleTextStyle: { color: "fff" }
+        },
+        vAxis: {
+            title: "",
+            gridlines: { color: "#475569" },
+            textStyle: { color: "white" },
+            baselineColor: "white",
+            titleTextStyle: { color: "fff" }
+        },
+        textStyle: { color: "white" },
+    }
+
+    interface PlotProps {
+        plotType: string,
+        plotData: number[][]
+    }
+
+    const AccuracyPlot = useMemo(() => function setUpAccuracyPlot({ plotType, plotData }: PlotProps) {
+        options.vAxis.title = plotType;
+        darkModeOptions.vAxis.title = plotType;
+        return (
+            <Chart
+                chartType="LineChart"
+                data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
+                width="100%"
+                height="600px"
+                options={isDarkMode ? darkModeOptions : options}
+            />
+        );
+    }, [isDarkMode]);
+
+    const LossPlot = useMemo(() => function setUpLossPlot({ plotType, plotData }: PlotProps) {
+        options.vAxis.title = plotType;
+        darkModeOptions.vAxis.title = plotType;
+        return (
+            <Chart
+                chartType="LineChart"
+                data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
+                width="100%"
+                height="600px"
+                options={isDarkMode ? darkModeOptions : options}
+            />
+        );
+    }, [isDarkMode]);
 
     const createPlot = (plotType: string) => {
-        const options = {
-            curveType: "function",
-            legend: { position: "bottom" },
-            animation: {
-                startup: true,
-                easing: "linear",
-                duration: 200,
-            },
-        }
-
-        const darkModeOptions = {
-            curveType: "function",
-            legend: { position: "bottom", textStyle: { color: "white" } },
-            animation: {
-                startup: true,
-                easing: "linear",
-                duration: 200,
-            },
-            colors: ["#0ea5e9", "#d97706"],
-            backgroundColor:"#1e293b",
-            hAxis: {
-                gridlines: { color: "#475569" },
-                textStyle: { color: "white" },
-                baselineColor: "white"
-            },
-            vAxis: {
-                gridlines: { color: "#475569" },
-                textStyle: { color: "white" },
-                baselineColor: "white"
-            },
-        }
 
         let plotData: number[][] = [];
         if (plotType === "confusion matrix") {
@@ -68,20 +112,15 @@ export default function PlotMain() {
             );
         } else if (plotType === "accuracy") {
             plotData = setUpDataArray(acc, val_acc);
+            return (
+                <AccuracyPlot plotType={plotType} plotData={plotData} />
+            );
         } else if (plotType === "loss") {
             plotData = setUpDataArray(loss, val_loss);
+            return (
+                <LossPlot plotType={plotType} plotData={plotData} />
+            );
         }
-        return (
-            <div className="h-full flex justify-center items-center">
-                <Chart
-                    chartType="LineChart"
-                    data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
-                    width="100%"
-                    height="600px"
-                    options={isDarkMode ? darkModeOptions : options}
-                />
-            </div>
-        );
     }
 
     useEffect(() => {
@@ -92,7 +131,9 @@ export default function PlotMain() {
         <div className="w-full h-full">
             {
                 epochs.length !== 0 ?
-                    plotToShow
+                    <div className="h-full flex justify-center items-center">
+                        {plotToShow}
+                    </div>
                 :
                     <div className="h-full flex justify-center items-center dark:text-white">
                         Train the model to see results.
