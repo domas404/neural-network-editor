@@ -8,6 +8,7 @@ import networkReducer from "./features/network-slice";
 import infoMenuReducer from './features/info-menu-slice';
 import datasetReducer from "./features/dataset-slice";
 import trainReducer from "./features/train-slice";
+import settingsReducer from "./features/settings-slice";
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         infoMenuReducer,
         datasetReducer,
         trainReducer,
+        settingsReducer,
     },
 });
 

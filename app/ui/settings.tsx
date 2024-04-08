@@ -1,36 +1,18 @@
 "use client";
 
 import "@/app/globalicons.css";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import githubLight from "@/public/github-mark-white.png";
 import githubDark from "@/public/github-mark.png";
 import Link from "next/link";
-
+import { useDispatch } from "react-redux";
+import { toogleDarkMode } from "@/app/lib/redux/features/settings-slice";
+import { useAppSelector, AppDispatch } from "@/app/lib/redux/store";
 
 export default function Settings() {
 
-    const lightMode = "light_mode";
-    const darkMode = "dark_mode";
-
-    const [darkModeIcon, setDarkModeIcon] = useState(lightMode);
-
-    const toggleDarkMode = () => {
-        let root = document.getElementsByTagName("html")[0];
-        if (root.classList.contains("dark")) {
-            setDarkModeIcon(lightMode);
-            root.classList.remove("dark");
-            // console.log("switched to light mode");
-        } else {
-            setDarkModeIcon(darkMode);
-            root.classList.add("dark");
-            // console.log("switched to dark mode");
-        }
-    }
-
-    useEffect(() => {
-        toggleDarkMode();
-    }, []);
+    const dispatch = useDispatch<AppDispatch>();
+    const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
 
     return (
         <div className="basis-1/3 flex justify-end">
@@ -41,11 +23,11 @@ export default function Settings() {
                         <button
                             className="rounded-full flex items-center justify-center h-full
                                 hover:text-sky-600 dark:hover:text-teal-200"
-                            onClick={toggleDarkMode}
-                            title={darkModeIcon === "light_mode" ? "switch to dark mode": "switch to light mode"}
+                            onClick={() => dispatch(toogleDarkMode())}
+                            title={isDarkMode ? "switch to light mode": "switch to dark mode"}
                         >
                             <span className="material-symbols-outlined md-20">
-                                {darkModeIcon}
+                                {isDarkMode ? "dark_mode": "light_mode"}
                             </span>
                         </button>
                     </div>
@@ -53,7 +35,7 @@ export default function Settings() {
                         dark:bg-slate-800 dark:text-slate-200">
                         <Link href="https://github.com/domas404/neural-network-editor" target="blank">
                             <Image
-                                src={darkModeIcon === "light_mode" ? githubDark : githubLight}
+                                src={isDarkMode ? githubLight : githubDark}
                                 width={18}
                                 alt="github link"
                                 className="hover:opacity-70 active:opacity-50 hover:cursor-pointer"

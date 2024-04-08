@@ -14,28 +14,11 @@ export default function PlotMain() {
     const dataset = useAppSelector((state) => state.datasetReducer);
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
     const [selectedDataset, setSelectedDataset] = useState(dataset[datasetId]);
-    const [darkMode, setDarkMode] = useState(false);
-
-    const handleDarkModeChange = () => {
-        const isDarkMode = document.getElementsByTagName("html")[0].classList.contains("dark");
-        setDarkMode(isDarkMode);
-    }
-
-    useEffect(() => {
-        handleDarkModeChange();
-    }, []);
-
-    useEffect(() => {
-        const observer = new MutationObserver(handleDarkModeChange);
-        observer.observe(document.getElementsByTagName("html")[0], { attributes: true });
-        return () => {
-            observer.disconnect();
-        }
-    }, []);
+    const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
 
     useEffect(() => {
         setSelectedDataset(dataset[datasetId]);
-    }, [dataset]);
+    }, [dataset, datasetId]);
 
     const [plotToShow, setPlotToShow] = useState<React.JSX.Element>();
 
@@ -95,7 +78,7 @@ export default function PlotMain() {
                     data={[["Epochs", `train ${plotType}`, `validation ${plotType}`], ...plotData]}
                     width="100%"
                     height="600px"
-                    options={darkMode ? darkModeOptions : options}
+                    options={isDarkMode ? darkModeOptions : options}
                 />
             </div>
         );
@@ -103,7 +86,7 @@ export default function PlotMain() {
 
     useEffect(() => {
         setPlotToShow(createPlot(currentPlot));
-    }, [currentPlot, darkMode]);
+    }, [currentPlot, isDarkMode]);
 
     return (
         <div className="w-full h-full">
