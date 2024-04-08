@@ -71,9 +71,13 @@ export const datasetSlice = createSlice({
         },
         setAsLoading: (state, action: PayloadAction<string>) => {
             state[action.payload].loaded = false;
+        },
+        shuffleDataRows: (state, action: PayloadAction<string>) => {
+            const shuffledData = ShuffleData(state[action.payload].dataset);
+            state[action.payload].dataset = shuffledData;
         }
     }
 });
 
-export const { uploadDataset, updateSelectedFeatures, updateSelectedLabels, updateDataset, setAsLoading } = datasetSlice.actions;
+export const { uploadDataset, updateSelectedFeatures, updateSelectedLabels, updateDataset, setAsLoading, shuffleDataRows } = datasetSlice.actions;
 export default datasetSlice.reducer;

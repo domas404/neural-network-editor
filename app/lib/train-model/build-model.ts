@@ -105,11 +105,19 @@ export async function BuildModel(
     
     //hidden layers
     for (let i=1; i<layers.length-1; i++){
-        model.add(tf.layers.dense({units: layers[i].neurons.length, inputShape: [layers[i-1].neurons.length], activation: layers[i].activation as any}));
+        model.add(tf.layers.dense({
+            units: layers[i].neurons.length,
+            inputShape: [layers[i-1].neurons.length],
+            activation: layers[i].activation as any
+        }));
     }
 
     // output layer    
-    model.add(tf.layers.dense({units: layers[layers.length-1].neurons.length, inputShape: [layers[layers.length-2].neurons.length], activation: layers[layers.length-1].activation as any}));
+    model.add(tf.layers.dense({
+        units: layers[layers.length-1].neurons.length,
+        inputShape: [layers[layers.length-2].neurons.length],
+        activation: layers[layers.length-1].activation as any
+    }));
 
     model.compile({
         loss: 'meanSquaredError',
@@ -190,6 +198,7 @@ export async function ExecuteTraining(
     network: Network
 ) {
     const [trainFeatures, valFeatures, trainLabels, valLabels] = await PrepareData(dataset, parseFloat(hyperparams.trainTestRatio));
+    // console.log(trainFeatures.dataSync(), valFeatures.dataSync());
     const modelLayers = model[network.modelId].layers;
     const createdModel = await BuildModel(modelLayers, hyperparams);
 

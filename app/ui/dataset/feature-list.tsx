@@ -46,7 +46,7 @@ function useFeatures() {
                     return item;
                 }
             });
-            console.log(datasetId, selectedDataset.columns.slice(-1).toString(), selectedFeatureArray, selectedLabelArray);
+            // console.log(datasetId, selectedDataset.columns.slice(-1).toString(), selectedFeatureArray, selectedLabelArray);
             const dataRows = await fetchFilteredData(
                 datasetId,
                 selectedDataset.columns.slice(-1).toString(),

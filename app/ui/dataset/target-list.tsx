@@ -19,7 +19,7 @@ function useTargets() {
 
     useEffect(() => {
         setSelectedDataset(dataset[datasetId]);
-    }, [dataset]);
+    }, [dataset, datasetId]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         setTargetsChanged(true);

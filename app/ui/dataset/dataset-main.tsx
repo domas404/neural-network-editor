@@ -38,7 +38,7 @@ export default function DatasetMain() {
             </div>
 
             <div className="basis-2/3 grow flex relative bg-white rounded-md border dark:border-slate-700 dark:bg-slate-800">
-                <div className="w-full h-[500px] my-8 px-8 absolute top-8">
+                <div className="w-full h-[500px] my-8 px-6 absolute top-8 z-10">
                     <DatasetSample />
                 </div>
                 <div className="py-5 px-6 text-base z-0 font-bold uppercase dark:text-teal-100">
