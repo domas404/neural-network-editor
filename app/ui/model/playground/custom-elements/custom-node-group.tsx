@@ -43,6 +43,7 @@ function CustomNodeGroup() {
                 className={`h-full w-24 rounded-lg hover:cursor-pointer border-2 border-transparent hover:border-blue-200 dark:hover:border-slate-600
                     ${clicked? "!border-blue-400" : ""}`}
                 onClick={handleChange}
+                draggable
             ></div>
             <Handle type="source" id="b" position={Position.Right} isConnectable={false} className="hidden" />
         </>

@@ -7,10 +7,16 @@ function CustomHiddenNode() {
     return (
         <>
             <Handle type="target" id="a" position={Position.Left} isConnectable={false} className="hidden" />
-            <div className="w-10 h-10 rounded-full bg-white border-4 border-blue-950 hover:border-blue-500 hover:cursor-pointer
-                dark:bg-slate-800 dark:border-blue-300 shadow-md">
-                <div className='w-full-h-full neuron-animation-component -rotate-45'>
-                    <div className={`w-4 h-8 ml-4 border-4 border-transparent rounded-r-full border-r- border-r-lightblue-600 dark:border-r-sky-500`}></div>
+            <div className="w-9 h-9 m-[2px] rounded-full bg-white border-4 border-lightblue-700
+                dark:bg-slate-800 dark:border-blue-300 shadow-[0_0_2px_2px_rgba(255,255,255,0.2)]">
+                <div className='w-full-h-full neuron-animation-component -rotate-45 relative'>
+                    <div className="w-[14px] h-[28px] ml-[14px] border-4 border-transparent rounded-r-full border-r-emerald-500">
+                        <div className='absolute w-[28px] h-[28px] bborder-transparent rounded-full -ml-[18px] -mt-1 rotate-90'>
+                            <div className='rounded-r-full bg-white dark:bg-slate-800 ml-[14px] w-[14px] h-[28px]'>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Handle type="source" id="b" position={Position.Right} isConnectable={false} className="hidden" />
