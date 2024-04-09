@@ -3,7 +3,15 @@ import { Handle, Position } from 'reactflow';
 
 import "./index.css";
 
-function CustomOutputNode() {
+const activationColors: { [key: string]: string; } = {
+    "sigmoid": "border-r-rose-500",
+    "tanh": "border-r-purple-500",
+    "relu": "border-r-amber-500",
+    "softmax": "border-r-emerald-500",
+    "linear": "border-r-lime-500",
+}
+
+function CustomOutputNode({ data }: any) {
     return (
         <>
             <Handle type="target" id="a" position={Position.Left} isConnectable={false} className="hidden" />
@@ -12,7 +20,8 @@ function CustomOutputNode() {
                 <div className='absolute w-10 h-10 border-4 rounded-full border-lightblue-700 dark:border-blue-300 opacity-10'></div>
                 <div className='absolute m-1 rounded-full w-8 h-8 border-4 border-lightblue-700 dark:border-blue-300 shadow-[0_0_4px_4px_rgba(147,197,253,0.3)]'>
                     <div className='w-full-h-full neuron-animation-component -rotate-45 relative'>
-                        <div className="w-3 h-6 ml-3 border-4 border-transparent rounded-r-full border-r-emerald-500">
+                        <div className={`w-3 h-6 ml-3 border-4 border-transparent rounded-r-full
+                            ${activationColors[data.activation]}`}>
                             <div className='absolute w-6 h-6 bborder-transparent rounded-full -ml-4 -mt-1 rotate-90'>
                                 <div className='rounded-r-full bg-white dark:bg-slate-800 ml-3 w-3 h-6'></div>
                             </div>

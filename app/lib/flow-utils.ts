@@ -71,6 +71,7 @@ export function createNodesAndEdges(layers: Layer[]) {
                 position: { x:28, y:topMargin+j*60 },
                 data: {
                     type: layers[i].type,
+                    activation: layers[i].activation
                 },
                 parentNode: layers[i].id,
                 type: nodeType,
