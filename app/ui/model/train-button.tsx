@@ -10,7 +10,6 @@ import { updateTrainHistory } from "@/app/lib/redux/features/train-slice";
 import { TrainHistory } from "@/app/lib/data-types";
 import Link from "next/link";
 
-
 function useTrainHandler() {
 
     const dataset = useAppSelector((state) => state.datasetReducer);
@@ -24,12 +23,9 @@ function useTrainHandler() {
 
     const handleTrain = () => {
         async function executeTraining() {
-            console.log(model["default"].layers);
-            console.log("Training started");
             const startTime = performance.now();
             const results: TrainHistory = await ExecuteTraining(dataset[network.dataset], model, hyperparams, network);
             dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history, confusionMatrix: results.confusionMatrix}));
-            console.log("Training ended");
             const endTime = performance.now();
             console.log(`Training elapsed ${(endTime - startTime)/1000} seconds`);
             setAnimationState(false);

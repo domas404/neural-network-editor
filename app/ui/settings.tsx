@@ -8,11 +8,16 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { toogleDarkMode } from "@/app/lib/redux/features/settings-slice";
 import { useAppSelector, AppDispatch } from "@/app/lib/redux/store";
+import { useEffect } from "react";
 
 export default function Settings() {
 
     const dispatch = useDispatch<AppDispatch>();
     const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
+
+    useEffect(() => {
+        dispatch(toogleDarkMode());
+    }, []);
 
     return (
         <div className="basis-1/3 flex justify-end">
@@ -39,7 +44,7 @@ export default function Settings() {
                                 width={18}
                                 alt="github link"
                                 className="hover:opacity-70 active:opacity-50 hover:cursor-pointer"
-                                title="open github repository"
+                                title="source on GitHub"
                             />
                         </Link>
                     </div>

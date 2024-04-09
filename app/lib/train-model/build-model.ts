@@ -5,6 +5,14 @@ interface DataRow {
     [key: string]: any;
 }
 
+const measureTime = (fnCall: Function, name: string) => function(this: any, ...args: any[]) {
+    const start = performance.now();
+    const result = fnCall.apply(this, args);
+    const end = performance.now();
+    console.log(`${name} elapsed ${(end - start)/1000} seconds`);
+    return result;
+}
+
 export function getFeaturesAndLabels(dataset: DatasetProps) {
     const features: any[][] = [];
     const labels: number[] = [];
@@ -125,7 +133,7 @@ export async function BuildModel(
         metrics: ['accuracy']
     });
 
-    console.log(model.summary());
+    // console.log(model.summary());
     
     return model;
 }
@@ -197,12 +205,19 @@ export async function ExecuteTraining(
     hyperparams: HyperparameterSet,
     network: Network
 ) {
-    const [trainFeatures, valFeatures, trainLabels, valLabels] = await PrepareData(dataset, parseFloat(hyperparams.trainTestRatio));
-    // console.log(trainFeatures.dataSync(), valFeatures.dataSync());
-    const modelLayers = model[network.modelId].layers;
-    const createdModel = await BuildModel(modelLayers, hyperparams);
+    const wrappedPrepareData = measureTime(PrepareData, "PrepareData");
+    const [trainFeatures, valFeatures, trainLabels, valLabels] = await wrappedPrepareData(dataset, parseFloat(hyperparams.trainTestRatio));
 
+    const modelLayers = model[network.modelId].layers;
+
+    const wrappedBuildModel = measureTime(BuildModel, "BuildModel");
+    const createdModel = await wrappedBuildModel(modelLayers, hyperparams);
+    
+    const start = performance.now();
     const history = await Train(createdModel, hyperparams, trainFeatures, valFeatures, trainLabels, valLabels);
+    const end = performance.now();
+    console.log(`Train elapsed ${(end - start)/1000} seconds`);
+
     const accuracy = history.history.acc.map((value) => Number(value));
     const loss = history.history.loss.map((value) => Number(value));
     const val_acc = history.history.val_acc.map((value) => Number(value));
