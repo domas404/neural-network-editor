@@ -8,32 +8,46 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { setLayerBeingDragged, setLayerNotBeingDragged } from '@/app/lib/redux/features/settings-slice';
 
-function CustomNodeGroup() {
+function CustomNodeGroup( { data }: any ) {
 
     const [clicked, setClicked] = useState(false);
-    const [layer, setLayer] = useState("");
+    const [layer, setLayer] = useState("none");
 
     const dispatch = useDispatch<AppDispatch>();
     const { itemId } = useAppSelector((state) => state.infoMenuReducer);
 
+    const container = document.getElementById("playground")!;
+
     const handleChange = (event: React.MouseEvent<HTMLElement>) => {
         const layerId = event.currentTarget.parentElement!.getAttribute("data-id")!.toString();
         setLayer(layerId);
-        if (layerId !== itemId) {
-            dispatch(setInfo({ infoType: "layer", id: layerId }));
-        } else {
-            dispatch(setInfo({ infoType: "", id: "" }));
-            setClicked(false);
+        if (!clicked) {
+            selectLayer(layerId);
+            container.addEventListener('mouseup', deselectLayer);
         }
     }
 
+    const selectLayer = (layerId: string) => {
+        setClicked(true);
+        dispatch(setInfo({ infoType: "layer", id: layerId }));
+    }
+
+    const deselectLayer = () => {
+        dispatch(setInfo({ infoType: "", id: "" }));
+        setTimeout(() => {
+            setClicked(false);
+            container.removeEventListener('mouseup', deselectLayer);
+        }, 50);
+    }
+
     useEffect(() => {
-        if (itemId === "") {
+        if (layer !== itemId) {
             setClicked(false);
-        } else if (itemId === layer){
-            setClicked(true);
-        } else {
-            setClicked(false);
+            if (itemId === data.id) {
+                setLayer(data.id);
+                setClicked(true);
+                container.addEventListener('mouseup', deselectLayer);
+            }
         }
     }, [itemId]);
 

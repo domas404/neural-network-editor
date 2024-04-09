@@ -93,17 +93,16 @@ export const models = createSlice({
             };
             model.layers.splice(model.layers.length-1, 0, newLayer);
         },
-        addHiddenLayerAfter: (state, action: PayloadAction<{ modelId: string, insertAfter: Layer, insertAfterIndex: number }>) => {
-            const model = state[action.payload.modelId];
-            const insertAfter = action.payload.insertAfter;
-            const insertAfterIndex = action.payload.insertAfterIndex;
+        addHiddenLayerAfter: (state, action: PayloadAction<{ modelId: string, insertAfter: Layer, insertAfterIndex: number, newLayerId: string }>) => {
+            const { modelId, insertAfter, insertAfterIndex, newLayerId } = action.payload;
+            const model = state[modelId];
 
             const neuronsToAdd = [];
             for (let i=0; i<insertAfter.neurons.length; i++) {
                 neuronsToAdd.push({ id: v4() });
             }
             const newLayer: Layer = {
-                id: v4(),
+                id: newLayerId,
                 activation: insertAfterIndex === 0 ? "relu" : insertAfter.activation,
                 neurons: neuronsToAdd,
                 order: insertAfter.order + 1,
@@ -129,16 +128,16 @@ export const models = createSlice({
             }
 
             const layerToMove = model.layers[moveFromIndex];
-            layerToMove.order = moveToIndex;
+            layerToMove.order = moveToIndex+1;
 
             if (moveToIndex < moveFromIndex) {
-                model.layers.slice(moveToIndex, moveFromIndex).forEach((layer) => {
+                model.layers.slice(moveToIndex+1, moveFromIndex).forEach((layer) => {
                     layer.order = layer.order + 1;
                 });
                 model.layers.splice(moveFromIndex, 1);
                 model.layers.splice(moveToIndex + 1, 0, layerToMove);
             } else if (moveToIndex > moveFromIndex) {
-                model.layers.slice(moveFromIndex, moveToIndex).forEach((layer) => {
+                model.layers.slice(moveFromIndex, moveToIndex + 1).forEach((layer) => {
                     layer.order = layer.order - 1;
                 });
                 model.layers.splice(moveToIndex + 1, 0, layerToMove);

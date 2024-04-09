@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
 import { addHiddenLayerAfter, reorderLayers } from "@/app/lib/redux/features/model-slice";
+import { v4 } from 'uuid';
 
 const MAX_LAYER_COUNT = 8;
 
@@ -43,11 +44,14 @@ function CustomAddLayer( { data }: any ) {
             return;
         } else if (event.dataTransfer.getData("dragSource") === "layersPanel") {
             if (objects.length-2 < MAX_LAYER_COUNT) {
+                const newLayerId = v4();
                 dispatch(addHiddenLayerAfter({
                     modelId: modelId,
                     insertAfter: objects[insertAfterIndex],
-                    insertAfterIndex: insertAfterIndex
+                    insertAfterIndex: insertAfterIndex,
+                    newLayerId: newLayerId
                 }));
+                dispatch(setInfo({ infoType: "layer", id: newLayerId }));
             }
         }
     }
