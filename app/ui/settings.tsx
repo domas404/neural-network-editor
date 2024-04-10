@@ -15,9 +15,9 @@ export default function Settings() {
     const dispatch = useDispatch<AppDispatch>();
     const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
 
-    useEffect(() => {
-        dispatch(toogleDarkMode());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(toogleDarkMode());
+    // }, []);
 
     return (
         <div className="basis-1/3 flex justify-end">

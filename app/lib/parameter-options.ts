@@ -1,10 +1,5 @@
 const parameterOptions = [
     {
-        id: "trainTestRatio",
-        name: "train/test ratio",
-        options: ["0.5", "0.6", "0.7", "0.8", "0.9"]
-    },
-    {
         id: "epochs",
         name: "epochs",
         options: ["1", "5", "10", "20", "50", "100", "200", "500"]
@@ -25,15 +20,20 @@ const parameterOptions = [
         options: ["SGD", "Adam", "Adagrad"]
     },
     {
-        id: "loss",
-        name: "loss",
-        options: ["Mean Squared Error", "Hinge", "Sigmoid Cross Entropy"]
+        id: "trainTestRatio",
+        name: "train/test ratio",
+        options: ["0.5", "0.6", "0.7", "0.8", "0.9"]
     },
-    {
-        id: "regularization",
-        name: "regularization",
-        options: ["L1", "L2"]
-    }
+    // {
+    //     id: "loss",
+    //     name: "loss",
+    //     options: ["Mean Squared Error", "Hinge", "Sigmoid Cross Entropy"]
+    // },
+    // {
+    //     id: "regularization",
+    //     name: "regularization",
+    //     options: ["L1", "L2"]
+    // }
 ];
 
 export default parameterOptions;
