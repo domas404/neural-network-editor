@@ -105,6 +105,12 @@ export async function PrepareData(dataset: DatasetProps, trainTestRatio: number)
     return [trainFeatures, valFeatures, trainLabels, valLabels];
 }
 
+function getWeightsAndBias(inputShape: number, outputShape: number, seed: number) {
+    let weights = tf.variable(tf.randomNormal([inputShape, outputShape], 0, 0.05, "float32", seed));
+    let bias = tf.variable(tf.randomNormal([outputShape], 0, 0.05, "float32", seed));
+    return [weights, bias];
+}
+
 export async function BuildModel(
     layers: Layer[],
     hyperparams: HyperparameterSet,
@@ -121,18 +127,26 @@ export async function BuildModel(
     
     //hidden layers
     for (let i=1; i<layers.length-1; i++){
+        const [weights, bias] = getWeightsAndBias(layers[i-1].neurons.length, layers[i].neurons.length, 122);
         model.add(tf.layers.dense({
             units: layers[i].neurons.length,
             inputShape: [layers[i-1].neurons.length],
-            activation: layers[i].activation as any
+            activation: layers[i].activation as any,
+            kernelInitializer: 'zeros',
+            biasInitializer: 'zeros',
+            weights: [weights, bias],
         }));
     }
 
     // output layer    
+    const [weights, bias] = getWeightsAndBias(layers[layers.length-2].neurons.length, layers[layers.length-1].neurons.length, 122);
     model.add(tf.layers.dense({
         units: layers[layers.length-1].neurons.length,
         inputShape: [layers[layers.length-2].neurons.length],
-        activation: layers[layers.length-1].activation as any
+        activation: layers[layers.length-1].activation as any,
+        kernelInitializer: 'zeros',
+        biasInitializer: 'zeros',
+        weights: [weights, bias],
     }));
 
     model.compile({
@@ -157,7 +171,8 @@ export async function Train(
     let results = await model.fit(trainFeatures, trainLabels, {
         batchSize: parseInt(hyperparams.batchSize),
         epochs: parseInt(hyperparams.epochs),
-        validationData: [valFeatures, valLabels]
+        validationData: [valFeatures, valLabels],
+        shuffle: false
     });
 
     return results;
