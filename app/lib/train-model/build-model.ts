@@ -5,6 +5,13 @@ interface DataRow {
     [key: string]: any;
 }
 
+const lossMap = new Map<string, any>([
+    ["Absolute Difference", tf.losses.absoluteDifference],
+    ["Mean Squared Error", tf.losses.meanSquaredError],
+    ["Sigmoid Cross Entropy", tf.losses.sigmoidCrossEntropy],
+    ["Hinge", tf.losses.hingeLoss]
+]);
+
 const measureTime = (fnCall: Function, name: string) => function(this: any, ...args: any[]) {
     const start = performance.now();
     const result = fnCall.apply(this, args);
@@ -104,6 +111,7 @@ export async function BuildModel(
 ) {
     const model = tf.sequential();
     let optimizer: string | tf.Optimizer = tf.train.sgd(parseFloat(hyperparams.learningRate));
+    let loss = lossMap.get(hyperparams.loss);
 
     if (hyperparams.optimizer === "Adam") {
         optimizer = tf.train.adam(parseFloat(hyperparams.learningRate));
@@ -128,7 +136,7 @@ export async function BuildModel(
     }));
 
     model.compile({
-        loss: 'meanSquaredError',
+        loss: loss,
         optimizer: optimizer,
         metrics: ['accuracy']
     });

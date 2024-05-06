@@ -24,11 +24,11 @@ const parameterOptions = [
         name: "train/test ratio",
         options: ["0.5", "0.6", "0.7", "0.8", "0.9"]
     },
-    // {
-    //     id: "loss",
-    //     name: "loss",
-    //     options: ["Mean Squared Error", "Hinge", "Sigmoid Cross Entropy"]
-    // },
+    {
+        id: "loss",
+        name: "loss",
+        options: ["Absolute Difference", "Mean Squared Error", "Hinge", "Sigmoid Cross Entropy"]
+    },
     // {
     //     id: "regularization",
     //     name: "regularization",
