@@ -1,6 +1,7 @@
 const { db } = require('@vercel/postgres');
 const irisdata = require("../datasets/iris");
 const penguins = require("../datasets/penguins");
+const wine = require("../datasets/wine");
 
 async function seedIrisdata(client) {
     // const irisdata = iris;
@@ -83,9 +84,83 @@ async function seedPenguinData(client) {
     }
 }
 
+async function seedWineData(client) {
+    try {
+        const createTable = await client.sql`
+            CREATE TABLE IF NOT EXISTS wine (
+                id SERIAL,
+                "Alcohol" VARCHAR(50),
+                "Malic acid" VARCHAR(50),
+                "Ash" VARCHAR(50),
+                "Alcalinity of ash" VARCHAR(50),
+                "Magnesium" VARCHAR(50),
+                "Total phenols" VARCHAR(50),
+                "Flavanoids" VARCHAR(50),
+                "Nonflavanoid phenols" VARCHAR(50),
+                "Proanthocyanins" VARCHAR(50),
+                "Color intensity" VARCHAR(50),
+                "Hue" VARCHAR(50),
+                "OD280/OD315 of diluted wines" VARCHAR(50),
+                "Proline" VARCHAR(50),
+                class VARCHAR(50)
+            );
+        `;
+        console.log(`Created "wine" table`);
+
+        const uploadDataset = await Promise.all(
+            wine.map(
+                (row) => client.sql`
+                    INSERT INTO wine (
+                        "Alcohol",
+                        "Malic acid",
+                        "Ash",
+                        "Alcalinity of ash",
+                        "Magnesium",
+                        "Total phenols",
+                        "Flavanoids",
+                        "Nonflavanoid phenols",
+                        "Proanthocyanins",
+                        "Color intensity",
+                        "Hue",
+                        "OD280/OD315 of diluted wines",
+                        "Proline",
+                        class
+                    )
+                    VALUES (
+                        ${row["Alcohol"]},
+                        ${row["Malic acid"]},
+                        ${row["Ash"]},
+                        ${row["Alcalinity of ash"]},
+                        ${row["Magnesium"]},
+                        ${row["Total phenols"]},
+                        ${row["Flavanoids"]},
+                        ${row["Nonflavanoid phenols"]},
+                        ${row["Proanthocyanins"]},
+                        ${row["Color intensity"]},
+                        ${row["Hue"]},
+                        ${row["OD280/OD315 of diluted wines"]},
+                        ${row["Proline"]},
+                        ${row["class"]}
+                    );
+                `,
+            ),
+        );
+
+        console.log(`Uploaded dataset.`);
+
+        return {
+            createTable,
+            dataset: uploadDataset,
+        };
+    } catch (error) {
+        console.error('Error copying csv:', error);
+        throw error;
+    }
+}
+
 async function main() {
     const client = await db.connect();
-    await seedPenguinData(client);
+    await seedWineData(client);
     await client.end();
 }
   

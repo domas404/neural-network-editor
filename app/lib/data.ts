@@ -25,12 +25,16 @@ export async function fetchFilteredData(datasetName: string, labelColumnName: st
     try {
         let labelsIn = selectedLabels.map((item) => {
             return `'${item}'`;
-        })
+        });
+        let selectedColumnsToStrings = selectedColumns.map((item) => {
+            return `"${item}"`;
+        });
         const queryFiltered = `
-            SELECT id,${selectedColumns.toString()},${labelColumnName}
+            SELECT id,${selectedColumnsToStrings.toString()},${labelColumnName}
             FROM ${datasetName}
             WHERE ${labelColumnName} IN (${labelsIn.toString()})
         `;
+        console.log(queryFiltered);
         const data = await sql.query(queryFiltered);
 
         return data.rows;

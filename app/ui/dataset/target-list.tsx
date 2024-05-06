@@ -78,7 +78,7 @@ export default function TargetList() {
             <div className="py-5 px-6 w-full">
                 <div className="flex flex-col">
                     <div className="text-base font-bold uppercase dark:text-teal-100">
-                        Targets
+                        Classes
                     </div>
                     <div className="uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
                         <span className="text-xs font-bold">

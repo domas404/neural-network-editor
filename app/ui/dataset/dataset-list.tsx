@@ -3,21 +3,11 @@
 import "@/app/globalicons.css";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-
-interface datasetInfo {
-    id: string,
-    name: string
-}
+import allDatasets from "@/app/lib/all-datasets";
 
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { changeDataset } from "@/app/lib/redux/features/network-slice";
 import { useDispatch } from "react-redux";
-
-const datasetNames: datasetInfo[] = [
-    { id: "irisdata", name: "Iris data" },
-    { id: "penguins", name: "Penguin data" },
-    // { id: "dataset", name: "Dataset" }
-];
 
 export default function DatasetList() {
 
@@ -40,7 +30,7 @@ export default function DatasetList() {
                 </div>
                 <div className="flex flex-col gap-1 my-4">
                     {
-                        datasetNames.map((item) => {
+                        allDatasets.map((item) => {
                             return (
                                 <li key={item.id} className="list-none my-1">
                                     <input

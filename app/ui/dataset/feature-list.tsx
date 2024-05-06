@@ -75,30 +75,35 @@ export default function FeatureList() {
 
     return (
         <div className="bg-white flex rounded-md shadow-sm h-full border dark:bg-slate-800 dark:border-slate-700">
-            <div className="py-5 px-6 w-full">
+            <div className="py-5 px-1 w-full">
                 <div className="flex flex-col">
-                    <div className="text-base font-bold uppercase dark:text-teal-100">
+                    <div className="mx-5 text-base font-bold uppercase dark:text-teal-100">
                         Features
                     </div>
-                    <div className="uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
+                    <div className="mx-5 uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
                         <span className="text-xs font-bold">
                             {selectedDataset.selectedFeatures.filter(Boolean).length}/{selectedDataset.features.length}
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
-                    <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 dark:bg-slate-700">
-                        {
-                            selectedDataset.features.map((feature, index) => {
-                                return (
-                                    <CheckboxOption
-                                        key={feature}
-                                        feature={feature}
-                                        handleChange={handleChange}
-                                        selectedFeature={selectedDataset.selectedFeatures[index]}
-                                    />
-                                )
-                            })
-                        }
+                    <div className="mx-1 mt-2 overflow-y-auto h-full">
+                        <div className="scrollable-container mx-4">
+                            <div className="flex flex-col gap-px h-auto text-sm text-justify leading-5 hyphens-auto
+                                bg-gray-200 dark:bg-slate-700">
+                                {
+                                    selectedDataset.features.map((feature, index) => {
+                                        return (
+                                            <CheckboxOption
+                                                key={feature}
+                                                feature={feature}
+                                                handleChange={handleChange}
+                                                selectedFeature={selectedDataset.selectedFeatures[index]}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
