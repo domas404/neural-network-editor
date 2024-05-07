@@ -2,8 +2,9 @@ import "@/app/globalicons.css";
 import React, { useState, useEffect } from 'react';
 
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
-import { addHiddenLayer, removeHiddenLayer, updateModelName } from "@/app/lib/redux/features/model-slice";
+import { addHiddenLayer, deleteSelectedModel, removeHiddenLayer, updateModelName } from "@/app/lib/redux/features/model-slice";
 import { useDispatch } from "react-redux";
+import { changeModel } from "@/app/lib/redux/features/network-slice";
 
 const MAX_LAYER_COUNT = 8;
 const MIN_LAYER_COUNT = 1;
@@ -56,6 +57,14 @@ export default function DefaultInfo() {
     const removeLayer = () => {
         if (layerCount > MIN_LAYER_COUNT){
             dispatch(removeHiddenLayer(modelId));
+        }
+    }
+
+    const deleteModel = () => {
+        toggleInputMode();
+        if (modelId != "default") {
+            dispatch(changeModel("default"));
+            dispatch(deleteSelectedModel(modelId));
         }
     }
 
@@ -142,6 +151,23 @@ export default function DefaultInfo() {
                     </div>
                 </div>
             </div>
+            {
+                inputMode
+                &&
+                <div className="absolute ml-1 right-4 bottom-4 flex p-[6px] rounded-md select-none hover:cursor-pointer
+                    hover:bg-red-100 active:bg-lightblue-200 transition-all ease-in-out duration-200
+                    text-slate-400 hover:text-red-600
+                    dark:text-slate-500
+                    dark:hover:bg-slate-700 dark:hover:text-red-300
+                    dark:active:bg-slate-600"
+                    onClick={deleteModel}
+                    title="delete model"
+                >
+                    <div className="text-xs font-bold uppercase px-2">
+                        Delete
+                    </div>
+                </div>
+            }
         </div>
     );
 }

@@ -171,6 +171,14 @@ export const models = createSlice({
         updateModelName: (state, action: PayloadAction<{ modelId: string, newName: string }>) => {
             const { modelId, newName } = action.payload;
             state[modelId].name = newName;
+        },
+        deleteSelectedModel: (state, action: PayloadAction<string>) => {
+            // const allModels = {...state};
+            // console.log(allModels);
+            // delete allModels[action.payload];
+            // console.log(allModels);
+            // return allModels;
+            console.log(`Layer to delete ${action.payload}`);
         }
     }
 });
@@ -189,6 +197,7 @@ export const {
     changeActivation,
     createModelFromDefault,
     createModelFromCurrent,
-    updateModelName
+    updateModelName,
+    deleteSelectedModel
 } = models.actions;
 export default models.reducer;

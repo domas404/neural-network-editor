@@ -39,6 +39,7 @@ export default function Dataset() {
 
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        console.log(event.currentTarget.value);
         dispatch(changeDataset(event.currentTarget.value));
     }
 

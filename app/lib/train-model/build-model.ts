@@ -12,6 +12,14 @@ const lossMap = new Map<string, any>([
     ["Hinge", tf.losses.hingeLoss]
 ]);
 
+const trainTestRatioMap = new Map<string, number>([
+    ["50/50", 0.5],
+    ["60/40", 0.6],
+    ["70/30", 0.7],
+    ["80/20", 0.8],
+    ["90/10", 0.9]
+])
+
 const measureTime = (fnCall: Function, name: string) => function(this: any, ...args: any[]) {
     const start = performance.now();
     const result = fnCall.apply(this, args);
@@ -228,8 +236,9 @@ export async function ExecuteTraining(
     hyperparams: HyperparameterSet,
     network: Network
 ) {
+    const trainTestRatioValue = trainTestRatioMap.get(hyperparams.trainTestRatio);
     const wrappedPrepareData = measureTime(PrepareData, "PrepareData");
-    const [trainFeatures, valFeatures, trainLabels, valLabels] = await wrappedPrepareData(dataset, parseFloat(hyperparams.trainTestRatio));
+    const [trainFeatures, valFeatures, trainLabels, valLabels] = await wrappedPrepareData(dataset, trainTestRatioValue);
 
     const modelLayers = model[network.modelId].layers;
 

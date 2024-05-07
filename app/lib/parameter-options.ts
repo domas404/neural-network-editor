@@ -22,7 +22,7 @@ const parameterOptions = [
     {
         id: "trainTestRatio",
         name: "train/test ratio",
-        options: ["0.5", "0.6", "0.7", "0.8", "0.9"]
+        options: ["50/50", "60/40", "70/30", "80/20", "90/10"]
     },
     {
         id: "loss",

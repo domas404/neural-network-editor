@@ -108,14 +108,14 @@ export default function Models() {
     const createDefault = () => {
         console.log("model creation called");
         const newModelId = v4();
-        dispatch(createModelFromDefault({ modelId: newModelId, modelName: "My Model" }));
+        dispatch(createModelFromDefault({ modelId: newModelId, modelName: `Model-${Object.keys(allModels).length+1}` }));
         dispatch(changeModel(newModelId));
     }
 
     const createFromCurrent = () => {
         console.log("model creation called");
         const newModelId = v4();
-        dispatch(createModelFromCurrent({ modelId: newModelId, modelName: "My Model", createFrom: currentModel }));
+        dispatch(createModelFromCurrent({ modelId: newModelId, modelName: `Model-${Object.keys(allModels).length+1}`, createFrom: currentModel }));
         dispatch(changeModel(newModelId));
     }
     

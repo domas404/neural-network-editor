@@ -1,5 +1,7 @@
 import "@/app/globalicons.css";
 import React, { memo } from "react";
+import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
+import descMap from "@/app/lib/descriptions";
 
 interface ParamProps {
     paramType: string;
@@ -16,6 +18,26 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
         handleChange(paramType, event.currentTarget.value);
     }
 
+    const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
+
+    const closePopup = () => {
+        setAnchor(null);
+        document.removeEventListener("click", closePopup);
+    }
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        if (anchor) {
+            setAnchor(null);
+        } else {
+            setAnchor(event.currentTarget);
+            document.addEventListener("click", closePopup);
+        }
+        // window.addEventListener("click", closePopup);
+    };
+
+    const open = Boolean(anchor);
+    const id = open ? 'simple-popup' : undefined;
+
     return (
         <div className="py-3 bg-white mb-px dark:bg-slate-800">
             <label className="flex flex-row group items-center pb-1" htmlFor={paramName}>
@@ -26,11 +48,27 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
                 >
                     {paramName}
                 </div>
-                <div className="flex items-center select-none invisible px-2 group-hover:visible text-gray-300 hover:cursor-pointer hover:text-gray-400 active:text-gray-500">
+                <button
+                    className="flex items-center select-none invisible px-2 group-hover:visible text-gray-300
+                        hover:cursor-pointer hover:text-gray-400 active:text-gray-500"
+                    onClick={handleClick}
+                >
                     <span className="material-symbols-outlined md-20">
                         info
                     </span>
-                </div>
+                </button>
+                <BasePopup
+                    id={id}
+                    open={open}
+                    anchor={anchor}
+                    disablePortal
+                    className="z-50 rounded-lg font-sans font-medium text-sm mt-2 p-3 border border-solid border-slate-200
+                    dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md text-slate-900 dark:text-slate-100
+                    max-w-60"
+                    placement="right-start"
+                >
+                    <div className="h-20">{descMap.get(paramType)}</div>
+                </BasePopup>
             </label>
             <select
                 name={paramName}

@@ -8,7 +8,7 @@ const initialState: HyperparameterSet = {
     learningRate: "0.1",
     batchSize: "1",
     optimizer: "SGD",
-    trainTestRatio: "0.8",
+    trainTestRatio: "80/20",
     loss: "Mean Squared Error",
 }
 
