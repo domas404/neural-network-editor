@@ -8,6 +8,35 @@ export interface Layer {
     order: number,
     neurons: Neuron[],
     activation: string,
+    itemCount: number // universal variable across all layers depicting neuron count and filter count
+}
+
+export interface Filter {
+    id: string,
+}
+
+export interface ConvolutionLayer {
+    id: string,
+    type: string,
+    order: number,
+    depth: number,
+    kernelSize: number | [number, number],
+    filters: Filter[],
+    stride: number | [number, number],
+    activation: string,
+    padding: number,
+    itemCount: number
+}
+
+export interface PoolingLayer {
+    id: string,
+    type: string,
+    order: number,
+    depth: number,
+    poolSize: number | [number, number],
+    stride: number | [number, number],
+    padding: number,
+    itemCount: number
 }
 
 export interface HyperparameterSet {
@@ -38,7 +67,8 @@ export interface DatasetProps {
 export interface ModelSet {
     [id: string]: {
         name: string,
-        layers: Layer[],
+        type: "mlp" | "cnn",
+        layers: (Layer | ConvolutionLayer | PoolingLayer)[],
     }
 }
 

@@ -27,7 +27,7 @@ export default function Home() {
                     <Link href="/model">
                         <LinkToPageButton archType="Multilayer Perceptron" />
                     </Link>
-                    <Link href="/">
+                    <Link href="/cnn">
                         <LinkToPageButton archType="Convolutional Neural Network" />
                     </Link>
                 </div>

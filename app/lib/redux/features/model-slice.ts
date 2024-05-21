@@ -1,7 +1,7 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Layer, ModelSet } from "@/app/lib/data-types";
+import { ConvolutionLayer, Layer, ModelSet, PoolingLayer } from "@/app/lib/data-types";
 import { InitialModels, defaultModel } from "@/app/lib/initial-model";
 import { v4 } from "uuid";
 
@@ -11,24 +11,6 @@ export const models = createSlice({
     name: "models",
     initialState,
     reducers: {
-        addLayer: (state, action: PayloadAction<{ modelName: string, order: number }>) => {
-            const { modelName, order } = action.payload;
-            const model = state[modelName];
-            model.layers.splice(order, 0, {
-                id: v4(),
-                type: "hidden",
-                order: order,
-                neurons: [{ id: v4() }],
-                activation: "relu"
-            });
-            for (let i=order+1; i<model.layers.length; i++){
-                model.layers[i].order = model.layers[i].order+1;
-            }
-            return ({
-                ...state,
-                model
-            });
-        },
         removeLayer: (state, action: PayloadAction<{ modelName: string, layerId: string }>) => {
             const { modelName, layerId } = action.payload;
             const model = state[modelName];
@@ -44,8 +26,10 @@ export const models = createSlice({
         addNeuronToLayer: (state, action: PayloadAction<{ modelName: string, layerId: string }>) => {
             const { modelName, layerId } = action.payload;
             const model = state[modelName];
-            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
-            model.layers[layerToModify].neurons.push({ id: v4() });
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as Layer;
+            layerToModify.neurons.push({ id: v4() });
+            layerToModify.itemCount++;
         },
         updateInputLayer: (state, action: PayloadAction<{ modelName: string, neuronCount: number }>) => {
             const { modelName, neuronCount } = action.payload;
@@ -54,7 +38,9 @@ export const models = createSlice({
             for (let i=0; i<neuronCount; i++) {
                 initialInputNeurons.push({ id: v4() });
             }
-            model.layers[0].neurons = initialInputNeurons;
+            const inputLayer = model.layers[0] as Layer;
+            inputLayer.neurons = initialInputNeurons;
+            inputLayer.itemCount = initialInputNeurons.length;
         },
         updateOutputLayer: (state, action: PayloadAction<{ modelName: string, neuronCount: number }>) => {
             const { modelName, neuronCount } = action.payload;
@@ -63,25 +49,30 @@ export const models = createSlice({
             for (let i=0; i<neuronCount; i++) {
                 initialOutputNeurons.push({ id: v4() });
             }
-            model.layers[model.layers.length-1].neurons = initialOutputNeurons;
+            const outputLayer = model.layers[model.layers.length-1] as Layer;
+            outputLayer.neurons = initialOutputNeurons;
+            outputLayer.itemCount = initialOutputNeurons.length;
         },
         removeNeuronFromLayer: (state, action: PayloadAction<{ modelName: string, layerId: string }>) => {
             const { modelName, layerId } = action.payload;
             const model = state[modelName];
-            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
-            model.layers[layerToModify].neurons.pop();
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as Layer;
+            layerToModify.neurons.pop();
+            layerToModify.itemCount--;
         },
         changeActivation: (state, action: PayloadAction<{ modelName: string, layerId: string, activation: string }>) => {
             const { activation, modelName, layerId } = action.payload;
             const model = state[modelName];
-            const layerToModify = model.layers.findIndex((el) => el.id === layerId);
-            model.layers[layerToModify].activation = activation;
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as Layer | ConvolutionLayer;
+            layerToModify.activation = activation;
         },
         addHiddenLayer: (state, action: PayloadAction<string>) => {
             const model = state[action.payload];
-            const lastHiddenLayer = model.layers[model.layers.length-2];
+            const lastHiddenLayer = model.layers[model.layers.length-2] as Layer;
             const neuronsToAdd = [];
-            for (let i=0; i<lastHiddenLayer.neurons.length; i++) {
+            for (let i=0; i<lastHiddenLayer.itemCount; i++) {
                 neuronsToAdd.push({ id: v4() });
             }
             const newLayer: Layer = {
@@ -89,7 +80,8 @@ export const models = createSlice({
                 activation: lastHiddenLayer.activation,
                 neurons: neuronsToAdd,
                 order: lastHiddenLayer.order + 1,
-                type: "hidden"
+                type: "hidden",
+                itemCount: neuronsToAdd.length
             };
             model.layers.splice(model.layers.length-1, 0, newLayer);
         },
@@ -98,7 +90,7 @@ export const models = createSlice({
             const model = state[modelId];
 
             const neuronsToAdd = [];
-            for (let i=0; i<insertAfter.neurons.length; i++) {
+            for (let i=0; i<insertAfter.itemCount; i++) {
                 neuronsToAdd.push({ id: v4() });
             }
             const newLayer: Layer = {
@@ -106,12 +98,78 @@ export const models = createSlice({
                 activation: insertAfterIndex === 0 ? "relu" : insertAfter.activation,
                 neurons: neuronsToAdd,
                 order: insertAfter.order + 1,
-                type: "hidden"
+                type: "hidden",
+                itemCount: neuronsToAdd.length
             };
             model.layers.slice(insertAfterIndex + 1).forEach((layer) => {
                 layer.order = layer.order + 1;
             })
             model.layers.splice(insertAfterIndex + 1, 0, newLayer);
+        },
+        addConvolutionLayerAfter: (state, action: PayloadAction<{ modelId: string, insertAfter: ConvolutionLayer | PoolingLayer, insertAfterIndex: number, newLayerId: string }>) => {
+            const { modelId, insertAfter, insertAfterIndex, newLayerId } = action.payload;
+            const model = state[modelId];
+
+            const newLayer: ConvolutionLayer = {
+                id: newLayerId,
+                activation: "relu",
+                order: insertAfter.order + 1,
+                type: "convolution",
+                depth: 1,
+                filters: [{ id: v4() }, { id: v4() }, { id: v4() }],
+                kernelSize: 2,
+                stride: 1,
+                itemCount: 3,
+                padding: 0
+            };
+            model.layers.slice(insertAfterIndex + 1).forEach((layer) => {
+                layer.order = layer.order + 1;
+            })
+            model.layers.splice(insertAfterIndex + 1, 0, newLayer);
+        },
+        addFilterToConvolution: (state, action: PayloadAction<{ modelId: string, layerId: string }>) => {
+            const { modelId, layerId } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer;
+            layerToModify.filters.push({ id: v4() });
+            layerToModify.itemCount++;
+        },
+        removeFilterFromConvolution: (state, action: PayloadAction<{ modelId: string, layerId: string }>) => {
+            const { modelId, layerId } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer;
+            layerToModify.filters.pop();
+            layerToModify.itemCount--;
+        },
+        updateStride: (state, action: PayloadAction<{ modelId: string, layerId: string, newStride: number }>) => {
+            const { modelId, layerId, newStride } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer | PoolingLayer;
+            layerToModify.stride = newStride;
+        },
+        updateFilterSize: (state, action: PayloadAction<{ modelId: string, layerId: string, newFilterSize: number }>) => {
+            const { modelId, layerId, newFilterSize } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer;
+            layerToModify.kernelSize = newFilterSize;
+        },
+        updatePoolSize: (state, action: PayloadAction<{ modelId: string, layerId: string, newPoolSize: number }>) => {
+            const { modelId, layerId, newPoolSize } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as PoolingLayer;
+            layerToModify.poolSize = newPoolSize;
+        },
+        updatePadding: (state, action: PayloadAction<{ modelId: string, layerId: string, newPadding: number }>) => {
+            const { modelId, layerId, newPadding } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer | PoolingLayer;
+            layerToModify.padding = newPadding;
         },
         removeHiddenLayer: (state, action: PayloadAction<string>) => {
             const model = state[action.payload];
@@ -148,6 +206,7 @@ export const models = createSlice({
             const { modelId, modelName } = action.payload;
             const model: ModelSet = { [modelId]: {
                 name: modelName,
+                type: "mlp",
                 layers: defaultModel["default"].layers
             } };
             console.log(model);
@@ -160,6 +219,7 @@ export const models = createSlice({
             const { modelId, modelName, createFrom } = action.payload;
             const model: ModelSet = { [modelId]: {
                 name: modelName,
+                type: "mlp",
                 layers: state[createFrom].layers
             } };
             console.log(model);
@@ -184,7 +244,6 @@ export const models = createSlice({
 });
 
 export const {
-    addLayer,
     removeLayer,
     addNeuronToLayer,
     updateInputLayer,
@@ -192,6 +251,13 @@ export const {
     removeNeuronFromLayer,
     addHiddenLayer,
     addHiddenLayerAfter,
+    addConvolutionLayerAfter,
+    addFilterToConvolution,
+    removeFilterFromConvolution,
+    updateStride,
+    updateFilterSize,
+    updatePoolSize,
+    updatePadding,
     removeHiddenLayer,
     reorderLayers,
     changeActivation,

@@ -16,6 +16,12 @@ const descMap = new Map<string, string>([
     ["hiddenLayer", "Hidden layer is..."],
     ["inputLayer", "Input layer..."],
     ["outputLayer", "Output layer..."],
+    ["filterCount", ""],
+    ["filterSize", ""],
+    ["stride", ""],
+    ["padding", ""],
+    ["poolSize", ""],
+    ["", ""],
 ]);
 
 export default descMap;

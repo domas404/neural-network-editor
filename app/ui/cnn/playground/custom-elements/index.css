@@ -1,0 +1,33 @@
+.neuron {
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 50%;
+}
+
+.react-flow__panel.react-flow__attribution.bottom.right {
+    opacity: 0;
+    pointer-events: none !important;
+}
+
+.rotate-animation {
+    transform: rotate(-45deg);
+    animation: neuronLearning 2s infinite;
+    /* animation-iteration-count: 1; */
+    animation-timing-function: linear;
+}
+
+@keyframes neuronLearning {
+    0% {transform: rotate(-45deg);}
+    100% {transform: rotate(315deg);}
+}
+
+.on-drag-over {
+    background-color: hsla(220, 66%, 55%, 0.2);
+}
+
+.bin-dragged-over {
+    border: 2px solid rgb(255, 80, 80);
+    color: rgb(255, 80, 80);
+}

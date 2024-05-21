@@ -22,3 +22,8 @@ body {
   height: calc(100vh/2 - 100vh/10);
   min-height: 280px;
 }
+
+.scrollable-info-menu {
+  height: calc(100vh/2 - 100vh/8);
+  min-height: 250px;
+}

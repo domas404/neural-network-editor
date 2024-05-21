@@ -9,10 +9,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="basis-1/12 flex flex-row items-center justify-between max-h-10 pt-1">
                 <div className="flex basis-1/3">
                     <Link className="justify-self-start" href="/">
-                        <Logo iconSize="small" archType="Multilayer perceptron" />
+                        <Logo iconSize="small" archType="Convolutional NN" />
                     </Link>
                 </div>
-                <Navbar networkType="model" />
+                <Navbar networkType="cnn" />
                 <Settings />
             </div>
             <div className="basis-11/12 flex flex-row gap-3 justify-stretch grow">{children}</div>
