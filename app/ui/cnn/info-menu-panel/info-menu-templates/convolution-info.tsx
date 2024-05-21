@@ -93,7 +93,7 @@ export default function ConvolutionInfo() {
     }
 
     const decreasePadding = () => {
-        if (padding < MAX_PADDING){
+        if (padding > MIN_PADDING){
             const newPadding = padding-1;
             setPadding(newPadding);
             dispatch(updatePadding({ modelId: modelId, layerId: itemId, newPadding: newPadding }));

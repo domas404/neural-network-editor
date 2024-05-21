@@ -37,6 +37,10 @@ export default function Settings() {
                         </button>
                     </div>
                     <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
+                        dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
+                        <span>EN</span>
+                    </div>
+                    <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200">
                         <Link href="https://github.com/domas404/neural-network-editor" target="blank">
                             <Image
@@ -55,10 +59,6 @@ export default function Settings() {
                         </span>
                     </div> */}
                     {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
-                        dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
-                        <span>EN</span>
-                    </div>
-                    <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
                         <span>?</span>
                     </div> */}

@@ -56,7 +56,7 @@ export default function Dataset() {
                                 Dataset
                             </div>
                             <Link
-                                href="/model/data"
+                                href="/cnn/data"
                                 className="absolute right-4 top-4 flex p-1 rounded-full select-none hover:cursor-pointer
                                     hover:bg-slate-200 active:bg-lightblue-200 transition-all ease-in-out duration-200
                                     dark:hover:bg-slate-700 dark:active:bg-slate-600"

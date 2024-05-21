@@ -169,6 +169,13 @@ export const models = createSlice({
             layerToModify.pools.push({ id: v4() });
             layerToModify.itemCount++;
         },
+        changePoolType: (state, action: PayloadAction<{ modelId: string, layerId: string, poolType: string }>) => {
+            const { modelId, layerId, poolType } = action.payload;
+            const model = state[modelId];
+            const layerToModifyIndex = model.layers.findIndex((el) => el.id === layerId);
+            const layerToModify = model.layers[layerToModifyIndex] as PoolingLayer;
+            layerToModify.poolType = poolType;
+        },
         addFilterToConvolution: (state, action: PayloadAction<{ modelId: string, layerId: string }>) => {
             const { modelId, layerId } = action.payload;
             const model = state[modelId];
@@ -307,6 +314,7 @@ export const {
     addHiddenLayerAfter,
     addConvolutionLayerAfter,
     addPoolingLayerAfter,
+    changePoolType,
     addFilterToConvolution,
     removeFilterFromConvolution,
     updateStride,

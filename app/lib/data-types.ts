@@ -40,7 +40,7 @@ export interface PoolingLayer {
     poolSize: number | [number, number],
     pools: Pool[],
     stride: number | [number, number],
-    poolType: "average" | "max",
+    poolType: string,
     padding: number,
     itemCount: number
 }
