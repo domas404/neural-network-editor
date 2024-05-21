@@ -5,6 +5,7 @@ export const defaultCNN: ModelSet = {
     'defaultCNN': {
         name: 'Default CNN',
         type: "cnn",
+        parameters: 40,
         layers: [
             {
                 id: v4(),
@@ -39,17 +40,18 @@ export const defaultCNN: ModelSet = {
                 id: v4(),
                 type: "pooling",
                 order: 2,
-                // pools: [
-                //     { id: v4() },
-                //     { id: v4() },
-                //     { id: v4() }
-                // ],
+                pools: [
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() }
+                ],
                 depth: 0,
                 poolSize: 2,
                 padding: 0,
                 stride: 1,
                 activation: "relu",
-                itemCount: 4
+                itemCount: 4,
+                poolType: "max"
             },
             {
                 id: v4(),

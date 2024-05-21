@@ -163,7 +163,7 @@ export async function BuildModel(
         metrics: ['accuracy']
     });
 
-    // console.log(model.summary());
+    console.log(model.summary());
     
     return model;
 }

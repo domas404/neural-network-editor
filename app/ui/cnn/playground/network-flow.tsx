@@ -17,6 +17,7 @@ import customInputNode from "./custom-elements/custom-input-node";
 import customHiddenNode from "./custom-elements/custom-hidden-node";
 import customOutputNode from "./custom-elements/custom-output-node";
 import customConvolutionFilterNode from "./custom-elements/custom-convolution-filter";
+import customPoolNode from "./custom-elements/custom-pool-node";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
@@ -29,7 +30,8 @@ const nodeTypes = {
     customInputNode,
     customHiddenNode,
     customOutputNode,
-    customConvolutionFilterNode
+    customConvolutionFilterNode,
+    customPoolNode
 };
 
 const Flow = () => {

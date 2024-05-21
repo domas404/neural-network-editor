@@ -47,6 +47,7 @@ export default function DefaultInfo() {
     const modelId = useAppSelector((state) => state.networkReducer.modelId);
     const allModels = useAppSelector((state) => state.modelsReducer);
     const [layerCount, setLayerCount] = useState(MIN_LAYER_COUNT);
+    const modelParameters = useAppSelector((state) => state.modelsReducer[modelId].parameters);
 
     const addLayer = () => {
         if (layerCount < MAX_LAYER_COUNT){
@@ -138,7 +139,7 @@ export default function DefaultInfo() {
                 <div className="bg-gray-50 border py-2.5 w-28 text-sm rounded-lg h-10 flex flex-row items-center justify-between
                     dark:bg-slate-700 dark:border-slate-600 dark:text-white">
                     <div className="h-full flex items-center justify-center w-full">
-                        <span>48</span>
+                        <span>{modelParameters}</span>
                     </div>
                 </div>
             </div>

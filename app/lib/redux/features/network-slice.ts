@@ -5,7 +5,7 @@ import { Network } from "@/app/lib/data-types";
 
 const initialState: Network = {
     dataset: "irisdata",
-    modelId: "default"
+    modelId: "defaultCNN"
 }
 
 export const networkSlice = createSlice({

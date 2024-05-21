@@ -15,6 +15,10 @@ export interface Filter {
     id: string,
 }
 
+export interface Pool {
+    id: string,
+}
+
 export interface ConvolutionLayer {
     id: string,
     type: string,
@@ -34,7 +38,9 @@ export interface PoolingLayer {
     order: number,
     depth: number,
     poolSize: number | [number, number],
+    pools: Pool[],
     stride: number | [number, number],
+    poolType: "average" | "max",
     padding: number,
     itemCount: number
 }
@@ -69,6 +75,7 @@ export interface ModelSet {
         name: string,
         type: "mlp" | "cnn",
         layers: (Layer | ConvolutionLayer | PoolingLayer)[],
+        parameters: number
     }
 }
 

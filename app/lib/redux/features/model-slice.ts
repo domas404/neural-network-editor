@@ -1,7 +1,7 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ConvolutionLayer, Layer, ModelSet, PoolingLayer } from "@/app/lib/data-types";
+import { ConvolutionLayer, Layer, ModelSet, Pool, PoolingLayer } from "@/app/lib/data-types";
 import { InitialModels, defaultModel } from "@/app/lib/initial-model";
 import { v4 } from "uuid";
 
@@ -126,6 +126,48 @@ export const models = createSlice({
                 layer.order = layer.order + 1;
             })
             model.layers.splice(insertAfterIndex + 1, 0, newLayer);
+            if (model.layers[insertAfterIndex+2].type === "pooling") {
+                const poolingLayerToModify = model.layers[insertAfterIndex+2] as PoolingLayer;
+                const newPools: Pool[] = [];
+                for (let i=0; i<newLayer.itemCount; i++) {
+                    newPools.push({ id: v4() });
+                }
+                poolingLayerToModify.pools = newPools;
+                poolingLayerToModify.itemCount = newPools.length;
+            }
+        },
+        addPoolingLayerAfter: (state, action: PayloadAction<{ modelId: string, insertAfter: ConvolutionLayer | PoolingLayer, insertAfterIndex: number, newLayerId: string }>) => {
+            const { modelId, insertAfter, insertAfterIndex, newLayerId } = action.payload;
+            const model = state[modelId];
+
+            const poolsToAdd = [];
+            for (let i=0; i<insertAfter.itemCount; i++) {
+                poolsToAdd.push({ id: v4() });
+            }
+
+            const newLayer: PoolingLayer = {
+                id: newLayerId,
+                order: insertAfter.order + 1,
+                type: "pooling",
+                depth: 1,
+                pools: poolsToAdd,
+                poolSize: 2,
+                stride: 1,
+                itemCount: poolsToAdd.length,
+                padding: 0,
+                poolType: "max"
+            };
+            model.layers.slice(insertAfterIndex + 1).forEach((layer) => {
+                layer.order = layer.order + 1;
+            })
+            model.layers.splice(insertAfterIndex + 1, 0, newLayer);
+        },
+        addPools: (state, action: PayloadAction<{ modelId: string, layerIndex: number }>) => {
+            const { modelId, layerIndex } = action.payload;
+            const model = state[modelId];
+            const layerToModify = model.layers[layerIndex] as PoolingLayer;
+            layerToModify.pools.push({ id: v4() });
+            layerToModify.itemCount++;
         },
         addFilterToConvolution: (state, action: PayloadAction<{ modelId: string, layerId: string }>) => {
             const { modelId, layerId } = action.payload;
@@ -134,6 +176,11 @@ export const models = createSlice({
             const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer;
             layerToModify.filters.push({ id: v4() });
             layerToModify.itemCount++;
+            if (model.layers[layerToModifyIndex+1].type === "pooling") {
+                const poolingLayerToModify = model.layers[layerToModifyIndex+1] as PoolingLayer;
+                poolingLayerToModify.pools.push({ id: v4() });
+                poolingLayerToModify.itemCount++;
+            }
         },
         removeFilterFromConvolution: (state, action: PayloadAction<{ modelId: string, layerId: string }>) => {
             const { modelId, layerId } = action.payload;
@@ -142,6 +189,11 @@ export const models = createSlice({
             const layerToModify = model.layers[layerToModifyIndex] as ConvolutionLayer;
             layerToModify.filters.pop();
             layerToModify.itemCount--;
+            if (model.layers[layerToModifyIndex+1].type === "pooling") {
+                const poolingLayerToModify = model.layers[layerToModifyIndex+1] as PoolingLayer;
+                poolingLayerToModify.pools.pop();
+                poolingLayerToModify.itemCount--;
+            }
         },
         updateStride: (state, action: PayloadAction<{ modelId: string, layerId: string, newStride: number }>) => {
             const { modelId, layerId, newStride } = action.payload;
@@ -207,7 +259,8 @@ export const models = createSlice({
             const model: ModelSet = { [modelId]: {
                 name: modelName,
                 type: "mlp",
-                layers: defaultModel["default"].layers
+                layers: defaultModel["default"].layers,
+                parameters: 0,
             } };
             console.log(model);
             return {
@@ -220,7 +273,8 @@ export const models = createSlice({
             const model: ModelSet = { [modelId]: {
                 name: modelName,
                 type: "mlp",
-                layers: state[createFrom].layers
+                layers: state[createFrom].layers,
+                parameters: 0,
             } };
             console.log(model);
             return {
@@ -252,11 +306,13 @@ export const {
     addHiddenLayer,
     addHiddenLayerAfter,
     addConvolutionLayerAfter,
+    addPoolingLayerAfter,
     addFilterToConvolution,
     removeFilterFromConvolution,
     updateStride,
     updateFilterSize,
     updatePoolSize,
+    addPools,
     updatePadding,
     removeHiddenLayer,
     reorderLayers,

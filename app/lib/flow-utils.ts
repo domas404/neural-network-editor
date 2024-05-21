@@ -60,6 +60,26 @@ function createConvolutionLayer(layer: ConvolutionLayer, topMargin: number) {
 
 function createPoolingLayer(layer: PoolingLayer, topMargin: number) {
     const nodes: Node[] = [];
+    for (let j=0; j<layer.itemCount; j++) {
+        let nodeType = "customPoolNode";
+        nodes.push({
+            id: layer.pools[j].id,
+            position: { x:28, y:topMargin+j*60 },
+            data: {
+                type: layer.type,
+                activation: ""
+            },
+            parentNode: layer.id,
+            type: nodeType,
+            extent: "parent",
+            draggable: false,
+            zIndex: 3,
+            className: "rounded-full",
+            style: {
+                pointerEvents: "none",
+            }
+        });
+    }
     return nodes;
 }
 
@@ -82,35 +102,18 @@ function createEdgesFromConvolutionToConvolution(sourceLayer: ConvolutionLayer, 
 }
 
 function createEdgesFromConvolutionToPooling(sourceLayer: ConvolutionLayer, targetLayer: PoolingLayer) {
-    // let edges: Edge[] = [];
-    // for (let j=0; j<sourceLayer.itemCount; j++) {
-    //     edges.push({
-    //         id: `${sourceLayer.filters[j].id}-${sourceLayer.filters[j].id}`,
-    //         source: sourceLayer.filters[j].id,
-    //         target: targetLayer.items[k].id,
-    //         type: "floating",
-    //         style: {
-    //             zIndex: 2,
-    //         },
-    //     });
-    // }
-    // return edges;
-}
-
-function createEdgesFromFullyConnectedToFullyConnected(sourceLayer: Layer, targetLayer: Layer) {
     let edges: Edge[] = [];
-    for (let j=0; j<sourceLayer.itemCount; j++) {
-        for (let k=0; k<targetLayer.itemCount; k++) {
-            edges.push({
-                id: `${sourceLayer.neurons[j].id}-${targetLayer.neurons[k].id}`,
-                source: sourceLayer.neurons[j].id,
-                target: targetLayer.neurons[k].id,
-                type: "floating",
-                style: {
-                    zIndex: 2,
-                },
-            });
-        }
+    let count = Math.min(sourceLayer.itemCount, targetLayer.itemCount);
+    for (let j=0; j<count; j++) {
+        edges.push({
+            id: `${sourceLayer.filters[j].id}-${sourceLayer.filters[j].id}`,
+            source: sourceLayer.filters[j].id,
+            target: targetLayer.pools[j].id,
+            type: "floating",
+            style: {
+                zIndex: 2,
+            },
+        });
     }
     return edges;
 }
@@ -122,6 +125,24 @@ function createEdgesFromConvolutionToFullyConnected(sourceLayer: ConvolutionLaye
             edges.push({
                 id: `${sourceLayer.filters[j].id}-${targetLayer.neurons[k].id}`,
                 source: sourceLayer.filters[j].id,
+                target: targetLayer.neurons[k].id,
+                type: "floating",
+                style: {
+                    zIndex: 2,
+                },
+            });
+        }
+    }
+    return edges;
+}
+
+function createEdgesFromFullyConnectedToFullyConnected(sourceLayer: Layer, targetLayer: Layer) {
+    let edges: Edge[] = [];
+    for (let j=0; j<sourceLayer.itemCount; j++) {
+        for (let k=0; k<targetLayer.itemCount; k++) {
+            edges.push({
+                id: `${sourceLayer.neurons[j].id}-${targetLayer.neurons[k].id}`,
+                source: sourceLayer.neurons[j].id,
                 target: targetLayer.neurons[k].id,
                 type: "floating",
                 style: {
@@ -147,6 +168,59 @@ function createEdgesFromFullyConnectedToConvolution(sourceLayer: Layer, targetLa
                 },
             });
         }
+    }
+    return edges;
+}
+
+function createEdgesFromPoolingToFullyConnected(sourceLayer: PoolingLayer, targetLayer: Layer) {
+    let edges: Edge[] = [];
+    for (let j=0; j<sourceLayer.itemCount; j++) {
+        for (let k=0; k<targetLayer.itemCount; k++) {
+            edges.push({
+                id: `${sourceLayer.pools[j].id}-${targetLayer.neurons[k].id}`,
+                source: sourceLayer.pools[j].id,
+                target: targetLayer.neurons[k].id,
+                type: "floating",
+                style: {
+                    zIndex: 2,
+                },
+            });
+        }
+    }
+    return edges;
+}
+
+function createEdgesFromPoolingToConvolution(sourceLayer: PoolingLayer, targetLayer: ConvolutionLayer) {
+    let edges: Edge[] = [];
+    for (let j=0; j<sourceLayer.itemCount; j++) {
+        for (let k=0; k<targetLayer.itemCount; k++) {
+            edges.push({
+                id: `${sourceLayer.pools[j].id}-${targetLayer.filters[k].id}`,
+                source: sourceLayer.pools[j].id,
+                target: targetLayer.filters[k].id,
+                type: "floating",
+                style: {
+                    zIndex: 2,
+                },
+            });
+        }
+    }
+    return edges;
+}
+
+function createEdgesFromPoolingToPooling(sourceLayer: PoolingLayer, targetLayer: PoolingLayer) {
+    let edges: Edge[] = [];
+    let count = Math.min(sourceLayer.itemCount, targetLayer.itemCount);
+    for (let j=0; j<count; j++) {
+        edges.push({
+            id: `${sourceLayer.pools[j].id}-${sourceLayer.pools[j].id}`,
+            source: sourceLayer.pools[j].id,
+            target: targetLayer.pools[j].id,
+            type: "floating",
+            style: {
+                zIndex: 2,
+            },
+        });
     }
     return edges;
 }
@@ -211,7 +285,6 @@ export function createNodesAndEdgesForCNN(layers: (Layer | ConvolutionLayer | Po
         }
         // individual neurons / filters
         let topMargin = (height - (layers[i].itemCount*40 + (layers[i].itemCount-1)*20))/2;
-
         if (layers[i].type === "convolution") {
             const nodesToAdd: Node[] = createConvolutionLayer(layers[i] as ConvolutionLayer, topMargin);
             nodes.push(...nodesToAdd);
@@ -237,6 +310,18 @@ export function createNodesAndEdgesForCNN(layers: (Layer | ConvolutionLayer | Po
             edges.push(...edgesToAdd);
         } else if (layers[i].type === "input" && layers[i+1].type === "convolution") {
             const edgesToAdd = createEdgesFromFullyConnectedToConvolution(layers[i] as Layer, layers[i+1] as ConvolutionLayer);
+            edges.push(...edgesToAdd);
+        } else if (layers[i].type === "convolution" && layers[i+1].type === "pooling") {
+            const edgesToAdd = createEdgesFromConvolutionToPooling(layers[i] as ConvolutionLayer, layers[i+1] as PoolingLayer);
+            edges.push(...edgesToAdd);
+        } else if (layers[i].type === "pooling" && layers[i+1].type === "convolution") {
+            const edgesToAdd = createEdgesFromPoolingToConvolution(layers[i] as PoolingLayer, layers[i+1] as ConvolutionLayer);
+            edges.push(...edgesToAdd);
+        } else if (layers[i].type === "pooling" && layers[i+1].type === "pooling") {
+            const edgesToAdd = createEdgesFromPoolingToPooling(layers[i] as PoolingLayer, layers[i+1] as PoolingLayer);
+            edges.push(...edgesToAdd);
+        } else if (layers[i].type === "pooling" && (layers[i+1].type === "hidden" || layers[i+1].type === "output")) {
+            const edgesToAdd = createEdgesFromPoolingToFullyConnected(layers[i] as PoolingLayer, layers[i+1] as Layer);
             edges.push(...edgesToAdd);
         } else {
             const edgesToAdd = createEdgesFromFullyConnectedToFullyConnected(layers[i] as Layer, layers[i+1] as Layer);

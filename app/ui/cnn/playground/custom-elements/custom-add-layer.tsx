@@ -7,7 +7,7 @@ import { setInfo } from "@/app/lib/redux/features/info-menu-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
-import { addConvolutionLayerAfter, addHiddenLayerAfter, reorderLayers } from "@/app/lib/redux/features/model-slice";
+import { addConvolutionLayerAfter, addHiddenLayerAfter, addPoolingLayerAfter, reorderLayers } from "@/app/lib/redux/features/model-slice";
 import { v4 } from 'uuid';
 import { ConvolutionLayer, Layer, PoolingLayer } from '@/app/lib/data-types';
 
@@ -47,7 +47,6 @@ function CustomAddLayer( { data }: any ) {
             if (objects.length-2 < MAX_LAYER_COUNT) {
                 const newLayerId = v4();
                 const layerType = event.dataTransfer.getData("layerType");
-
                 if (layerType === "fully-connected") {
                     dispatch(addHiddenLayerAfter({
                         modelId: modelId,
@@ -64,6 +63,14 @@ function CustomAddLayer( { data }: any ) {
                         newLayerId: newLayerId
                     }));
                     dispatch(setInfo({ infoType: "convolution-layer", id: newLayerId }));
+                } else if (layerType === "pooling") {
+                    dispatch(addPoolingLayerAfter({
+                        modelId: modelId,
+                        insertAfter: objects[insertAfterIndex] as ConvolutionLayer | PoolingLayer,
+                        insertAfterIndex: insertAfterIndex,
+                        newLayerId: newLayerId
+                    }));
+                    dispatch(setInfo({ infoType: "pooling-layer", id: newLayerId }));
                 }
 
             }

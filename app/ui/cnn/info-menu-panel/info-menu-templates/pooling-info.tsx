@@ -19,11 +19,12 @@ export default function PoolingInfo() {
     const { itemId } = useAppSelector((state) => state.infoMenuReducer);
     const modelId = useAppSelector((state) => state.networkReducer.modelId);
     const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
-    const selectedObject = objects.find(el => el.id === itemId);
+    const selectedObject = objects.find(el => el.id === itemId) as PoolingLayer;
+    // const previousLayerIndex = objects.findIndex(el => el.order === selectedObject.order-1);
 
     const [poolSize, setPoolSize] = useState(MIN_POOL_SIZE);
     const [stride, setStride] = useState(MIN_POOL_SIZE);
-    const depth = (selectedObject as PoolingLayer).depth;
+    const depth = selectedObject?.depth;
 
     const increasePoolSize = () => {
         if (poolSize < MAX_POOL_SIZE){

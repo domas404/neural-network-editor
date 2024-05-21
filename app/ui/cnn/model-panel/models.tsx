@@ -76,9 +76,12 @@ export default function Models() {
     const [modelNames, setModelNames] = useState<string[]>([]);
 
     useEffect(() => {
-        if (Object.keys(allModels) != modelNames) {
-            setModelNames(Object.keys(allModels));
+        const allModelNames = Object.keys(allModels);
+        const cnnModels = allModelNames.filter((item) => allModels[item].type === "cnn");
+        if (cnnModels.length != modelNames.length) {
+            setModelNames(cnnModels);
         }
+        console.log(allModels, allModelNames, cnnModels, modelNames);
     }, [allModels]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
