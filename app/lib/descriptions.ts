@@ -1,8 +1,8 @@
 const descMap = new Map<string, string>([
-    ["epochs", "Epochs describe..."],
-    ["batchSize", "Batch size..."],
-    ["learningRate", "Learning Rate depicts..."],
-    ["optimizer", "Optimizer..."],
+    ["epochs", "Epochs represent the number of times the entire training dataset is passed through the learning algorithm during training."],
+    ["batchSize", "Batch size refers to the number of samples that are passed to the network at once during training, influencing training speed and model performance."],
+    ["learningRate", "Learning rate controls the rate at which the model learns by determining the size of weight updates during training."],
+    ["optimizer", "Optimizers are algorithms used to adjust the model's parameters, such as weights and learning rate, in order to minimize the loss function and improve the model's performance."],
     ["lossFunction", "Loss function is used for..."],
     ["trainTestRatio", "Data is divided into training and testing sets..."],
     ["activation", "Activation funciton..."],

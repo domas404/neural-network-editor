@@ -24,10 +24,10 @@ export default function Home() {
                     <div className="pt-2 text-lg text-slate-600 text-left dark:text-slate-300">Choose a neural network to start.</div>
                 </div>
                 <div className="flex flex-col h-2/3 gap-6">
-                    <Link href="/model">
+                    <Link href="/model" >
                         <LinkToPageButton archType="Multilayer Perceptron" />
                     </Link>
-                    <Link href="/cnn">
+                    <Link href="/cnn" >
                         <LinkToPageButton archType="Convolutional Neural Network" />
                     </Link>
                 </div>

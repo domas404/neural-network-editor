@@ -32,10 +32,10 @@ export default function ExportModel() {
                 </div>
                 <div className="text-md px-4">
                     <div className="flex flex-col bg-gray-200 mt-2 dark:bg-slate-700">
-                        <ExportElement name="Model parameters" icon="code" fileFormat="JSON" />
-                        <ExportElement name="Accuracy plot" icon="image" fileFormat="PNG" />
+                        <ExportElement name="Model architecture" icon="code" fileFormat="JSON" />
+                        {/* <ExportElement name="Accuracy plot" icon="image" fileFormat="PNG" />
                         <ExportElement name="Loss plot" icon="image" fileFormat="PNG" />
-                        <ExportElement name="Neural network graph" icon="image" fileFormat="PNG" />
+                        <ExportElement name="Neural network graph" icon="image" fileFormat="PNG" /> */}
                     </div>
                 </div>
             </div>

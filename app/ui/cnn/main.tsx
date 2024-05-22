@@ -10,7 +10,6 @@ import TrainButton from "@/app/ui/cnn/train-button";
 import { ReactFlowProvider } from 'reactflow';
 
 export default function Home() {
-
     return (
         <div className="basis-11/12 flex flex-row gap-2 justify-stretch grow">
             <div className="basis-1/6 flex flex-col gap-2 max-w-56 min-w-48">

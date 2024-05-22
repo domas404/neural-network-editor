@@ -253,12 +253,12 @@ export function DataTableSkeleton() {
     const rows = []
     for (let i=0; i<10; i++) {
         rows.push(
-            <tr className="h-8">
-                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
-                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
-                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
-                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
-                <td className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+            <tr key={i} className="h-8">
+                <td key={`${i}-1`} className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td key={`${i}-2`} className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td key={`${i}-3`} className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td key={`${i}-4`} className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
+                <td key={`${i}-5`} className={`border-1 border-white rounded-md py-1 bg-slate-100 dark:bg-slate-700`}></td>
             </tr>
         )
     }

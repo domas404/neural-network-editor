@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <main className="h-full flex w-full">
-            <DatasetMain />
+            <DatasetMain dataType="tabular" />
         </main>
     );
 }

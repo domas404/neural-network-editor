@@ -67,7 +67,7 @@ const ParamBox = ({ handleChange, paramType, paramName, paramOptions, defaultVal
                     max-w-60"
                     placement="right-start"
                 >
-                    <div className="h-20">{descMap.get(paramType)}</div>
+                    <div className="">{descMap.get(paramType)}</div>
                 </BasePopup>
             </label>
             <select

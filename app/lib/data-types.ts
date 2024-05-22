@@ -89,6 +89,7 @@ export type ModelProps = Map<string, Model>;
 export interface Network {
     dataset: string,
     modelId: string,
+    mode: string,
 }
 
 export interface TrainHistory {
