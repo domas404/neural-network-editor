@@ -26,7 +26,7 @@ const parameterOptions = [
     },
     {
         id: "loss",
-        name: "loss",
+        name: "loss function",
         options: ["Absolute Difference", "Mean Squared Error", "Hinge", "Sigmoid Cross Entropy"]
     },
     // {

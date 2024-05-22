@@ -6,7 +6,7 @@ import githubLight from "@/public/github-mark-white.png";
 import githubDark from "@/public/github-mark.png";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { toogleDarkMode } from "@/app/lib/redux/features/settings-slice";
+import { changeLanguage, toogleDarkMode } from "@/app/lib/redux/features/settings-slice";
 import { useAppSelector, AppDispatch } from "@/app/lib/redux/store";
 import { useEffect } from "react";
 
@@ -14,10 +14,7 @@ export default function Settings() {
 
     const dispatch = useDispatch<AppDispatch>();
     const isDarkMode = useAppSelector((state) => state.settingsReducer.isDarkMode);
-
-    // useEffect(() => {
-    //     dispatch(toogleDarkMode());
-    // }, []);
+    const language = useAppSelector((state) => state.settingsReducer.language);
 
     return (
         <div className="basis-1/3 flex justify-end">
@@ -38,7 +35,13 @@ export default function Settings() {
                     </div>
                     <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
-                        <span>EN</span>
+                        <button
+                            className="flex justify-center items-center"
+                            title={language === "en" ? "switch to lithuanian" : "perjungti į anglų"}
+                            onClick={() => dispatch(changeLanguage())}
+                        >
+                            <span>{language === "en" ? "EN" : "LT"}</span>
+                        </button>
                     </div>
                     <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200">
@@ -52,15 +55,13 @@ export default function Settings() {
                             />
                         </Link>
                     </div>
-                    {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm hover:cursor-pointer
-                        dark:bg-slate-800 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400">
-                        <span className="material-symbols-outlined md-20">
-                            delete
-                        </span>
-                    </div> */}
                     {/* <div className="flex items-center justify-center bg-white w-8 font-bold text-sm
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
-                        <span>?</span>
+                        <button title="app guide" className="flex justify-center items-center">
+                            <span className="material-symbols-outlined md-20">
+                                help
+                            </span>
+                        </button>
                     </div> */}
                 </div>
             </div>

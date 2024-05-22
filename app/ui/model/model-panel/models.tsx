@@ -76,8 +76,13 @@ export default function Models() {
     const [modelNames, setModelNames] = useState<string[]>([]);
 
     useEffect(() => {
-        if (Object.keys(allModels) != modelNames) {
-            setModelNames(Object.keys(allModels));
+        const allModelNames = Object.keys(allModels);
+        const mlpModels = allModelNames.filter((item) => allModels[item].type === "mlp");
+        if (!mlpModels.includes(currentModel)){
+            dispatch(changeModel(mlpModels[0]));
+        }
+        if (mlpModels.length != modelNames.length) {
+            setModelNames(mlpModels);
         }
     }, [allModels]);
 

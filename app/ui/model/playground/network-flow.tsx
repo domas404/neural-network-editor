@@ -16,6 +16,8 @@ import customAddLayer from "./custom-elements/custom-add-layer";
 import customInputNode from "./custom-elements/custom-input-node";
 import customHiddenNode from "./custom-elements/custom-hidden-node";
 import customOutputNode from "./custom-elements/custom-output-node";
+import { Layer } from "@/app/lib/data-types";
+import { changeToDefaultModel } from "@/app/lib/redux/features/network-slice";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
@@ -37,9 +39,12 @@ const Flow = () => {
     const dataset = useAppSelector((state) => state.datasetReducer);
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
 
-    const initialModel = currentModel[currentModelId].layers;
-
+    const initialModel = currentModel[currentModelId].layers as Layer[];
     const dispatch = useDispatch<AppDispatch>();
+
+    if (currentModel[currentModelId].type !== "mlp") {
+        dispatch(changeToDefaultModel("mlp"));
+    }
 
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdges(initialModel);
 
@@ -54,7 +59,7 @@ const Flow = () => {
     }, [datasetId, currentModelId]);
 
     useEffect(() => {
-        let chosenModel = currentModel[currentModelId].layers;
+        let chosenModel = currentModel[currentModelId].layers as Layer[];
         let { nodes: newNodes, edges: newEdges } = createNodesAndEdges(chosenModel);
         setNodes(newNodes);
         setEdges(newEdges);

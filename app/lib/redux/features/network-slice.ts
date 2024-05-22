@@ -24,9 +24,17 @@ export const networkSlice = createSlice({
         changeMode: (state, action: PayloadAction<string>) => {
             console.log(`Mode changed to ${action.payload}`);
             state.mode = action.payload;
+        },
+        changeToDefaultModel: (state, action: PayloadAction<string>) => {
+            if (action.payload === "mlp") {
+                state.modelId = "default";
+            } else if (action.payload === "cnn") {
+                state.modelId = "defaultCNN";
+            }
+
         }
     }
 });
 
-export const { changeDataset, changeModel, changeMode } = networkSlice.actions;
+export const { changeDataset, changeModel, changeMode, changeToDefaultModel } = networkSlice.actions;
 export default networkSlice.reducer;

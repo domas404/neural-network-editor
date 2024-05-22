@@ -4,11 +4,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface settingsProps {
     isDarkMode: boolean,
+    language: "lt" | "en",
     isLayerBeingDragged: boolean,
 }
 
 const initialState: settingsProps = {
     isDarkMode: false,
+    language: "en",
     isLayerBeingDragged: false,
 }
 
@@ -31,9 +33,16 @@ export const settingsSlice = createSlice({
         },
         setLayerNotBeingDragged: (state) => {
             state.isLayerBeingDragged = false;
+        },
+        changeLanguage: (state) => {
+            if (state.language === "en") {
+                state.language = "lt";
+            } else {
+                state.language = "en";
+            }
         }
     }
 });
 
-export const { toogleDarkMode, setLayerBeingDragged, setLayerNotBeingDragged } = settingsSlice.actions;
+export const { toogleDarkMode, setLayerBeingDragged, setLayerNotBeingDragged, changeLanguage } = settingsSlice.actions;
 export default settingsSlice.reducer;
