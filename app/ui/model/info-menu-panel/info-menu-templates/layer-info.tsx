@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { addNeuronToLayer, removeNeuronFromLayer, changeActivation } from "@/app/lib/redux/features/model-slice";
 import { useDispatch } from "react-redux";
+import { Layer } from "@/app/lib/data-types";
 
 const MAX_NEURON_COUNT = 12;
 const MIN_NEURON_COUNT = 1;
@@ -15,7 +16,7 @@ export default function LayerInfo() {
     const { itemId } = useAppSelector((state) => state.infoMenuReducer);
     const modelId = useAppSelector((state) => state.networkReducer.modelId);
     const objects = useAppSelector((state) => state.modelsReducer[modelId].layers);
-    const selectedObject = objects.find(el => el.id === itemId);
+    const selectedObject = objects.find(el => el.id === itemId) as Layer;
     const [neuronCount, setNeuronCount] = useState(MIN_NEURON_COUNT);
 
     const handleChange = (paramType: string, value: string) => {
