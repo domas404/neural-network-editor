@@ -9,6 +9,7 @@ import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 
 import { addHiddenLayerAfter, reorderLayers } from "@/app/lib/redux/features/model-slice";
 import { v4 } from 'uuid';
+import { Layer } from '@/app/lib/data-types';
 
 const MAX_LAYER_COUNT = 8;
 
@@ -47,7 +48,7 @@ function CustomAddLayer( { data }: any ) {
                 const newLayerId = v4();
                 dispatch(addHiddenLayerAfter({
                     modelId: modelId,
-                    insertAfter: objects[insertAfterIndex],
+                    insertAfter: objects[insertAfterIndex] as Layer,
                     insertAfterIndex: insertAfterIndex,
                     newLayerId: newLayerId
                 }));
