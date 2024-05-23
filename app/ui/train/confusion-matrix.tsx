@@ -93,39 +93,46 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
 
     return (
         <div className="h-full flex justify-center items-center">
-            <div className="flex flex-col w-full h-5/6 overflow-scroll">
-                <div className="flex flex-row gap-1 mb-1">
-                    <div className="h-36 w-36 mt-1 ml-1"></div>
-                    <div className="flex flex-col gap-1">
-                        <div className="h-12 w-full flex items-center justify-center dark:text-white">
-                            <span className="text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">
-                                predicted
-                            </span>
+            <div className="flex flex-col items-center justify-center w-full overflow-scroll">
+                {
+                    confusionMatrix[0].length > 3 ?
+                    <div>Coming soon</div>
+                    :
+                    <>
+                        <div className="flex flex-row gap-1 mb-1">
+                            <div className="h-36 w-36 mt-1 ml-1"></div>
+                            <div className="flex flex-col gap-1">
+                                <div className="h-12 w-full flex items-center justify-center dark:text-white">
+                                    <span className="text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">
+                                        predicted {confusionMatrix[0].length}
+                                    </span>
+                                </div>
+                                <div className="flex flex-row gap-1">
+                                    {predictedLabels}
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-row gap-1">
-                            {predictedLabels}
+                        <div className="flex flex-row justify-stretch gap-1">
+                            <div className="min-w-12 flex items-center justify-center dark:text-white">
+                                <span className="-rotate-90 text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">real</span>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                {realLabels}
+                            </div>
+                            <div className="flex-none">
+                                {
+                                    confusionMatrix.map((row, index) => {
+                                        return (
+                                            <div key={index} className="flex flex-row gap-1 mb-1">
+                                                { matrixValues(row, index) }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="flex flex-row justify-stretch gap-1">
-                    <div className="min-w-12 flex items-center justify-center dark:text-white">
-                        <span className="-rotate-90 text-sm font-semibold uppercase text-gray-600 tracking-wider dark:text-slate-200">real</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        {realLabels}
-                    </div>
-                    <div className="flex-none">
-                        {
-                            confusionMatrix.map((row, index) => {
-                                return (
-                                    <div key={index} className="flex flex-row gap-1 mb-1">
-                                        { matrixValues(row, index) }
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
+                    </>
+                }
             </div>
         </div>
     );

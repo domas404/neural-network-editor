@@ -71,7 +71,7 @@ export default function DatasetMain({ dataType }: DatasetMainProps) {
                         </div>
                     </div>
                     <div className="h-full">
-                        <TargetList />
+                        <TargetList dataType={dataType} />
                     </div>
                 </div>
             </>
@@ -123,7 +123,7 @@ export default function DatasetMain({ dataType }: DatasetMainProps) {
                             <FeatureList />
                         </div>
                         <div className="basis-1/2">
-                            <TargetList />
+                            <TargetList dataType={"tabular"} />
                         </div>
                     </div>
                 </>

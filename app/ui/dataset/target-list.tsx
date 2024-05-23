@@ -69,7 +69,11 @@ function useTargets() {
     return [selectedDataset, handleChange] as const;
 }
 
-export default function TargetList() {
+interface LabelProps {
+    dataType: string
+}
+
+export default function TargetList({ dataType }: LabelProps) {
 
     const [selectedDataset, handleChange] = useTargets();
 
@@ -82,12 +86,29 @@ export default function TargetList() {
                     </div>
                     <div className="uppercase text-gray-500 tracking-wider -mt-2 dark:text-slate-200">
                         <span className="text-xs font-bold">
-                            {selectedDataset.selectedLabels.filter(Boolean).length}/{selectedDataset.labels.length}
+                            {
+                                dataType === "image" ?
+                                "10/10"
+                                :
+                                <>{selectedDataset.selectedLabels.filter(Boolean).length}/{selectedDataset.labels.length}</>
+                            }
                         </span>
                         <span className="text-xs font-semibold pl-1">selected</span>
                     </div>
                     <div className="flex flex-col gap-px text-sm text-justify leading-5 hyphens-auto bg-gray-200 max-h-48 dark:bg-slate-700">
                         {
+                            dataType === "image" ?
+                            ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].map((item, index) => {
+                                return (
+                                    <CheckboxOption
+                                        key={index}
+                                        feature={item}
+                                        handleChange={() => {}}
+                                        selectedFeature={true}
+                                    />
+                                )
+                            })
+                            :
                             selectedDataset.labels.map((label, index) => {
                                 return (
                                     <CheckboxOption
