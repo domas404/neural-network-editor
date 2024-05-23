@@ -303,9 +303,9 @@ export function createNodesAndEdgesForCNN(layers: (Layer | ConvolutionLayer | Po
     for (let i=0; i<layers.length-1; i++) {
         if (layers[i].type === "convolution" && layers[i+1].type === "convolution") {
             const edgesToAdd = createEdgesFromConvolutionToConvolution(layers[i] as ConvolutionLayer, layers[i+1] as ConvolutionLayer);
-            console.log(edgesToAdd);
+            // console.log(edgesToAdd);
             edges.push(...edgesToAdd);
-        } else if (layers[i].type === "convolution" && layers[i+1].type === "hidden") {
+        } else if (layers[i].type === "convolution" && (layers[i+1].type === "hidden" || layers[i+1].type === "output")) {
             const edgesToAdd = createEdgesFromConvolutionToFullyConnected(layers[i] as ConvolutionLayer, layers[i+1] as Layer);
             edges.push(...edgesToAdd);
         } else if (layers[i].type === "input" && layers[i+1].type === "convolution") {

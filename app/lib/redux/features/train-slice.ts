@@ -13,7 +13,7 @@ const initialState: TrainHistory = {
         precision: 0,
         recall: 0
     },
-    confusionMatrix: []
+    confusionMatrix: [],
 }
 
 export const trainSlice = createSlice({

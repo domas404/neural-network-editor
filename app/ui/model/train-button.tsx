@@ -25,7 +25,7 @@ function useTrainHandler() {
         async function executeTraining() {
             const startTime = performance.now();
             const results: TrainHistory = await ExecuteTraining(dataset[network.dataset], model, hyperparams, network);
-            dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history, confusionMatrix: results.confusionMatrix}));
+            dispatch(updateTrainHistory({ epoch: results.epoch, history: results.history, confusionMatrix: results.confusionMatrix }));
             const endTime = performance.now();
             console.log(`Training elapsed ${(endTime - startTime)/1000} seconds`);
             setAnimationState(false);

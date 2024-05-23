@@ -37,7 +37,7 @@ export default function Settings() {
                         dark:bg-slate-800 dark:text-slate-200 hover:text-sky-600 dark:hover:text-teal-200">
                         <button
                             className="flex justify-center items-center"
-                            title={language === "en" ? "switch to lithuanian" : "perjungti į anglų"}
+                            title={language === "en" ? "change language (coming soon)" : "pakeisti kalbą (jau greitai)"}
                             onClick={() => dispatch(changeLanguage())}
                         >
                             <span>{language === "en" ? "EN" : "LT"}</span>

@@ -81,7 +81,7 @@ export default function Models() {
         if (cnnModels.length != modelNames.length) {
             setModelNames(cnnModels);
         }
-        console.log(allModels, allModelNames, cnnModels, modelNames);
+        // console.log(allModels, allModelNames, cnnModels, modelNames);
     }, [allModels]);
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {

@@ -128,7 +128,7 @@ export default function PlotMain() {
     }, [currentPlot, isDarkMode]);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full overflow-hidden">
             {
                 epochs.length !== 0 ?
                     <div className="h-full flex justify-center items-center">

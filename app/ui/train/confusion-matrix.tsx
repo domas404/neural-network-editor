@@ -93,7 +93,7 @@ export default function ConfusionMatrix ({ confusionMatrix, dataset }: MatrixPro
 
     return (
         <div className="h-full flex justify-center items-center">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col w-full h-5/6 overflow-scroll">
                 <div className="flex flex-row gap-1 mb-1">
                     <div className="h-36 w-36 mt-1 ml-1"></div>
                     <div className="flex flex-col gap-1">

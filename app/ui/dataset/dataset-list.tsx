@@ -9,7 +9,11 @@ import { AppDispatch, useAppSelector } from "@/app/lib/redux/store";
 import { changeDataset } from "@/app/lib/redux/features/network-slice";
 import { useDispatch } from "react-redux";
 
-export default function DatasetList() {
+interface DatasetListProps {
+    dataType: string
+}
+
+export default function DatasetList({ dataType }: DatasetListProps) {
 
     const dispatch = useDispatch<AppDispatch>();
     const dataset = useAppSelector((state) => state.networkReducer.dataset);
@@ -30,6 +34,8 @@ export default function DatasetList() {
                 </div>
                 <div className="flex flex-col gap-1 my-4">
                     {
+                        dataType === "tabular"
+                        ?
                         allDatasets.map((item) => {
                             return (
                                 <li key={item.id} className="list-none my-1">
@@ -57,6 +63,30 @@ export default function DatasetList() {
                                 </li>
                             );
                         })
+                        :
+                        <div className="list-none my-1">
+                            <input
+                                onChange={updateDataset}
+                                type="radio"
+                                id={"mnist"}
+                                name="dataset"
+                                value={"mnist"}
+                                className="opacity-0 hidden peer"
+                                required
+                                checked={true}
+                            />
+                            <label
+                                htmlFor={"mnist"}
+                                className={`flex items-center justify-center rounded-full cursor-pointer py-2 px-4
+                                    border text-black bg-slate-50 hover:bg-lightblue-50 hover:border-lightblue-100
+                                    peer-checked:text-lightblue-800 peer-checked:bg-blue-100 peer-checked:border-lightblue-100
+                                    dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:hover:bg-slate-600 dark:hover:border-slate-500
+                                    dark:peer-checked:text-white dark:peer-checked:bg-slate-500 dark:peer-checked:border-slate-400`}>
+                                <div className="flex justify-center items-center h-full font-semibold text-sm">
+                                    {"MNIST"}
+                                </div>
+                            </label>
+                        </div>
                     }
                 </div>
             </div>

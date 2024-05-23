@@ -18,6 +18,7 @@ import customHiddenNode from "./custom-elements/custom-hidden-node";
 import customOutputNode from "./custom-elements/custom-output-node";
 import customConvolutionFilterNode from "./custom-elements/custom-convolution-filter";
 import customPoolNode from "./custom-elements/custom-pool-node";
+import { changeToDefaultModel } from "@/app/lib/redux/features/network-slice";
 
 const edgeTypes: EdgeTypes = {
     floating: FloatingEdge,
@@ -40,10 +41,13 @@ const Flow = () => {
     const currentModel = useAppSelector((state) => state.modelsReducer);
     const dataset = useAppSelector((state) => state.datasetReducer);
     const datasetId = useAppSelector((state) => state.networkReducer.dataset);
+    const dispatch = useDispatch<AppDispatch>();
 
     const initialModel = currentModel[currentModelId].layers;
 
-    const dispatch = useDispatch<AppDispatch>();
+    if (currentModel[currentModelId].type !== "cnn") {
+        dispatch(changeToDefaultModel("cnn"));
+    }
 
     const { nodes: initialNodes, edges: initialEdges } = createNodesAndEdgesForCNN(initialModel);
 
@@ -53,8 +57,8 @@ const Flow = () => {
     const { fitView } = useReactFlow();
 
     useEffect(() => {
-        dispatch(updateInputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].featuresCount }));
-        dispatch(updateOutputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].labelsCount }));
+        // dispatch(updateInputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].featuresCount }));
+        // dispatch(updateOutputLayer({ modelName: currentModelId, neuronCount: dataset[datasetId].labelsCount }));
     }, [datasetId, currentModelId]);
 
     useEffect(() => {

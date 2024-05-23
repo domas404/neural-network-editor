@@ -7,7 +7,7 @@ const parameterOptions = [
     {
         id: "batchSize",
         name: "batch size",
-        options: ["1", "2", "4", "8", "16", "24", "32", "64"]
+        options: ["1", "4", "16", "32", "64", "128", "256", "512"]
     },
     {
         id: "learningRate",

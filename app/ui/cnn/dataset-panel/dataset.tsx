@@ -31,7 +31,9 @@ export default function Dataset() {
             setDatasetLoaded(true);
         }
         if (!dataset[selectedDataset].loaded) {
-            initDataset();
+            if (dataset[selectedDataset].type === "tabular") {
+                initDataset();
+            }
         } else if (!datasetLoaded) {
             setDatasetLoaded(true);
         }
@@ -68,20 +70,14 @@ export default function Dataset() {
                             </Link>
                         </div>
                         <div className="overflow-x-scroll flex flex-row h-14 items-center gap-2 overflow-y-hidden">
-                            {
-                                allDatasets.map((item) => {
-                                    return (
-                                        <RadioOption
-                                            key={item.id}
-                                            id={item.id}
-                                            handleChange={handleChange}
-                                            isChecked={item.id === selectedDataset}
-                                            name={item.name}
-                                            groupName="dataset"
-                                        />
-                                    );
-                                })
-                            }
+                            <RadioOption
+                                key={"mnist"}
+                                id={"mnist"}
+                                handleChange={handleChange}
+                                isChecked={true}
+                                name={"MNIST"}
+                                groupName="dataset"
+                            />
                         </div>
                     </div>
                 </div>

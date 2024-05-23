@@ -59,6 +59,7 @@ export interface Dataset {
 }
 
 export interface DatasetProps {
+    type: string,
     loaded: boolean,
     dataset: [{}],
     columns: string[],
@@ -102,5 +103,5 @@ export interface TrainHistory {
         precision: number,
         recall: number
     },
-    confusionMatrix: number[][]
+    confusionMatrix: number[][],
 }

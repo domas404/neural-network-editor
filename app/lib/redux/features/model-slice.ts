@@ -279,7 +279,7 @@ export const models = createSlice({
             const { modelId, modelName, createFrom } = action.payload;
             const model: ModelSet = { [modelId]: {
                 name: modelName,
-                type: "mlp",
+                type: state[createFrom].type,
                 layers: state[createFrom].layers,
                 parameters: 0,
             } };

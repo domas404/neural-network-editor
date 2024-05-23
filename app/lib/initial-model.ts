@@ -122,12 +122,9 @@ export const defaultCNN: ModelSet = {
                 order: 0,
                 neurons: [
                     { id: v4() },
-                    { id: v4() },
-                    { id: v4() },
-                    { id: v4() }
                 ],
                 activation: "",
-                itemCount: 4
+                itemCount: 1
             },
             {
                 id: v4(),
@@ -142,28 +139,9 @@ export const defaultCNN: ModelSet = {
                     { id: v4() }
                 ],
                 depth: 0,
-                kernelSize: 2,
+                kernelSize: 3,
                 padding: 0,
-                stride: 1,
-                activation: "relu",
-                itemCount: 6
-            },
-            {
-                id: v4(),
-                type: "convolution",
-                order: 1,
-                filters: [
-                    { id: v4() },
-                    { id: v4() },
-                    { id: v4() },
-                    { id: v4() },
-                    { id: v4() },
-                    { id: v4() }
-                ],
-                depth: 0,
-                kernelSize: 2,
-                padding: 0,
-                stride: 1,
+                stride: 3,
                 activation: "relu",
                 itemCount: 6
             },
@@ -180,9 +158,9 @@ export const defaultCNN: ModelSet = {
                     { id: v4() }
                 ],
                 depth: 0,
-                poolSize: 2,
+                poolSize: 4,
                 padding: 0,
-                stride: 1,
+                stride: 4,
                 activation: "relu",
                 itemCount: 6,
                 poolType: "max"
@@ -196,10 +174,15 @@ export const defaultCNN: ModelSet = {
                     { id: v4() },
                     { id: v4() },
                     { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
                     { id: v4() }
                 ],
                 activation: "relu",
-                itemCount: 5
+                itemCount: 10
             },
             {
                 id: v4(),
@@ -208,10 +191,17 @@ export const defaultCNN: ModelSet = {
                 neurons: [
                     { id: v4() },
                     { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
+                    { id: v4() },
                     { id: v4() }
                 ],
                 activation: "softmax",
-                itemCount: 3
+                itemCount: 10
             },
         ]
     }

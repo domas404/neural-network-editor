@@ -133,7 +133,7 @@ export default function DefaultInfo() {
                         <span>{layerCount}</span>
                     </div>
                 </div>
-                <div className="mt-5 text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider pb-1 dark:text-slate-200">
+                {/* <div className="mt-5 text-xs font-semibold pl-2 uppercase text-gray-600 tracking-wider pb-1 dark:text-slate-200">
                     Parameters
                 </div>
                 <div className="bg-gray-50 border py-2.5 w-28 text-sm rounded-lg h-10 flex flex-row items-center justify-between
@@ -141,7 +141,7 @@ export default function DefaultInfo() {
                     <div className="h-full flex items-center justify-center w-full">
                         <span>{modelParameters}</span>
                     </div>
-                </div>
+                </div> */}
             </div>
             {
                 inputMode

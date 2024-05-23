@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
-import { HyperparameterSet, Layer, Network, ModelSet, DatasetProps } from "@/app/lib/data-types";
+import { HyperparameterSet, Layer, Network, ModelSet, DatasetProps, ConvolutionLayer, PoolingLayer } from "@/app/lib/data-types";
 
 interface DataRow {
     [key: string]: any;
@@ -97,18 +97,26 @@ export function ShuffleData(dataset: [{}]) {
     return dataset;
 }
 
-export async function PrepareData(dataset: DatasetProps, trainTestRatio: number) {
+export async function PrepareData(dataset: any, trainTestRatio: number) {
     
-    const [features, labels] = getFeaturesAndLabels(dataset);
-
-    const normalizedFeatures = getNormalizedFeatures(features);
-    const oneHotLabels = tf.oneHot(labels, dataset.labelsCount);
-
-    const trainSize = Math.floor(trainTestRatio * features.length);
-    const valSize = features.length - trainSize;
-    
-    const [trainFeatures, valFeatures] = tf.split(normalizedFeatures, [trainSize, valSize]);
-    const [trainLabels, valLabels] = tf.split(oneHotLabels, [trainSize, valSize]);
+    const TRAIN_DATA_SIZE = 5500;
+    const TEST_DATA_SIZE = 1000;
+  
+    const [trainFeatures, trainLabels] = tf.tidy(() => {
+        const d = dataset.nextTrainBatch(TRAIN_DATA_SIZE);
+        return [
+            d.xs.reshape([TRAIN_DATA_SIZE, 28, 28, 1]),
+            d.labels
+        ];
+    });
+  
+    const [valFeatures, valLabels] = tf.tidy(() => {
+        const d = dataset.nextTestBatch(TEST_DATA_SIZE);
+        return [
+            d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]),
+            d.labels
+        ];
+    });
     
     return [trainFeatures, valFeatures, trainLabels, valLabels];
 }
@@ -120,9 +128,15 @@ function getWeightsAndBias(inputShape: number, outputShape: number, seed: number
 }
 
 export async function BuildModel(
-    layers: Layer[],
+    layers: (Layer | ConvolutionLayer | PoolingLayer)[],
     hyperparams: HyperparameterSet,
 ) {
+
+    const IMAGE_WIDTH = 28;
+    const IMAGE_HEIGHT = 28;
+    const IMAGE_CHANNELS = 1;
+    const NUM_OUTPUT_CLASSES = 10;
+
     const model = tf.sequential();
     let optimizer: string | tf.Optimizer = tf.train.sgd(parseFloat(hyperparams.learningRate));
     let loss = lossMap.get(hyperparams.loss);
@@ -132,29 +146,69 @@ export async function BuildModel(
     } else if (hyperparams.optimizer === "Adagrad") {
         optimizer = tf.train.adagrad(parseFloat(hyperparams.learningRate));
     }
+
+    // first convolution
+    if (layers[1].type != "convolution") return;
+    const layer = layers[1] as ConvolutionLayer;
+    model.add(tf.layers.conv2d({
+        inputShape: [IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS],
+        kernelSize: layer.kernelSize,
+        filters: layer.itemCount,
+        strides: layer.stride,
+        padding: layer.padding === 0 ? 'valid' : 'same',
+        activation: layer.activation as any,
+    }));
     
-    //hidden layers
-    for (let i=1; i<layers.length-1; i++){
-        const [weights, bias] = getWeightsAndBias(layers[i-1].neurons.length, layers[i].neurons.length, 122);
-        model.add(tf.layers.dense({
-            units: layers[i].neurons.length,
-            inputShape: [layers[i-1].neurons.length],
-            activation: layers[i].activation as any,
-            kernelInitializer: 'zeros',
-            biasInitializer: 'zeros',
-            weights: [weights, bias],
-        }));
+    // convolution and pooling
+    let i=2;
+    while (layers[i].type === "convolution" || layers[i].type === "pooling") {
+        if (layers[i].type === "convolution") {
+            const layer = layers[i] as ConvolutionLayer;
+            model.add(tf.layers.conv2d({
+                kernelSize: layer.kernelSize,
+                filters: layer.itemCount,
+                strides: layer.stride,
+                padding: layer.padding === 0 ? 'valid' : 'same',
+                activation: layer.activation as any,
+            }));
+        } else if (layers[i].type === "pooling") {
+            const layer = layers[i] as PoolingLayer;
+            if (layer.poolType === "average") {
+                model.add(tf.layers.averagePooling2d({
+                    poolSize: layer.poolSize,
+                    strides: layer.stride,
+                    padding: layer.padding === 0 ? 'valid' : 'same'
+                }));
+            } else {
+                model.add(tf.layers.maxPooling2d({
+                    poolSize: layer.poolSize,
+                    strides: layer.stride,
+                }));
+            }
+        }
+        i++;
+    }
+    
+    // flatten
+    model.add(tf.layers.flatten());
+
+    // dense  (fully-connected)
+    if (i < layers.length-1) {
+        for (let j=i; j<layers.length-1; j++){
+            const layer = layers[j] as Layer;
+            model.add(tf.layers.dense({
+                units: layer.neurons.length,
+                activation: layer.activation as any,
+            }));
+        }
+
     }
 
-    // output layer    
-    const [weights, bias] = getWeightsAndBias(layers[layers.length-2].neurons.length, layers[layers.length-1].neurons.length, 122);
+    // output
+    const outputLayer = layers[layers.length-1] as Layer;
     model.add(tf.layers.dense({
-        units: layers[layers.length-1].neurons.length,
-        inputShape: [layers[layers.length-2].neurons.length],
-        activation: layers[layers.length-1].activation as any,
-        kernelInitializer: 'zeros',
-        biasInitializer: 'zeros',
-        weights: [weights, bias],
+        units: NUM_OUTPUT_CLASSES,
+        activation: outputLayer.activation as any,
     }));
 
     model.compile({
@@ -164,6 +218,7 @@ export async function BuildModel(
     });
 
     console.log(model.summary());
+    console.log("countParams", model.countParams());
     
     return model;
 }
@@ -231,7 +286,7 @@ export async function calculatePrecisionAndRecall(matrix: number[][], numOfClass
 }
 
 export async function ExecuteTraining(
-    dataset: DatasetProps,
+    dataset: any,
     model: ModelSet,
     hyperparams: HyperparameterSet,
     network: Network
@@ -255,8 +310,12 @@ export async function ExecuteTraining(
     const val_acc = history.history.val_acc.map((value) => Number(value));
     const val_loss = history.history.val_loss.map((value) => Number(value));
 
-    const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, dataset.labelsCount);
-    const { precision, recall } = await calculatePrecisionAndRecall(confusionMatrix, dataset.labelsCount);
+    console.log(accuracy, loss, val_acc, val_loss);
+
+    const confusionMatrix = await getConfusionMatrix(createdModel, valFeatures, valLabels, 10);
+    const { precision, recall } = await calculatePrecisionAndRecall(confusionMatrix, 10);
+
+    console.log(confusionMatrix, precision, recall);
 
     await createdModel.save('localstorage://my-model');
     // await createdModel.save('downloads://my-model');
@@ -265,5 +324,6 @@ export async function ExecuteTraining(
         epoch: history.epoch,
         history: { acc: accuracy, loss: loss, val_acc: val_acc, val_loss: val_loss, precision: precision, recall: recall },
         confusionMatrix: confusionMatrix,
+        model: createdModel
     };
 }

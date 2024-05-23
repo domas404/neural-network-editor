@@ -50,7 +50,6 @@ export default function ImageDatasetSample() {
                 return (
                     <div key={index} className="flex items-center flex-col">
                         <Image src={src} alt="" width={112} height={112} />
-                        {/* <div className="w-28 h-28 bg-blue-300">{item}</div> */}
                         <div className="my-1 w-28 bg-blue-100 text-center dark:bg-slate-600 dark:text-white">{label}</div>
                     </div>
                 );

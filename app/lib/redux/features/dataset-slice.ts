@@ -8,6 +8,7 @@ import { ShuffleData, getFeaturesAndLabels } from "../../train-model/build-model
 const initialState: { [id: string]: DatasetProps } = {};
 allDatasets.forEach((item) => {
     const emptyDataset: DatasetProps = {
+        type: item.type,
         loaded: false,
         dataset: [{}],
         columns: [],
@@ -38,6 +39,7 @@ export const datasetSlice = createSlice({
             const shuffledDataRows = ShuffleData(action.payload.dataRows);
 
             const newDataset: DatasetProps = {
+                type: "tabular",
                 loaded: true,
                 dataset: shuffledDataRows,
                 columns: columns,
